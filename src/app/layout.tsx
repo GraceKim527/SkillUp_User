@@ -1,5 +1,12 @@
-import "./styles/global.css";
+import "@/styles/global.css";
 import { ReactNode } from "react";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-roboto",
+});
 
 export const metadata = {
   title: "SkillUp User",
@@ -8,7 +15,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={roboto.variable}>
       <head>
         <link
           rel="stylesheet"
