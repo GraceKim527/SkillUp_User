@@ -17,8 +17,6 @@ import IconMenu from "@/components/mainVisual/IconMenu";
 import LoginContent from "@/components/login/LoginContent";
 import Modal from "@/components/common/Modal";
 
-import styles from "./main.module.css";
-
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -34,7 +32,7 @@ export default function Home() {
       <IconMenu />
 
       {/* main */}
-      <main id="container" className={styles.main}>
+      <main id="container">
         {/* 추천 행사 */}
         <RecommendEvent/>
 
