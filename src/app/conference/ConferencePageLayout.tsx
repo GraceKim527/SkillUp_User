@@ -3,11 +3,16 @@
 import EventHeader from "@/components/events/EventHeader";
 import EventCard from "@/components/events/EventCard";
 import styles from "./styles.module.css";
+import SortDropdown from "@/components/events/sorting/SortDropdown";
 
 export default function ConferencePageLayout() {
   return (
     <div className={styles.conferencePageLayout}>
-      <EventHeader title="컨퍼런스 · 세미나" count={10} />
+      <div className={styles.pageHeader}>
+        <EventHeader title="컨퍼런스 · 세미나" count={10} />
+
+        <SortDropdown />
+      </div>
       <div className={styles.eventCardList}>
         {[1, 2, 3, 4, 5].map((item) => (
           <EventCard
