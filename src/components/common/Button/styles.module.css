@@ -13,6 +13,14 @@
   line-height: 140%;
 }
 
+.textOnly {
+  background: none;
+  padding: 0;
+  border: none;
+  color: var(--Neutral-60);
+
+}
+
 .primary {
   background: var(--Primary-strong);
   color: var(--Common-white);

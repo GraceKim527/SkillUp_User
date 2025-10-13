@@ -5,6 +5,7 @@ import styles from "./styles.module.css";
 interface ButtonProps {
   variant?: "primary" | "secondary" | "tertiary";
   size?: "small" | "medium" | "large" | "extraLarge";
+  textOnly?: boolean;
   disabled?: boolean;
   children?: React.ReactNode;
   className?: string;
@@ -16,6 +17,7 @@ export default function Button({
   children,
   variant,
   size,
+  textOnly,
   disabled,
   className,
   onClick,
@@ -31,6 +33,7 @@ export default function Button({
         size === "medium" ? styles.medium : ""
       } ${size === "large" ? styles.large : ""} ${
         size === "extraLarge" ? styles.extraLarge : ""
+      } ${textOnly ? styles.textOnly : ""}
       } ${disabled ? styles.disabled : ""}
         `}
       onClick={onClick}

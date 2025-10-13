@@ -11,6 +11,8 @@ import ConferenceFilterView from "@/components/events/filters/views/ConferenceFi
 import RoleSelector from "@/components/events/filters/RoleSelector";
 import { eventListMock } from "@/mocks/eventListMock";
 import { useAtom } from "jotai";
+import Button from "@/components/common/Button";
+
 import {
   roleFilterAtom,
   onOfflineFilterAtom,
@@ -22,6 +24,7 @@ import {
 import { DropdownOption } from "@/components/common/Dropdown";
 
 import EventEmpty from "@/components/events/EventEmpty";
+import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 
 const sortOptions: DropdownOption[] = [
   { label: "인기순", value: "popular" },
@@ -78,7 +81,30 @@ export default function ConferencePageLayout({
       </div>
       <div className={styles.eventCardListContainer}>
         {eventList.length !== 0 ? (
-          <EventEmpty title="컨퍼런스 · 세미나" url="/conference/create" />
+          <>
+            <EventEmpty title="컨퍼런스 · 세미나" url="/conference/create" />
+            <div className={styles.eventRecommendCardList}>
+              <div className={styles.eventRecommendCardListTitle}>
+                <h3>이런 행사는 어떠세요?</h3>
+                <Button textOnly icon={<ChevronRightIcon />} size="medium">
+                  IT 행사 더보기
+                </Button>
+              </div>
+              <div className={styles.eventCardList}>
+                {eventList.map((item) => (
+                  // 목업 데이터
+                  <EventCard
+                    key={item.id}
+                    title={item.title}
+                    date={item.date}
+                    place={item.place}
+                    price={item.price}
+                    category={item.category}
+                  />
+                ))}
+              </div>
+            </div>
+          </>
         ) : (
           <div className={styles.eventCardList}>
             {eventList.map((item) => (
