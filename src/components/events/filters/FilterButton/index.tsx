@@ -12,16 +12,25 @@ import FilterIcon from "@/assets/svg/filterIcon.svg";
 export interface FilterButtonProps {
   className?: string;
   children: ReactNode;
+  onApply: () => void;
+  onReset: () => void;
 }
 
 export default function FilterButton({
   className,
   children,
+  onApply,
+  onReset,
 }: FilterButtonProps) {
   const filterButtonRef = useRef<HTMLDivElement>(null);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const handleClick = () => {
+    setIsFilterModalOpen((prev) => !prev);
+  };
+
+  const handleApply = () => {
+    onApply();
     setIsFilterModalOpen((prev) => !prev);
   };
 
@@ -47,8 +56,8 @@ export default function FilterButton({
       {isFilterModalOpen && (
         <FilterModal
           onClose={() => setIsFilterModalOpen(false)}
-          onApply={() => {}}
-          onReset={() => {}}
+          onApply={handleApply}
+          onReset={onReset}
           className={styles.filterModal}
         >
           {children}

@@ -1,0 +1,66 @@
+/* src/components/events/filters/filterElements/DateRangeFilter/styles.module.css */
+
+.dateRangeFilterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dateRangeFilterTitle {
+  color: var(--Neutral-30);
+
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -0.04rem;
+}
+
+.dateRangeFilter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.dateRangeFilterItem {
+  position: relative;
+}
+
+.dateRangeFilterButton {
+  display: flex;
+  width: 11.125rem;
+  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.25rem;
+  border: 1px solid var(--Line-normal);
+  background: var(--Common-white);
+
+  span {
+    color: var(--Common-black);
+
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    letter-spacing: -0.04rem;
+  }
+}
+
+.dateRangeFilterPicker {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  z-index: 100;
+}
+
+.dateRangeFilterSeparator {
+  color: var(--Neutral-40);
+
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -0.04rem;
+}

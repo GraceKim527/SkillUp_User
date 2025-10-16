@@ -1,4 +1,4 @@
-// src/components/events/filters/views/ConferenceFilterView.tsx
+// src/components/events/filters/views/BootcampFilterView.tsx
 
 "use client";
 
@@ -7,20 +7,24 @@ import FreeFilter from "../filterElements/FreeFilter";
 import styles from "./styles.module.css";
 import { usePageFilters } from "../../filters/hooks/usePageFilters";
 
-export default function ConferenceFilterView() {
+export default function BootcampFilterView() {
   const {
     tempOnOfflineFilter,
     setTempOnOfflineFilter,
     tempFreeFilter,
     setTempFreeFilter,
-  } = usePageFilters({ pageId: "conference" });
+  } = usePageFilters({ pageId: "bootcamp" });
   return (
-    <div className={styles.conferenceFilterView}>
+    <div className={styles.bootcampFilterView}>
       <OnOfflineFilter
         onSelect={setTempOnOfflineFilter}
         selected={tempOnOfflineFilter}
       />
-      <FreeFilter checked={tempFreeFilter} setChecked={setTempFreeFilter} />
+      <FreeFilter
+        checked={tempFreeFilter}
+        setChecked={setTempFreeFilter}
+        label="무료(국비교육)만 보기"
+      />
     </div>
   );
 }

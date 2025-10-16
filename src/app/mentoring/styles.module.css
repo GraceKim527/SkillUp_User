@@ -1,6 +1,6 @@
-/* src/app/conference/styles.module.css */
+/* src/app/mentoring/styles.module.css */
 
-.conferencePageLayout {
+.mentoringPageLayout {
   display: flex;
   max-width: 77.5rem;
   margin: 0 auto;

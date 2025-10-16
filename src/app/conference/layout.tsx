@@ -8,9 +8,9 @@ export default function ConferenceLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <>
       <Header variant="sub" />
       {children}
-    </div>
+    </>
   );
 }

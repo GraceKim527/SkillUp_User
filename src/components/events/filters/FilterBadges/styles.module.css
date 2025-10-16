@@ -1,0 +1,27 @@
+/* src/components/events/filters/FilterBadges/styles.module.css */
+
+.filterBadges {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.filterBadge {
+  display: flex;
+  padding: 0.375rem 0.625rem 0.375rem 0.75rem;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--Line-normal);
+  background: var(--Neutral-99);
+
+  span {
+    color: var(--Neutral-50);
+
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    letter-spacing: -0.04rem;
+  }
+}

@@ -1,4 +1,4 @@
-// src/app/bootcamp/BootcampPageLayout.tsx
+// src/app/hackathon/HackathonPageLayout.tsx
 
 "use client";
 
@@ -7,17 +7,19 @@ import EventCard from "@/components/events/EventCard";
 import styles from "./styles.module.css";
 import SortDropdown from "@/components/events/sorting/SortDropdown";
 import FilterButton from "@/components/events/filters/FilterButton";
-import BootcampFilterView from "@/components/events/filters/views/BootcampFilterView";
 import RoleSelector from "@/components/events/filters/RoleSelector";
-import { DropdownOption } from "@/components/common/Dropdown";
+import { eventListMock } from "@/mocks/eventListMock";
+import Button from "@/components/common/Button";
+
 import { usePageFilters } from "@/components/events/filters/hooks/usePageFilters";
-import FilterBadges from "@/components/events/filters/FilterBadges";
-import Pagination from "@/components/common/Pagination";
+import { DropdownOption } from "@/components/common/Dropdown";
+
 import EventEmpty from "@/components/events/EventEmpty";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
-import Button from "@/components/common/Button";
-import { eventListMock } from "@/mocks/eventListMock";
+import FilterBadges from "@/components/events/filters/FilterBadges";
+import Pagination from "@/components/common/Pagination";
 import { useState } from "react";
+import HackathonFilterView from "@/components/events/filters/views/HackathonFilterView";
 
 const sortOptions: DropdownOption[] = [
   { label: "인기순", value: "popular" },
@@ -33,7 +35,7 @@ const goToPageOptions: DropdownOption[] = [
   { label: "5", value: "5" },
 ];
 
-export default function BootcampPageLayout({
+export default function HackathonPageLayout({
   eventList,
 }: {
   eventList: typeof eventListMock;
@@ -51,14 +53,14 @@ export default function BootcampPageLayout({
     setTempFreeFilter,
     handleApply,
     handleReset,
-  } = usePageFilters({ pageId: "bootcamp" });
+  } = usePageFilters({ pageId: "hackathon" });
 
   const [currentPage, setCurrentPage] = useState(1);
 
   return (
-    <div className={styles.bootcampPageLayout}>
+    <div className={styles.hackathonPageLayout}>
       <div className={styles.pageHeader}>
-        <EventHeader title="부트캠프" count={10} />
+        <EventHeader title="동아리 · 해커톤 · 공모전" count={10} />
         <div className={styles.eventHeaderFilterSortContainer}>
           <RoleSelector selected={selectedRoles} onSelect={setSelectedRoles} />
           <div className={styles.filterButtonContainer}>
@@ -75,7 +77,7 @@ export default function BootcampPageLayout({
               }}
             />
             <FilterButton onApply={handleApply} onReset={handleReset}>
-              <BootcampFilterView />
+              <HackathonFilterView />
             </FilterButton>
             <SortDropdown
               selected={
@@ -89,9 +91,12 @@ export default function BootcampPageLayout({
         </div>
       </div>
       <div className={styles.eventCardListContainer}>
-        {eventList?.length === 0 ? (
+        {eventList.length === 0 ? (
           <>
-            <EventEmpty title="부트캠프" url="/bootcamp/create" />
+            <EventEmpty
+              title="동아리 · 해커톤 · 공모전"
+              url="/hackathon/create"
+            />
             <div className={styles.eventRecommendCardList}>
               <div className={styles.eventRecommendCardListTitle}>
                 <h3>이런 행사는 어떠세요?</h3>
@@ -100,7 +105,7 @@ export default function BootcampPageLayout({
                 </Button>
               </div>
               <div className={styles.eventCardList}>
-                {eventList?.map((item) => (
+                {eventList.map((item) => (
                   // 목업 데이터
                   <EventCard
                     key={item.id}
@@ -117,7 +122,7 @@ export default function BootcampPageLayout({
         ) : (
           <div className={styles.eventCardListContainer}>
             <div className={styles.eventCardList}>
-              {eventList?.map((item) => (
+              {eventList.map((item) => (
                 // 목업 데이터
                 <EventCard
                   key={item.id}

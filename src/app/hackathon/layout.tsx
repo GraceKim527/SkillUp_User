@@ -1,8 +1,8 @@
-// src/app/bootcamp/layout.tsx
+// src/app/hackathon/layout.tsx
 
 import Header from "@/components/common/Header";
 
-export default function BootcampLayout({
+export default function HackathonLayout({
   children,
 }: {
   children: React.ReactNode;

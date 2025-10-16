@@ -1,0 +1,24 @@
+/* src/components/common/CalendarDatePicker/styles.module.css */
+
+.calendarDatePicker {
+  padding: 1.25rem 1.25rem 2.5rem 1.25rem;
+  border-radius: 0.5rem;
+  background: var(--Common-white);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.rdpToday {
+  color: var(--Primary-strong) !important;
+}
+
+.rdpWeekday:first-child,
+.rdpDay:first-child {
+  color: var(--Error-normal) !important;
+}
+
+.rdpSelected {
+  background-color: var(--Primary-strong) !important;
+  color: var(--Common-white) !important;
+  border: none !important;
+  border-radius: 9999px !important;
+}

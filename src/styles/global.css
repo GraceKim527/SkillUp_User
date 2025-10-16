@@ -14,15 +14,19 @@
   --Neutral-30: #474747;
   --Neutral-40: #5c5c5c;
   --Neutral-50: #737373;
+  --Neutral-60: #8a8a8a;
   --Neutral-80: #b0b0b0;
   --Neutral-90: #c4c4c4;
+  --Neutral-95: #e6e6e6;
   --Neutral-99: #f5f5f5;
   --Line-normal: #d8d8d8;
   --Line-neutral: #e1e1e1;
+  --Primary-light: #cccbff;
   --Primary-strong: #5a23ff;
   --Primary-normal: #7779ff;
   --Primary-ExtraLight: #ededff;
   --Fill-strong: #55555c;
+  --Error-normal: #ff6359;
 }
 
 html,

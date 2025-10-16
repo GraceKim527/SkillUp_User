@@ -1,8 +1,8 @@
-// src/app/bootcamp/layout.tsx
+// src/app/mentoring/layout.tsx
 
 import Header from "@/components/common/Header";
 
-export default function BootcampLayout({
+export default function MentoringLayout({
   children,
 }: {
   children: React.ReactNode;
