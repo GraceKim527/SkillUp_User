@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import SkillUpWhiteLogo from "@/assets/svg/skillUp_white.svg";
 import SkillUpBlackLogo from "@/assets/svg/skillUp_black.svg";
-import { FiSearch, FiUser } from "react-icons/fi";
 import Link from "next/link";
 import styles from "./styles.module.css";
 import Modal from "../Modal";
@@ -13,6 +12,7 @@ import EventCategoryTabs from "@/components/nav/EventCategoryTabs";
 import Button from "../Button";
 import IconButton from "../IconButton";
 import UserIcon from "@/assets/icons/UserIcon";
+import SearchIcon from "@/assets/svg/searchIcon.svg";
 
 interface HeaderProps {
   variant: "main" | "sub";
@@ -70,7 +70,7 @@ export default function Header({ variant }: HeaderProps) {
               className={styles.searchBox}
             />
             <button className={styles.searchBtn}>
-              <FiSearch size={18} color={"c4c4c4"} />
+              <Image src={SearchIcon} alt="search" width={20} height={20} />
             </button>
           </div>
           <IconButton
