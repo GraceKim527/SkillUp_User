@@ -21,7 +21,7 @@ interface TextProps {
     | "label1_r_18"
     | "label2_m_16"
     | "label3_m_14"
-    | "label4_r_12";
+    | "label4_m_12";
 
   color?:
     | "white"
