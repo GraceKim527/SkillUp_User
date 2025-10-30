@@ -1,0 +1,7 @@
+/* src/app/my/bookmarks/styles.module.css */
+
+.bookmarkPageLayout {
+  margin-top: 
+  display: flex;
+  gap: 1rem;
+}
