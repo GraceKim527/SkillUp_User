@@ -13,6 +13,8 @@ import Button from "../Button";
 import IconButton from "../IconButton";
 import UserIcon from "@/assets/icons/UserIcon";
 import SearchIcon from "@/assets/svg/searchIcon.svg";
+import ProfileModal from "@/components/login/ProfileModal";
+import LogoDefaultImg from "@/assets/images/logoDefaultImg.png";
 
 interface HeaderProps {
   variant: "main" | "sub";
@@ -23,6 +25,13 @@ export default function Header({ variant }: HeaderProps) {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const toggleProfileModal = () => setIsProfileModalOpen((prev) => !prev);
+  const closeProfileModal = () => setIsProfileModalOpen(false);
+
+  // 임의로 로그인 상태 확인
+  const isLogin = true;
 
   return (
     <header
@@ -73,15 +82,42 @@ export default function Header({ variant }: HeaderProps) {
               <Image src={SearchIcon} alt="search" width={20} height={20} />
             </button>
           </div>
-          <IconButton
-            variant="opacity"
-            size="large"
-            onClick={openModal}
-            icon={<UserIcon />}
-          />
-          <Button variant="secondary" size="large" onClick={openModal}>
-            로그인 · 회원가입
-          </Button>
+          {isLogin && (
+            <div
+              className={styles.profileBtnWrap}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <IconButton
+                variant="opacity"
+                size="large"
+                onClick={toggleProfileModal}
+                icon={<UserIcon />}
+              />
+              <div className={styles.profileBtnContent}>
+                <ProfileModal
+                  isOpen={isProfileModalOpen}
+                  onClose={closeProfileModal}
+                  user={{
+                    name: "홍길동",
+                    email: "skillup@gmail.com",
+                    profileImage: LogoDefaultImg.src.toString(),
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {!isLogin ? (
+            <Button variant="secondary" size="large" onClick={openModal}>
+              로그인 · 회원가입
+            </Button>
+          ) : (
+            <Button variant="secondary" size="large" onClick={openModal}>
+              로그아웃
+            </Button>
+          )}
         </div>
       </div>
 
