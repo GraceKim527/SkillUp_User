@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import Image from "next/image";
 import SkillUpWhiteLogo from "@/assets/svg/skillUp_white.svg";
 import SkillUpBlackLogo from "@/assets/svg/skillUp_black.svg";
@@ -32,6 +32,7 @@ export default function Header({ variant }: HeaderProps) {
 
   // 임의로 로그인 상태 확인
   const isLogin = true;
+  const profileBtnRef = useRef<HTMLDivElement>(null);
 
   return (
     <header
@@ -85,9 +86,10 @@ export default function Header({ variant }: HeaderProps) {
           {isLogin && (
             <div
               className={styles.profileBtnWrap}
-              onMouseDown={(e) => {
+              onClick={(e) => {
                 e.stopPropagation();
               }}
+              ref={profileBtnRef}
             >
               <IconButton
                 variant="opacity"
@@ -104,6 +106,7 @@ export default function Header({ variant }: HeaderProps) {
                     email: "skillup@gmail.com",
                     profileImage: LogoDefaultImg.src.toString(),
                   }}
+                  triggerRef={profileBtnRef as RefObject<HTMLDivElement>}
                 />
               </div>
             </div>

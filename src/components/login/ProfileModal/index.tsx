@@ -17,12 +17,14 @@ interface ProfileModalProps {
     email: string;
     profileImage: string;
   };
+  triggerRef: React.RefObject<HTMLDivElement>;
 }
 
 export default function ProfileModal({
   isOpen,
   onClose,
   user,
+  triggerRef,
 }: ProfileModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -39,17 +41,17 @@ export default function ProfileModal({
   // 외부 클릭 시 닫기
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(e.target as Node) &&
+        !triggerRef.current?.contains(e.target as Node)
+      ) {
         onClose();
       }
     };
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen, onClose]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen, onClose, triggerRef]);
 
   // 스크롤 막기
   useEffect(() => {
