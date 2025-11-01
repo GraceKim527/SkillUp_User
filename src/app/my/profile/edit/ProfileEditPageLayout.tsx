@@ -12,6 +12,8 @@ import Dropdown, { DropdownOption } from "@/components/common/Dropdown";
 import RadioGroup, { Option } from "@/components/common/RadioGroup";
 import { MultiSelectButtonGroup } from "@/components/common/MultiSelectButtonGroup";
 import Button from "@/components/common/Button";
+import Image from "next/image";
+import MegaphoneIcon from "@/assets/svg/megaphoneIcon.svg";
 
 export default function ProfileEditPageLayout() {
   const [imageUrl, setImageUrl] = useState<string>(
@@ -93,63 +95,89 @@ export default function ProfileEditPageLayout() {
         </div>
       </div>
       <div className={styles.profileEditPageLayoutContent}>
-        <div className={styles.profileEditPageLayoutContentItem}>
-          <InputField label="이름">
-            <Input
-              type="text"
-              placeholder="이름을 입력하세요"
-              value={name}
-              onChange={handleChangeName}
-            />
-          </InputField>
-          <InputField label="연령">
-            <Dropdown
-              options={ageOptions}
-              selected={{ label: selectedAge, value: selectedAge }}
-              onSelect={handleChangeAge}
-              block={true}
-              buttonLabel={selectedAge ? selectedAge : "연령대를 선택하세요"}
+        <div className={styles.profileEditPageLayoutContentItemGroup}>
+          <div className={styles.profileEditPageLayoutContentItem}>
+            <InputField label="이름">
+              <Input
+                type="text"
+                placeholder="이름을 입력하세요"
+                value={name}
+                onChange={handleChangeName}
+              />
+            </InputField>
+            <InputField label="연령">
+              <Dropdown
+                options={ageOptions}
+                selected={{ label: selectedAge, value: selectedAge }}
+                onSelect={handleChangeAge}
+                block={true}
+                buttonLabel={selectedAge ? selectedAge : "연령대를 선택하세요"}
+              />
+            </InputField>
+          </div>
+          <div className={styles.profileEditPageLayoutContentItem}>
+            <InputField label="성별">
+              <RadioGroup
+                options={genderOptions}
+                selectedValue={selectedGender}
+                onChange={handleChangeGender}
+              />
+            </InputField>
+            <InputField label="직무">
+              <Dropdown
+                options={jobOptions}
+                selected={{ label: selectedJob, value: selectedJob }}
+                onSelect={handleChangeJob}
+                block={true}
+                buttonLabel={selectedJob ? selectedJob : "직무를 선택하세요"}
+              />
+            </InputField>
+          </div>
+          <InputField label="관심사" description="주요 관심사를 선택해주세요">
+            <MultiSelectButtonGroup
+              options={interestOptions}
+              selectedValues={selectedInterests}
+              onSelect={handleChangeInterest}
             />
           </InputField>
         </div>
-        <div className={styles.profileEditPageLayoutContentItem}>
-          <InputField label="성별">
-            <RadioGroup
-              options={genderOptions}
-              selectedValue={selectedGender}
-              onChange={handleChangeGender}
-            />
-          </InputField>
-          <InputField label="직무">
-            <Dropdown
-              options={jobOptions}
-              selected={{ label: selectedJob, value: selectedJob }}
-              onSelect={handleChangeJob}
-              block={true}
-              buttonLabel={selectedJob ? selectedJob : "직무를 선택하세요"}
-            />
-          </InputField>
+        <div className={styles.profileEditPageLayoutMarketingAgreement}>
+          <div className={styles.profileEditPageLayoutMarketingAgreementText}>
+            <div
+              className={
+                styles.profileEditPageLayoutMarketingAgreementTextTitle
+              }
+            >
+              <Image
+                src={MegaphoneIcon}
+                alt="마케팅 수신 동의"
+                width={20}
+                height={20}
+              />
+              <Text typography="sub3_m_16" color="black">
+                마케팅 수신 동의
+              </Text>
+            </div>
+
+            <Text typography="body2_r_14" color="neutral-30">
+              서비스 소식과 이벤트, 맞춤형 혜택을 빠르게 받아보세요!
+            </Text>
+          </div>
+          {/* checkbox */}
         </div>
-        <InputField label="관심사" description="주요 관심사를 선택해주세요">
-          <MultiSelectButtonGroup
-            options={interestOptions}
-            selectedValues={selectedInterests}
-            onSelect={handleChangeInterest}
-          />
-        </InputField>
       </div>
       <div className={styles.profileEditPageLayoutFooter}>
         <Button
           variant="outlined"
           size="extraLarge"
-          className={styles.profileEditPageLayoutFooterCancelButton}
+          className={styles.profileEditPageLayoutFooterButton}
         >
           취소
         </Button>
         <Button
           variant="primary"
           size="extraLarge"
-          className={styles.profileEditPageLayoutFooterSaveButton}
+          className={styles.profileEditPageLayoutFooterButton}
         >
           저장
         </Button>
