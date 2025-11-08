@@ -1,0 +1,30 @@
+/* src/components/login/InterestTabBar/styles.module.css */
+
+.tabBar {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.tab {
+  display: flex;
+  width: 3.75rem;
+  padding: 0.5rem 0;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: transparent;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.tab:hover {
+  background-color: var(--Neutral-99);
+  color: var(--Primary-heavy);
+}
+
+.tab.active {
+  background-color: var(--Neutral-99);
+}

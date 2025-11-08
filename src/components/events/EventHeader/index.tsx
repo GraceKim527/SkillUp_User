@@ -1,7 +1,7 @@
 // src/components/events/EventHeader/index.tsx
 
-import styles from "./styles.module.css";
 import Text from "@/components/common/Text";
+import Flex from "@/components/common/Flex";
 
 export default function EventHeader({
   title,
@@ -11,7 +11,7 @@ export default function EventHeader({
   count: number;
 }) {
   return (
-    <div className={styles.eventHeader}>
+    <Flex align="center" gap={1}>
       <Text typography="head2_sb_30" color="black" as="h2">
         {title}
       </Text>
@@ -21,6 +21,6 @@ export default function EventHeader({
         </Text>
         의 행사가 있습니다.
       </Text>
-    </div>
+    </Flex>
   );
 }

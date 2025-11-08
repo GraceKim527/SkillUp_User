@@ -21,7 +21,7 @@ interface TextProps {
     | "label1_r_18"
     | "label2_m_16"
     | "label3_m_14"
-    | "label4_r_12";
+    | "label4_m_12";
 
   color?:
     | "white"
@@ -45,6 +45,7 @@ interface TextProps {
     | "primary-strong"
     | "primary-normal"
     | "primary-extra-light"
+    | "primary-heavy"
     | "fill-strong"
     | "error-normal"
     | "gray-scale-900";

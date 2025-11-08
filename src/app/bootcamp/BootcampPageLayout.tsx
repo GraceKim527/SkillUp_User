@@ -18,6 +18,8 @@ import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import Button from "@/components/common/Button";
 import { Event } from "@/types/event/event";
 import { useState } from "react";
+import Flex from "@/components/common/Flex";
+import Text from "@/components/common/Text";
 
 const sortOptions: DropdownOption[] = [
   { label: "인기순", value: "popular" },
@@ -56,12 +58,12 @@ export default function BootcampPageLayout({
   const [currentPage, setCurrentPage] = useState(1);
 
   return (
-    <div className={styles.bootcampPageLayout}>
-      <div className={styles.pageHeader}>
+    <Flex direction="column" gap={1.25} className={styles.container}>
+      <Flex direction="column" gap={1.5} style={{ width: "100%" }}>
         <EventHeader title="부트캠프" count={10} />
-        <div className={styles.eventHeaderFilterSortContainer}>
+        <Flex align="center" justify="space-between">
           <RoleSelector selected={selectedRoles} onSelect={setSelectedRoles} />
-          <div className={styles.filterButtonContainer}>
+          <Flex align="center" gap={0.5}>
             <FilterBadges
               onOfflineFilter={onOfflineFilter}
               freeFilter={freeFilter}
@@ -85,16 +87,18 @@ export default function BootcampPageLayout({
               setSelected={(option) => setSortOption(option.value)}
               options={sortOptions}
             />
-          </div>
-        </div>
-      </div>
-      <div className={styles.eventCardListContainer}>
+          </Flex>
+        </Flex>
+      </Flex>
+      <Flex direction="column" gap={6.25} style={{ width: "100%" }}>
         {eventList?.length === 0 ? (
           <>
             <EventEmpty title="부트캠프" url="/bootcamp/create" />
-            <div className={styles.eventRecommendCardList}>
-              <div className={styles.eventRecommendCardListTitle}>
-                <h3>이런 행사는 어떠세요?</h3>
+            <Flex direction="column" gap={1}>
+              <Flex align="center" justify="space-between">
+                <Text typography="head3_m_24" color="black" as="h3">
+                  이런 행사는 어떠세요?
+                </Text>
                 <Button
                   variant="textOnly"
                   icon={<ChevronRightIcon />}
@@ -102,20 +106,18 @@ export default function BootcampPageLayout({
                 >
                   IT 행사 더보기
                 </Button>
-              </div>
-              <div className={styles.eventCardList}>
+              </Flex>
+              <div className={styles.cardList}>
                 {eventList?.map((item) => (
-                  // 목업 데이터
                   <EventCard key={item.id} size="medium" event={item} />
                 ))}
               </div>
-            </div>
+            </Flex>
           </>
         ) : (
-          <div className={styles.eventCardListContainer}>
-            <div className={styles.eventCardList}>
+          <Flex direction="column" gap={6.25} style={{ width: "100%" }}>
+            <div className={styles.cardList}>
               {eventList?.map((item) => (
-                // 목업 데이터
                 <EventCard key={item.id} size="medium" event={item} />
               ))}
             </div>
@@ -127,9 +129,9 @@ export default function BootcampPageLayout({
               selected={goToPageOptions[0]}
               onSelect={(option) => setCurrentPage(parseInt(option.value))}
             />
-          </div>
+          </Flex>
         )}
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 }

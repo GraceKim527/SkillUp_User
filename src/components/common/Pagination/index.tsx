@@ -16,6 +16,7 @@ interface PaginationProps {
   options: DropdownOption[];
   selected: DropdownOption;
   onSelect: (option: DropdownOption) => void;
+  goToPage?: boolean;
 }
 
 const Pagination = ({
@@ -25,6 +26,7 @@ const Pagination = ({
   options,
   selected,
   onSelect,
+  goToPage = true,
 }: PaginationProps) => {
   const createPageList = () => {
     const pages: (number | "ellipsis")[] = [];
@@ -112,17 +114,23 @@ const Pagination = ({
         </div>
       </div>
 
-      <div className={styles.paginationRight}>
-        <Text typography="label2_m_16" color="neutral-30">
-          Go to Page
-        </Text>
-        <div className={styles.paginationRightDropdown}>
-          <Dropdown options={options} selected={selected} onSelect={onSelect} />
-          <Button variant="secondary" size="large">
-            GO
-          </Button>
+      {goToPage && (
+        <div className={styles.paginationRight}>
+          <Text typography="label2_m_16" color="neutral-30">
+            Go to Page
+          </Text>
+          <div className={styles.paginationRightDropdown}>
+            <Dropdown
+              options={options}
+              selected={selected}
+              onSelect={onSelect}
+            />
+            <Button variant="secondary" size="large">
+              GO
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

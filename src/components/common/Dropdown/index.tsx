@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./styles.module.css";
 import Image from "next/image";
 import ChevronDownIcon from "@/assets/svg/chevronDownIcon.svg";
+import Text from "../Text";
 
 export interface DropdownOption {
   label: string;
@@ -17,6 +18,7 @@ interface DropdownProps {
   onSelect: (value: DropdownOption) => void;
   buttonLabel?: string;
   className?: string;
+  block?: boolean;
 }
 
 export default function Dropdown({
@@ -25,6 +27,7 @@ export default function Dropdown({
   onSelect,
   buttonLabel,
   className,
+  block,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -48,9 +51,16 @@ export default function Dropdown({
   }, []);
 
   return (
-    <div className={`${styles.dropdown} ${className || ""}`} ref={dropdownRef}>
+    <div
+      className={`${styles.dropdown} ${className || ""} ${
+        block ? styles.block : ""
+      }`}
+      ref={dropdownRef}
+    >
       <button className={styles.dropdownButton} onClick={toggleOpen}>
-        <span>{buttonLabel || selected.label}</span>
+        <Text typography="body1_r_16" color="neutral-20">
+          {buttonLabel || selected.label}
+        </Text>
         <Image src={ChevronDownIcon} alt="chevron down" />
       </button>
       {isOpen && (

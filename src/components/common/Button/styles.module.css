@@ -40,6 +40,7 @@
 }
 
 .small {
+  height: 1.875rem;
   font-size: 0.75rem;
   letter-spacing: -0.03rem;
   font-weight: 500;
@@ -47,6 +48,7 @@
 }
 
 .medium {
+  height: 2.25rem;
   font-size: 1rem;
   letter-spacing: -0.04rem;
   font-weight: 500;
@@ -54,6 +56,7 @@
 }
 
 .large {
+  height: 2.625rem;
   font-size: 1.125rem;
   letter-spacing: -0.045rem;
   font-weight: 500;
@@ -61,6 +64,7 @@
 }
 
 .extraLarge {
+  height: 2.875rem;
   font-size: 1.125rem;
   letter-spacing: -0.05rem;
   font-weight: 500;

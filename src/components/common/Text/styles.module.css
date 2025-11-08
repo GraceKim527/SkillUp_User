@@ -91,7 +91,7 @@
   letter-spacing: -0.035rem;
 }
 
-.label4_r_12 {
+.label4_m_12 {
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 140%;
@@ -180,6 +180,10 @@
 
 .primary-extra-light {
   color: var(--Primary-ExtraLight);
+}
+
+.primary-heavy {
+  color: var(--Primary-heavy);
 }
 
 .fill-strong {

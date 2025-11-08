@@ -1,0 +1,25 @@
+/* src/app/support/styles.module.css */
+
+.container {
+  width: 100%;
+  min-height: calc(100vh - 6rem);
+  background: var(--Common-white);
+}
+
+.content {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.faqSection {
+  width: 100%;
+}
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}

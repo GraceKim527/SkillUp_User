@@ -1,0 +1,5 @@
+/* src/components/common/Flex/styles.module.css */
+
+.flex {
+  box-sizing: border-box;
+}

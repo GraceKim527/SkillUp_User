@@ -20,6 +20,10 @@ import Modal from "@/components/common/Modal";
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <div id="wrap">
       {/* 시각장애인용 */}
@@ -48,7 +52,7 @@ export default function Home() {
 
       <Footer />
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} toggle={toggleModal}>
         <LoginContent />
       </Modal>
     </div>

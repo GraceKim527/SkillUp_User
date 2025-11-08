@@ -1,0 +1,30 @@
+/* src/components/myPage/profile/ProfileImageUploader/styles.module.css */
+
+.wrapper {
+  position: relative;
+  width: 7.5rem;
+  height: 7.5rem;
+}
+
+.profileImg {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #000;
+}
+
+.editBtn {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background: var(--Opacity_b_60);
+  border: 1px solid var(--Line-normal);
+  backdrop-filter: blur(20px);
+
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

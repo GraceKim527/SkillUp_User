@@ -7,7 +7,7 @@ export default async function page() {
   const eventList = await getMockEventList();
 
   return (
-    <div style={{ marginTop: "6rem" }}>
+    <div style={{ paddingTop: "6rem" }}>
       <BootcampPageLayout eventList={eventList} />
     </div>
   );

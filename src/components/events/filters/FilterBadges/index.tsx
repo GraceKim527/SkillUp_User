@@ -5,6 +5,7 @@
 import Image from "next/image";
 import CloseIcon from "@/assets/svg/closeIcon.svg";
 import styles from "./styles.module.css";
+import Flex from "@/components/common/Flex";
 
 interface FilterBadgesProps {
   onOfflineFilter: string;
@@ -42,12 +43,14 @@ export default function FilterBadges({
   }
 
   return (
-    <div className={styles.filterBadges}>
+    <Flex align="center" gap={0.25}>
       {badges.map((badge) => (
-        <button
-          className={styles.filterBadge}
-          onClick={(e) => {
-            e.preventDefault();
+        <Flex
+          as="button"
+          align="center"
+          gap={0.25}
+          className={styles.badge}
+          onClick={() => {
             badge.onClear();
           }}
           key={badge.key}
@@ -55,8 +58,8 @@ export default function FilterBadges({
         >
           <span>{badge.label}</span>
           <Image src={CloseIcon} alt="Close Icon" />
-        </button>
+        </Flex>
       ))}
-    </div>
+    </Flex>
   );
 }

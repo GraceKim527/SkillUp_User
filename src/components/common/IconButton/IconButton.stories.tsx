@@ -33,28 +33,28 @@ type Story = StoryObj<typeof IconButton>;
 
 export const Primary: Story = {
   args: {
-    icon: <BookmarkIcon isBookmarked={false} />,
+    icon: <BookmarkIcon />,
     variant: "primary",
     size: "medium",
   },
 };
 export const Opacity: Story = {
   args: {
-    icon: <BookmarkIcon isBookmarked={false} />,
+    icon: <BookmarkIcon />,
     variant: "opacity",
     size: "medium",
   },
 };
 export const Secondary: Story = {
   args: {
-    icon: <BookmarkIcon isBookmarked={false} />,
+    icon: <BookmarkIcon />,
     variant: "secondary",
     size: "medium",
   },
 };
 export const Disabled: Story = {
   args: {
-    icon: <BookmarkIcon isBookmarked={false} />,
+    icon: <BookmarkIcon />,
     variant: "disabled",
     size: "medium",
   },

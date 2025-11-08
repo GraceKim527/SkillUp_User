@@ -1,0 +1,22 @@
+/* src/components/common/Input/styles.module.css */
+
+.input {
+  display: flex;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  border-radius: 0.25rem;
+  border: 1px solid var(--Line-neutral);
+  background: var(--Common-white);
+  box-sizing: border-box;
+
+  color: var(--Neutral-20);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: -0.04rem;
+}
+
+.input:focus {
+  outline: 1px solid var(--Primary-normal);
+}
