@@ -1,0 +1,41 @@
+.middleBanner {
+  position: relative;
+  height: 546px;
+  overflow: hidden;
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.2));
+}
+.inner {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px;
+  gap: 12px;
+}
+.kicker {
+  font-size: 18px;
+  letter-spacing: -4%;
+  font-weight: 400;
+  line-height: 140%;
+  color: #c4c4c4;
+}
+.title {
+  font-size: 42px;
+  letter-spacing: -4%;
+  font-weight: 500;
+  line-height: 130%;
+  color: #fff;
+  font-style: medium;
+}
+
+.title span {
+  font-weight: 700;
+  font-style: bold;
+}

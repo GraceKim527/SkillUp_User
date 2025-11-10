@@ -11,7 +11,7 @@ export interface EventCardProps {
   price: string;
   dday: string;
   isFree?: boolean;
-  size?: "large" | "middle";
+  size?: "large" | "middle" | "small";
 }
 
 const EventCard = ({
@@ -25,13 +25,15 @@ const EventCard = ({
   size = "large",
 }: EventCardProps) => {
   const isMiddle = size === "middle";
+  const isSmall = size === "small";
 
   return (
     <div
       className={`${styles.card} ${
-        isMiddle ? styles.card_middle : styles.card_large
+        isMiddle ? styles.card_middle : isSmall ? styles.card_small : styles.card_large
       }`}
     >
+      {/* 이미지 박스 */}
       <div className={styles.imgBox}>
         <span className={styles.dday}>{dday}</span>
         <Button
@@ -40,8 +42,9 @@ const EventCard = ({
           icon={<FaRegBookmark />}
           className={styles.bookmarkBtn}
         />
-    </div>
+      </div>
 
+      {/* 내용 영역 */}
       <div className={styles.cardBody}>
         <span className={styles.category}>{category}</span>
         <h3 className={styles.cardTitle}>{title}</h3>
@@ -57,18 +60,21 @@ const EventCard = ({
         </div>
 
         <div className={styles.priceGroup}>
-          <div className={styles.priceWrap}>
-            {isFree ? (
-              <>
-                <p className={styles.price}>0원</p>
-                <span className={styles.freeTag}>무료</span>
-              </>
-            ) : (
-              <p className={styles.price}>{price}</p>
-            )}
-          </div>
+          {/* small일 때 */}
+          {!isSmall && (
+            <div className={styles.priceWrap}>
+              {isFree ? (
+                <>
+                  <p className={styles.price}>0원</p>
+                  <span className={styles.freeTag}>무료</span>
+                </>
+              ) : (
+                <p className={styles.price}>{price}</p>
+              )}
+            </div>
+          )}
 
-          {/* size = middle 일 때는 숨김 */}
+          {/* middle일 때 */}
           {!isMiddle && (
             <Link href="#" className={styles.detailBtn}>
               자세히 보기

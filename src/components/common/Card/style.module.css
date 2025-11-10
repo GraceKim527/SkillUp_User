@@ -1,18 +1,23 @@
 .card {
-    width: 340px;
+    width: 348px;
     background: #fff;
     border: 1px solid #eaeaea;
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s;
 }
 
 .card_large {
-  width: 340px;
+  width: 348px;
 }
 
 .card_middle {
   width: 301px;
+}
+
+.card_small {
+  width: 294px;
 }
 
 /* 이미지 영역 */
@@ -134,4 +139,8 @@
   font-weight: 500;
   line-height: 140%;
   letter-spacing: -4%;
+}
+
+.card_small .priceWrap { 
+  display: none; 
 }

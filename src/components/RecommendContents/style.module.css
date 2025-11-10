@@ -1,0 +1,154 @@
+.RecommendContent {
+  width: 1440px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+
+/* 헤더 (제목 + 탭) */
+.sectionHead {
+  width: 1240px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+/* 타이틀 블록 */
+.titles { display: flex; flex-direction: column; }
+.subTitle {
+  font-size: 18px;
+  font-weight: 500;
+  font-style: medium;
+  color: #5a23ff;
+  line-height: 140%;
+  letter-spacing: -4%;
+}
+.title {
+  font-size: 42px;
+  font-weight: 500;
+  font-style: medium;
+  color: #000;
+  line-height: 130%;
+  letter-spacing: -4%;
+}
+.titleSpan { 
+  font-weight: 700;
+  font-style: bold;
+}
+
+/* 카드 그리드
+   - 3열(grid) + 2행
+   - 첫 카드(heroCard)가 세로로 2행 span
+*/
+.cardList {
+  width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 12px;
+}
+
+/* 카드 공통 */
+.card {
+  background: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.thumb {
+  height: 180px;
+  background: #d9d9d9;
+}
+.meta { padding: 12px 12px 16px; }
+.cardTitle { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.cardDesc {
+  font-size: 14px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+.badge {
+  font-size: 14px;
+  font-weight: 500;
+  font-style: medium;
+  background: #f5f5f5;
+  color: #8a8a8a;
+  line-height: 140%;
+  letter-spacing: -4%;
+  padding: 2px 6px 2px 6px;
+  gap: 10px;
+}
+.date { 
+  font-size: 14px;
+  font-weight: 500;
+  font-style: medium;
+  background: #f5f5f5;
+  color: #8a8a8a;
+  line-height: 140%;
+  letter-spacing: -4%;
+  padding: 2px 6px 2px 6px;
+  gap: 10px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0;
+  /* ellipsis */
+  min-width: 0;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rightMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.cardDesc {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 첫 카드 - 왼쪽 큰 카드(2행 스팬) */
+.heroCard { grid-row: span 2; }
+.heroThumb { height: 420px; }
+
+/* 더보기 버튼 */
+.moreBox {
+  text-align: center;
+}
+
+.moreBtn {
+  font-size: 16px;
+  color: #8a8a8a;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #8a8a8a;
+  padding-bottom: 2px;
+  line-height: 140%;
+  letter-spacing: -4%;
+}
