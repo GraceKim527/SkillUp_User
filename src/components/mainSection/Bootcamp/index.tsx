@@ -1,15 +1,10 @@
-import EventCard from "@/components/common/Card";
-import { dummyEvents } from "./dummyData";
-import Button from "@/components/common/Button";
+import EventCard from "@/components/common/EventCard";
 import styles from "./style.module.css";
 import TabMenu from "@/components/common/Tab";
+import { eventListMock } from "@/mocks/eventListMock";
 
 export default function Bootcamp() {
   // 데이터가 많아도 4개만 출력
-  const deadlineEvents = dummyEvents
-    .map((event) => ({ ...event, dday: "모집마감" }))
-    .slice(0, 4);
-
   return (
     <section className={styles.bootcampSection} aria-labelledby="recent-title">
       <div className={styles.inner}>
@@ -33,8 +28,8 @@ export default function Bootcamp() {
         {/* 카드 리스트 */}
         <div className={styles.cardListWrap}>
           <div className={styles.cardList}>
-            {deadlineEvents.map((item) => (
-              <EventCard key={item.id} {...item} size="middle" />
+            {eventListMock.map((item) => (
+              <EventCard key={item.id} size="medium" event={item} />
             ))}
           </div>
         </div>

@@ -9,17 +9,17 @@ import { useState } from "react";
 import Link from "next/link";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
-import MainVisual from "@/components/MainVisual";
-import RecommendEvent from "@/components/RecommendEvent";
-import RecentEvents from "@/components/RecentEvents";
-import MiddleBanner from "@/components/MiddleBanner";
-import Club from "@/components/Club";
-import RecommendContents from "@/components/RecommendContents";
-import Bootcamp from "@/components/Bootcamp";
-import IconMenu from "@/components/MainVisual/IconMenu";
+import MainVisual from "@/components/mainSection/MainVisual";
+import RecommendEvent from "@/components/mainSection/RecommendEvent";
+import RecentEvents from "@/components/mainSection/RecentEvents";
+import MiddleBanner from "@/components/mainSection/MiddleBanner";
+import Club from "@/components/mainSection/Club";
+import RecommendContents from "@/components/mainSection/RecommendContents";
+import Bootcamp from "@/components/mainSection/Bootcamp";
+import IconMenu from "@/components/mainSection/MainVisual/IconMenu";
 import LoginContent from "@/components/login/LoginContent";
 import Modal from "@/components/common/Modal";
-import NewsletterCTA from "@/components/NewsletterCTA";
+import NewsletterCTA from "@/components/mainSection/NewsletterCTA";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);

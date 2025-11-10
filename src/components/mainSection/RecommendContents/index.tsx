@@ -45,7 +45,9 @@ export default function RecommendedContent() {
             key={card.id}
             className={`${styles.card} ${idx === 0 ? styles.heroCard : ""}`}
           >
-            <div className={`${styles.thumb} ${idx === 0 ? styles.heroThumb : ""}`} />
+            <div
+              className={`${styles.thumb} ${idx === 0 ? styles.heroThumb : ""}`}
+            />
 
             <div className={styles.meta}>
               <div className={styles.titleRow}>
