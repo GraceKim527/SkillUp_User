@@ -12,7 +12,7 @@ import RoleSelector from "@/components/events/filters/RoleSelector";
 import { DropdownOption } from "@/components/common/Dropdown";
 import { usePageFilters } from "@/components/events/filters/hooks/usePageFilters";
 import FilterBadges from "@/components/events/filters/FilterBadges";
-import Pagination from "@/components/common/Pagenation";
+import Pagination from "@/components/common/Pagination";
 import EventEmpty from "@/components/events/EventEmpty";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import Button from "@/components/common/Button";
