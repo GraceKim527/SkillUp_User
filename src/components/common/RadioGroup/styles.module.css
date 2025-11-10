@@ -1,0 +1,27 @@
+/* src/components/common/RadioGroup/styles.module.css */
+
+.radioGroup {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.radioButton {
+  display: flex;
+  width: 7.5rem;
+  padding: 0.5625rem 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 0.25rem;
+  background: var(--Neutral-99);
+  color: var(--Neutral-30);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -0.04rem;
+}
+
+.active {
+  background: var(--Fill-strong);
+}

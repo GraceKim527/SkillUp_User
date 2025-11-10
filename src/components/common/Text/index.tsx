@@ -13,6 +13,7 @@ interface TextProps {
     | "head2_sb_30"
     | "head3_m_24"
     | "head4_sb_20"
+    | "head5_sb_42"
     | "sub1_m_20"
     | "sub2_m_18"
     | "sub3_m_16"
@@ -21,7 +22,7 @@ interface TextProps {
     | "label1_r_18"
     | "label2_m_16"
     | "label3_m_14"
-    | "label4_r_12";
+    | "label4_m_12";
 
   color?:
     | "white"
@@ -45,6 +46,7 @@ interface TextProps {
     | "primary-strong"
     | "primary-normal"
     | "primary-extra-light"
+    | "primary-heavy"
     | "fill-strong"
     | "error-normal"
     | "gray-scale-900";

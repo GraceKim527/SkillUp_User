@@ -1,0 +1,85 @@
+/* src/components/common/Alert/styles.module.css */
+
+.alertBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: alert-backdrop-fade-in 160ms ease-out;
+}
+
+.alert {
+  padding: 1.75rem;
+  box-sizing: border-box;
+  display: flex;
+  width: 26.5rem;
+  height: 15.125rem;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: var(--Common-white);
+  animation: alert-slide-up 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.alertContent {
+  height: 10.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+}
+
+.alertMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.alertMessageText {
+  webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alertFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+@keyframes alert-backdrop-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes alert-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alertBackdrop,
+  .alert {
+    animation: none !important;
+  }
+}

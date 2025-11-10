@@ -1,7 +1,0 @@
-/* src/components/events/EventHeader/style.module.css */
-
-.eventHeader {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}

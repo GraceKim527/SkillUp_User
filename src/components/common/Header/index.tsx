@@ -1,16 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import Image from "next/image";
 import SkillUpWhiteLogo from "@/assets/svg/skillUp_white.svg";
 import SkillUpBlackLogo from "@/assets/svg/skillUp_black.svg";
-import { FiSearch } from "react-icons/fi";
 import Link from "next/link";
 import styles from "./styles.module.css";
 import Modal from "../Modal";
 import LoginContent from "@/components/login/LoginContent";
-import EventCategoryTabs from "@/components/nav/EventCategoryTabs";
+import EventCategoryTabs from "@/components/common/Header/EventCategoryTabs";
 import Button from "../Button";
+import IconButton from "../IconButton";
+import UserIcon from "@/assets/icons/UserIcon";
+import SearchIcon from "@/assets/svg/searchIcon.svg";
+import ProfileModal from "@/components/login/ProfileModal";
+import LogoDefaultImg from "@/assets/images/logoDefaultImg.png";
+import Alert from "../Alert";
 
 interface HeaderProps {
   variant: "main" | "sub";
@@ -18,9 +23,17 @@ interface HeaderProps {
 
 export default function Header({ variant }: HeaderProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen((prev) => !prev);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const toggleProfileModal = () => setIsProfileModalOpen((prev) => !prev);
+
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const toggleAlert = () => setIsAlertOpen((prev) => !prev);
+
+  // 임의로 로그인 상태 확인
+  const isLogin = true;
+  const profileBtnRef = useRef<HTMLDivElement>(null);
 
   return (
     <header
@@ -68,18 +81,59 @@ export default function Header({ variant }: HeaderProps) {
               className={styles.searchBox}
             />
             <button className={styles.searchBtn}>
-              <FiSearch size={18} color={"c4c4c4"} />
+              <Image src={SearchIcon} alt="search" width={20} height={20} />
             </button>
           </div>
-          <Button variant="secondary" size="medium" onClick={openModal}>
-            로그인 · 회원가입
-          </Button>
+          {isLogin && (
+            <div
+              className={styles.profileBtnWrap}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              ref={profileBtnRef}
+            >
+              <IconButton
+                variant="opacity"
+                size="large"
+                onClick={toggleProfileModal}
+                icon={<UserIcon />}
+              />
+              <div className={styles.profileBtnContent}>
+                <ProfileModal
+                  isOpen={isProfileModalOpen}
+                  toggle={toggleProfileModal}
+                  user={{
+                    name: "홍길동",
+                    email: "skillup@gmail.com",
+                    profileImage: LogoDefaultImg.src.toString(),
+                  }}
+                  triggerRef={profileBtnRef as RefObject<HTMLDivElement>}
+                />
+              </div>
+            </div>
+          )}
+
+          {!isLogin ? (
+            <Button variant="secondary" size="large" onClick={toggleModal}>
+              로그인 · 회원가입
+            </Button>
+          ) : (
+            <Button variant="secondary" size="large" onClick={toggleAlert}>
+              로그아웃
+            </Button>
+          )}
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Modal isOpen={isModalOpen} toggle={toggleModal}>
         <LoginContent />
       </Modal>
+      <Alert
+        isOpen={isAlertOpen}
+        toggle={toggleAlert}
+        title="로그아웃 하시겠습니까?"
+        message="로그아웃하면 일부 기능을 이용할 수 없습니다."
+      />
     </header>
   );
 }

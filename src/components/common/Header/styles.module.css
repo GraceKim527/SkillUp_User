@@ -38,7 +38,7 @@
 .topMenu {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .searchWrap {
@@ -46,11 +46,11 @@
   height: 40px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #9b9b9b;
+  border-bottom: 1px solid var(--Neutral-70);
 }
 
 .searchBox {
-  padding: 10px 12px;
+  padding: 10px 0.75rem;
   background: none;
   border: none;
   box-sizing: border-box;
@@ -59,11 +59,11 @@
 }
 
 .searchBox::placeholder {
-  color: #c4c4c4;
+  color: var(--Neutral-90);
   font-weight: 400;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 150%;
-  letter-spacing: -4%;
+  letter-spacing: -0.035rem;
   vertical-align: middle;
 }
 
@@ -72,6 +72,9 @@
   border: none;
   padding: 0 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loginBtn {
@@ -84,4 +87,15 @@
   font-size: 14px;
   line-height: 140%;
   letter-spacing: -4%;
+}
+
+.profileBtnWrap {
+  position: relative;
+}
+
+.profileBtnContent {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  z-index: 1000;
 }

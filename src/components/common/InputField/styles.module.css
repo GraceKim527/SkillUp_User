@@ -1,0 +1,14 @@
+/* src/components/common/InputField/styles.module.css */
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1 0 0;
+}
+
+.inputFieldLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
