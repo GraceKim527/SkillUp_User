@@ -2,6 +2,7 @@
 
 import { useAtom } from "jotai";
 import { pageFilterAtomsMap, PageId } from "../atoms/pageFilterAtoms";
+import { EVENT_SORT_OPTIONS } from "@/constants/event";
 
 interface UsePageFiltersProps {
   pageId: PageId;
@@ -56,7 +57,7 @@ export const usePageFilters = ({ pageId }: UsePageFiltersProps) => {
 
   // 정렬 옵션 초기화 함수
   const resetSortOption = () => {
-    setSortOption("인기순");
+    setSortOption(EVENT_SORT_OPTIONS.POPULARITY);
   };
 
   // 모든 필터 초기화 함수

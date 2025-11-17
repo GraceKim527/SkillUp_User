@@ -2,6 +2,8 @@
 
 import { RoleOption } from "@/components/events/filters/types/role";
 import { atom } from "jotai";
+import { EventSearchParams } from "@/types/event";
+import { EVENT_SORT_OPTIONS, EventSortOption } from "@/constants/event";
 
 // 기본 필터 상태 타입 정의
 export interface PageFilterState {
@@ -23,7 +25,7 @@ export const createPageFilterAtoms = () => {
     roleFilterAtom: atom<RoleOption[]>(["전체"]),
     onOfflineFilterAtom: atom<string>(""),
     freeFilterAtom: atom<boolean>(false),
-    sortOptionAtom: atom<string>("인기순"),
+    sortOptionAtom: atom<EventSortOption>(EVENT_SORT_OPTIONS.POPULARITY),
     startDateAtom: atom<Date | undefined>(undefined),
     endDateAtom: atom<Date | undefined>(undefined),
     tempOnOfflineFilterAtom: atom<string>(""),
@@ -49,6 +51,59 @@ export const pageFilterAtomsMap = {
 
 // 페이지 ID 타입
 export type PageId = keyof typeof pageFilterAtomsMap;
+
+// 카테고리 매핑
+const PAGE_CATEGORY_MAP: Record<PageId, EventSearchParams["category"]> = {
+  conference: "CONFERENCE_SEMINAR",
+  bootcamp: "BOOTCAMP_CLUB",
+  hackathon: "COMPETITION_HACKATHON",
+  mentoring: "NETWORKING_MENTORING",
+};
+
+// Jotai 필터 상태를 API params로 변환하는 derived atom 생성
+export const createEventSearchParamsAtom = (pageId: PageId) => {
+  const atoms = pageFilterAtomsMap[pageId];
+
+  return atom<EventSearchParams>((get) => {
+    const selectedRoles = get(atoms.roleFilterAtom);
+    const onOfflineFilter = get(atoms.onOfflineFilterAtom);
+    const freeFilter = get(atoms.freeFilterAtom);
+    const sortOption = get(atoms.sortOptionAtom);
+    const startDate = get(atoms.startDateAtom);
+    const endDate = get(atoms.endDateAtom);
+
+    const params: EventSearchParams = {
+      category: PAGE_CATEGORY_MAP[pageId],
+      sort: sortOption,
+      page: 1, // 현재는 1로 고정, 나중에 페이지네이션 atom 추가 가능
+    };
+
+    // 선택 필드들 - 값이 있을 때만 추가
+    if (selectedRoles.length > 0 && !selectedRoles.includes("전체")) {
+      params.targetRoles = selectedRoles;
+    }
+
+    if (onOfflineFilter === "online") {
+      params.isOnline = true;
+    } else if (onOfflineFilter === "offline") {
+      params.isOnline = false;
+    }
+
+    if (freeFilter) {
+      params.isFree = true;
+    }
+
+    if (startDate) {
+      params.startDate = startDate.toISOString().split("T")[0];
+    }
+
+    if (endDate) {
+      params.endDate = endDate.toISOString().split("T")[0];
+    }
+
+    return params;
+  });
+};
 
 // 페이지별 필터 상태를 초기화하는 함수
 export const resetPageFilters = (
