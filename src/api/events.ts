@@ -41,7 +41,6 @@ export const getEventList = async (eventSearchParams: EventSearchParams) => {
   };
 
   const response = await instance.post("/events/category-page/search", params);
-  console.log(response.data.data);
   return response.data.data;
 };
 

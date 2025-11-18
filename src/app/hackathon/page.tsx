@@ -1,13 +1,19 @@
 // src/app/hackathon/page.tsx
 
 import HackathonPageLayout from "./HackathonPageLayout";
-import { getMockEventList } from "@/mocks/eventListMock";
+import { getEventList } from "@/api/events";
 
 export default async function HackathonPage() {
-  const eventList = await getMockEventList();
+  // SSR: 초기 데이터 서버에서 로드
+  const initialEventList = await getEventList({
+    category: "COMPETITION_HACKATHON",
+    sort: "latest",
+    page: 1,
+  });
+
   return (
     <div style={{ paddingTop: "6rem" }}>
-      <HackathonPageLayout eventList={eventList} />
+      <HackathonPageLayout initialEventList={initialEventList} />
     </div>
   );
 }

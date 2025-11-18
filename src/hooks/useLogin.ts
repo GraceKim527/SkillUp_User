@@ -12,7 +12,6 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: getTestLogin,
     onSuccess: (token: string) => {
-      console.log("로그인 성공", token);
       // 유저 데이터 쿼리 무효화 -> useUser 훅이 자동으로 데이터 재조회
       queryClient.invalidateQueries({ queryKey: ["user"] });
       login(token);

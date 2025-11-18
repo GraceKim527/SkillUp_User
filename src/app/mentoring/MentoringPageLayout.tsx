@@ -2,20 +2,31 @@
 
 "use client";
 
+import { useMemo } from "react";
+import { useAtomValue } from "jotai";
 import EventPageLayout from "@/components/events/EventPageLayout";
 import MentoringFilterView from "@/components/events/filters/views/MentoringFilterView";
 import { Event } from "@/types/event";
+import { useEventList } from "@/hooks/useEventList";
+import { createEventSearchParamsAtom } from "@/components/events/filters/atoms/pageFilterAtoms";
 
 export default function MentoringPageLayout({
-  eventList,
+  initialEventList,
 }: {
-  eventList: Event[];
+  initialEventList: Event[];
 }) {
+  const searchParamsAtom = useMemo(
+    () => createEventSearchParamsAtom("mentoring"),
+    []
+  );
+  const searchParams = useAtomValue(searchParamsAtom);
+  const { data: eventList } = useEventList(searchParams, initialEventList);
+
   return (
     <EventPageLayout
       pageId="mentoring"
       title="네트워킹 · 멘토링"
-      eventList={eventList}
+      eventList={eventList || []}
       FilterView={MentoringFilterView}
       emptyUrl="/conference/create"
     />
