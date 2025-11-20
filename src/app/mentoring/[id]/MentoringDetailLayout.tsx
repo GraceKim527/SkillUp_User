@@ -1,5 +1,7 @@
 // src/app/mentoring/[id]/MentoringDetailLayout.tsx
 
+"use client";
+
 import styles from "./styles.module.css";
 import StickyApplySection from "@/components/events/detail/StickyApplySection";
 import EventInfoCard from "@/components/events/detail/EventInfoCard";
@@ -11,22 +13,40 @@ import Text from "@/components/common/Text";
 import EventCard from "@/components/common/EventCard";
 import Flex from "@/components/common/Flex";
 import { eventListMock } from "@/mocks/eventListMock";
-import { EventDetail } from "@/types/event";
+import { useEventDetail } from "@/hooks/useEventDetail";
+import { formatDate, formatPriceWithUnit, getDdayLabel } from "@/utils/format";
+
 export default function MentoringDetailLayout({
-  eventDetail,
+  eventId,
 }: {
-  eventDetail: EventDetail;
+  eventId: number;
 }) {
+  const { data: eventDetail, isLoading } = useEventDetail(eventId);
+
+  if (isLoading) {
+    return (
+      <Flex justify="center" align="center" style={{ minHeight: "80vh" }}>
+        <Text typography="body1_r_16" color="neutral-40">
+          로딩 중...
+        </Text>
+      </Flex>
+    );
+  }
+
+  if (!eventDetail) return null;
+
   return (
     <Flex gap="1rem" className={styles.container}>
       <StickyApplySection
         category={eventDetail.category}
         title={eventDetail.title}
-        date={eventDetail.date}
-        place={eventDetail.place}
-        price={eventDetail.price}
-        phoneNumber={eventDetail.phoneNumber}
-        image={eventDetail.image}
+        eventStart={formatDate(eventDetail.eventStart)}
+        eventEnd={formatDate(eventDetail.eventEnd)}
+        place={eventDetail.locationText}
+        price={eventDetail.isFree ? 0 : eventDetail.price}
+        phoneNumber={eventDetail.contact}
+        image={eventDetail.thumbnailUrl}
+        hashTags={eventDetail.hashTags}
       />
       <Flex
         direction="column"
@@ -40,17 +60,18 @@ export default function MentoringDetailLayout({
           <EventInfoCard title="모집 기간" isDate>
             <Flex align="center" gap="1rem">
               <Text typography="body1_r_16" color="neutral-20">
-                {eventDetail.date}
+                {formatDate(eventDetail.recruitStart)} ~{" "}
+                {formatDate(eventDetail.recruitEnd)}
               </Text>
-              <Badge label="N일 남았어요" />
+              <Badge label={getDdayLabel(eventDetail.recruitEnd)} />
             </Flex>
           </EventInfoCard>
           <EventInfoCard title="참가비">
             <Flex align="center" gap="1rem">
               <Text typography="body1_r_16" color="neutral-20">
-                {eventDetail.price}
+                {formatPriceWithUnit(eventDetail.price, eventDetail.isFree)}
               </Text>
-              <Badge label="무료" />
+              {eventDetail.isFree && <Badge label="무료" />}
             </Flex>
           </EventInfoCard>
           <EventInfoCard title="장소">
@@ -58,13 +79,13 @@ export default function MentoringDetailLayout({
               <Flex align="center" gap="0.375rem">
                 <Image src={GlobeIcon} alt="globe icon" />
                 <Text typography="body1_r_16" color="neutral-20">
-                  {eventDetail.online ? "온라인" : "오프라인"}
+                  {eventDetail.isOnline ? "온라인" : "오프라인"}
                 </Text>
               </Flex>
               <Flex align="center" gap="0.375rem">
                 <Image src={CursorIcon} alt="cursor icon" />
                 <Text typography="body1_r_16" color="neutral-20">
-                  {eventDetail.place}
+                  {eventDetail.locationText}
                 </Text>
                 {/* TODO : 추후 네이버 지도 api 추가 */}
               </Flex>
