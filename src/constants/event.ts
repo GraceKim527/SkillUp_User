@@ -6,6 +6,7 @@ export const EVENT_CATEGORY = {
   BOOTCAMP_CLUB: "BOOTCAMP_CLUB",
   COMPETITION_HACKATHON: "COMPETITION_HACKATHON",
   NETWORKING_MENTORING: "NETWORKING_MENTORING",
+  ARTICLE: "ARTICLE",
 } as const;
 
 export type EventCategory =
@@ -16,6 +17,7 @@ export const EVENT_CATEGORY_LABEL = {
   BOOTCAMP_CLUB: "부트캠프",
   COMPETITION_HACKATHON: "동아리 · 해커톤 · 공모전",
   NETWORKING_MENTORING: "네트워킹 · 멘토링",
+  ARTICLE: "아티클",
 } as const;
 
 export type EventCategoryLabel =

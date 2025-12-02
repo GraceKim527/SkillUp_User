@@ -41,13 +41,14 @@ export const conferenceFilterAtoms = createPageFilterAtoms();
 export const bootcampFilterAtoms = createPageFilterAtoms();
 export const hackathonFilterAtoms = createPageFilterAtoms();
 export const mentoringFilterAtoms = createPageFilterAtoms();
-
+export const articleFilterAtoms = createPageFilterAtoms();
 // 페이지별 atom 매핑 객체
 export const pageFilterAtomsMap = {
   conference: conferenceFilterAtoms,
   bootcamp: bootcampFilterAtoms,
   hackathon: hackathonFilterAtoms,
   mentoring: mentoringFilterAtoms,
+  article: articleFilterAtoms,
 } as const;
 
 // 페이지 ID 타입
@@ -60,6 +61,7 @@ export const PAGE_CATEGORY_MAP: Record<PageId, EventSearchParams["category"]> =
     bootcamp: "BOOTCAMP_CLUB",
     hackathon: "COMPETITION_HACKATHON",
     mentoring: "NETWORKING_MENTORING",
+    article: "ARTICLE",
   };
 
 // UI 역할명을 API 역할명으로 변환하는 맵
