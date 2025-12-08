@@ -34,8 +34,14 @@ export const getCustomerCenterInquiry = async () => {
 };
 
 // 유저 프로필 관심사
-export const getUserInterests = async () => {
-  const response = await tokenInstance.get("/user/my-page/profile/interest");
+export const getUserInterests = async (
+  roleName: "기획자" | "디자이너" | "개발자" | "마케팅"
+) => {
+  const response = await tokenInstance.get("/user/my-page/profile/interest", {
+    params: {
+      roleName,
+    },
+  });
   return response.data.data;
 };
 

@@ -70,13 +70,13 @@ export const useCustomerCenterInquiry = () => {
 };
 
 // 유저 프로필 관심사 조회 Hook
-export const useUserInterests = () => {
+export const useUserInterests = (roleName: "기획자" | "디자이너" | "개발자" | "마케팅") => {
   const { isAuthenticated } = useAuth();
 
   return useQuery({
-    queryKey: ["userInterests"],
+    queryKey: ["userInterests", roleName],
     queryFn: async () => {
-      return await getUserInterests();
+      return await getUserInterests(roleName);
     },
     enabled: isAuthenticated,
     retry: false,
