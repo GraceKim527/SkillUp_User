@@ -17,32 +17,48 @@ import Button from "@/components/common/Button";
 import MegaPhoneIcon from "@/assets/icons/MegaPhoneIcon";
 import InterestTabBar from "@/components/login/InterestTabBar";
 import Checkbox from "@/components/common/Checkbox";
-import { useUserInterests } from "@/hooks/useUser";
+import { useUpdateUserProfile, useUserInterests } from "@/hooks/useUser";
 import Skeleton from "@/components/common/Skeleton";
+import { UserProfile } from "@/types/user";
+import { RoleName, ROLE_NAME } from "@/constants/role";
 
-export default function ProfileEditPageLayout() {
+export default function ProfileEditPageLayout({
+  initialData,
+}: {
+  initialData: UserProfile;
+}) {
   const router = useRouter();
   const [imageUrl, setImageUrl] = useState<string>(
     ProfileImageDefault.src.toString() || ""
   );
-  const [name, setName] = useState<string>("");
-  const [selectedGender, setSelectedGender] = useState<string>("");
-  const [selectedAge, setSelectedAge] = useState<string>("");
-  const [selectedJob, setSelectedJob] = useState<string>("");
-  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState<string>("planning");
-  const [isMarketingAgreed, setIsMarketingAgreed] = useState<boolean>(false);
-  const [currentRoleName, setCurrentRoleName] = useState<
-    "기획자" | "디자이너" | "개발자" | "마케팅"
-  >("기획자");
+  const [name, setName] = useState<string>(initialData.name);
+  const [selectedGender, setSelectedGender] = useState<string>(
+    initialData.gender
+  );
+  const [selectedAge, setSelectedAge] = useState<string>(initialData.age);
+  const [selectedJob, setSelectedJob] = useState<string>(initialData.role);
+  const [selectedInterests, setSelectedInterests] = useState<string[]>(
+    initialData.interests
+  );
+  const [activeTab, setActiveTab] = useState<RoleName>(ROLE_NAME.PLANNING);
+  const [isMarketingAgreed, setIsMarketingAgreed] = useState<boolean>(
+    initialData.marketingAgreement
+  );
+  const [currentRoleName, setCurrentRoleName] = useState<RoleName>(
+    initialData.role as RoleName
+  );
 
   // API로 관심사 조회
   const { data: apiInterestData, isLoading: isLoadingInterests } =
     useUserInterests(currentRoleName);
 
+  // 프로필 업데이트 mutation
+  const { mutate: updateProfile, isPending: isUpdating } =
+    useUpdateUserProfile();
+
   const genderOptions: Option[] = [
-    { label: "남성", value: "male" },
-    { label: "여성", value: "female" },
+    { label: "남성", value: "M" },
+    { label: "여성", value: "F" },
   ];
 
   const ageOptions: Option[] = [
@@ -51,26 +67,15 @@ export default function ProfileEditPageLayout() {
     { label: "30대", value: "30대" },
     { label: "40대", value: "40대" },
     { label: "50대", value: "50대" },
-    { label: "60대이상", value: "60대이상" },
+    { label: "60대 이상", value: "60대 이상" },
   ];
 
   const jobOptions: Option[] = [
-    { label: "기획자", value: "pm" },
-    { label: "디자이너", value: "design" },
-    { label: "개발자", value: "dev" },
-    { label: "마케팅", value: "marketing" },
+    { label: "기획자", value: "기획자" },
+    { label: "디자이너", value: "디자이너" },
+    { label: "개발자", value: "개발자" },
+    { label: "마케팅", value: "마케팅" },
   ];
-
-  // 탭 매핑
-  const tabToRoleMap: Record<
-    string,
-    "기획자" | "디자이너" | "개발자" | "마케팅"
-  > = {
-    planning: "기획자",
-    design: "디자이너",
-    development: "개발자",
-    marketing: "마케팅",
-  };
 
   // API 데이터만 사용 (목업 데이터 제거)
   const interestOptions =
@@ -110,14 +115,9 @@ export default function ProfileEditPageLayout() {
   };
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    // 탭에 해당하는 역할명으로 변경하여 API 재호출
-    const roleName = tabToRoleMap[tab];
-    if (roleName) {
-      setCurrentRoleName(roleName);
-    }
-    // 탭 변경 시 선택된 관심사 초기화
-    setSelectedInterests([]);
+    const roleName = tab as RoleName;
+    setActiveTab(roleName);
+    setCurrentRoleName(roleName);
   };
 
   const handleCancel = () => {
@@ -125,17 +125,26 @@ export default function ProfileEditPageLayout() {
   };
 
   const handleSave = () => {
-    // TODO: API 연동
-    console.log({
-      imageUrl,
+    const userProfile: UserProfile = {
       name,
-      selectedGender,
-      selectedAge,
-      selectedJob,
-      selectedInterests,
-      isMarketingAgreed,
+      profileImageUrl: imageUrl,
+      age: selectedAge,
+      gender: selectedGender,
+      role: selectedJob,
+      interests: selectedInterests,
+      marketingAgreement: isMarketingAgreed,
+    };
+
+    updateProfile(userProfile, {
+      onSuccess: () => {
+        // 추후 토스트 메시지 추가
+        console.log("프로필 업데이트 성공");
+        
+      },
+      onError: (error) => {
+        console.error("프로필 업데이트 실패:", error);
+      },
     });
-    router.back();
   };
 
   return (
@@ -263,8 +272,9 @@ export default function ProfileEditPageLayout() {
           size="extraLarge"
           className={styles.footerButton}
           onClick={handleSave}
+          disabled={isUpdating}
         >
-          저장
+          {isUpdating ? "저장 중..." : "저장"}
         </Button>
       </div>
     </div>

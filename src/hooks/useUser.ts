@@ -1,8 +1,8 @@
 // src/hooks/useUser.ts
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  getUserData,
+  getUser,
   updateUserProfile,
   getTestLogin,
   getCustomerCenterInquiry,
@@ -15,20 +15,16 @@ import { useSetAtom } from "jotai";
 import { userNameAtom, userEmailAtom } from "@/store/authAtoms";
 import { UserProfile } from "@/types/user";
 import { EventCategory } from "@/constants/event";
+import { RoleName } from "@/constants/role";
 
 // 유저 데이터 조회 Hook
 export const useUser = () => {
   const { isAuthenticated } = useAuth();
-  const setUserName = useSetAtom(userNameAtom);
 
   return useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      const data = await getUserData();
-      // API 응답에서 userName 저장
-      if (data?.userName) {
-        setUserName(data.userName);
-      }
+      const data = await getUser();
       return data;
     },
     // 로그인 상태일 때만 쿼리 실행
@@ -39,9 +35,15 @@ export const useUser = () => {
 
 // 유저 프로필 업데이트 Hook
 export const useUpdateUserProfile = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (data: UserProfile) => {
       return await updateUserProfile(data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["userEmailAndName"] });
     },
   });
 };
@@ -70,7 +72,7 @@ export const useCustomerCenterInquiry = () => {
 };
 
 // 유저 프로필 관심사 조회 Hook
-export const useUserInterests = (roleName: "기획자" | "디자이너" | "개발자" | "마케팅") => {
+export const useUserInterests = (roleName: RoleName) => {
   const { isAuthenticated } = useAuth();
 
   return useQuery({

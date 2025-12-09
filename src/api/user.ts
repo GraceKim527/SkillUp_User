@@ -12,10 +12,10 @@ export const getTestLogin = async () => {
   return response.data.data;
 };
 
-// 유저 데이터 조회 API
-export const getUserData = async () => {
-  const response = await tokenInstance.get("/user/all");
-  return response.data;
+// 유저 정보 조회 API
+export const getUser = async () => {
+  const response = await tokenInstance.get("/user");
+  return response.data.data;
 };
 
 // 유저 프로필 업데이트
