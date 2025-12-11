@@ -61,7 +61,7 @@ export default async function HackathonPage({ searchParams }: PageProps) {
     (await getEventList(apiParams))?.homeEventResponseList || [];
 
   return (
-    <div style={{ paddingTop: "6rem", paddingBottom: "11.25rem" }}>
+    <div style={{ paddingTop: "6rem" }}>
       <HackathonPageLayout
         initialEventList={initialEventList}
         initialParams={apiParams}
