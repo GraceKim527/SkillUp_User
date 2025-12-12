@@ -1,0 +1,40 @@
+/* src/components/common/Radio/styles.module.css */
+
+.radioWrapper {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radioWrapper.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  outline: none;
+}
+
+.radioCustom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.radioCustom svg {
+  width: 100%;
+  height: 100%;
+}
+
+.radioWrapper:hover .radioCustom {
+  opacity: 0.8;
+}
