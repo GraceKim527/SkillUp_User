@@ -24,6 +24,7 @@ import {
   AGE_OPTIONS,
   JOB_OPTIONS,
 } from "@/constants/profileFormOptions";
+import CautionIcon from "@/assets/icons/CautionIcon";
 
 export default function ProfileEditPageLayout({
   initialData,
@@ -191,6 +192,7 @@ export default function ProfileEditPageLayout({
       </Flex>
 
       <Alert
+        icon={<CautionIcon color="var(--Primary-strong)" />}
         isOpen={isAlertOpen}
         toggle={toggleAlert}
         title="변경사항을 저장하지 않고 나갈까요?"
