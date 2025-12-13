@@ -1,11 +1,5 @@
 /* src/components/login/socialLoginButton/style.module.css */
 
-/* 
-  작성자 : 김은혜
-  작성일 : 2025-09-22
-  최종 수정일 : 2025-09-22
-*/
-
 .socialLoginButton {
   display: flex;
   width: 24.75rem;
