@@ -5,8 +5,6 @@
   height: 47.625rem;
   border-radius: 0.25rem;
   background: #fff;
-
-  display: flex;
 }
 
 .loginModalLeft {
@@ -70,38 +68,6 @@
 .loginModalRight {
   width: 50%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 3.5rem;
-}
-
-.loginModalRightInner {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  align-items: center;
-}
-
-.loginModalRightInnerTitle {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  align-items: center;
-}
-
-.loginModalRightInnerTitleText {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.loginModalRightInnerSocialLogin {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
 }
 
 .testLoginButtonWrapper {
@@ -111,37 +77,28 @@
   border-top: 1px solid var(--Neutral-90);
 }
 
-.loginModalRightInnerTerms {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.12rem;
+.loginModalRightInnerTermsText {
+  color: var(--Neutral-80);
+  text-align: center;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -0.03rem;
+}
 
-  p {
-    color: var(--Neutral-80);
-    text-align: center;
-
-    font-size: 0.75rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 140%;
-    letter-spacing: -0.03rem;
-  }
-
-  a {
-    color: var(--Neutral-80);
-    text-align: center;
-
-    font-size: 0.75rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 140%;
-    letter-spacing: -0.03rem;
-    text-decoration-line: underline;
-    text-decoration-style: solid;
-    text-decoration-skip-ink: auto;
-    text-decoration-thickness: auto;
-    text-underline-offset: auto;
-    text-underline-position: from-font;
-  }
+.loginModalRightInnerTermsText a {
+  color: var(--Neutral-80);
+  text-align: center;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -0.03rem;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
 }

@@ -11,6 +11,7 @@ import Google from "@/assets/svg/googleIcon.svg";
 import Kakao from "@/assets/svg/kakaoIcon.svg";
 import Naver from "@/assets/svg/naverIcon.svg";
 import Text from "@/components/common/Text";
+import Flex from "@/components/common/Flex";
 import Button from "@/components/common/Button";
 import { useLogin } from "@/hooks/useLogin";
 
@@ -36,7 +37,7 @@ export default function LoginContent({
     });
   };
   return (
-    <div className={styles.loginModal}>
+    <Flex className={styles.loginModal}>
       <div className={styles.loginModalLeft}>
         <div className={styles.imageWrapper}>
           <div className={styles.overlay}></div>
@@ -56,26 +57,31 @@ export default function LoginContent({
           <p className={styles.loginModalImageTextTitle}>로그인 및 회원가입</p>
         </div>
       </div>
-      <div className={styles.loginModalRight}>
-        <div className={styles.loginModalRightInner}>
-          <div className={styles.loginModalRightInnerTitle}>
+      <Flex
+        direction="column"
+        justify="center"
+        gap={3.5}
+        className={styles.loginModalRight}
+      >
+        <Flex direction="column" gap={2.5} align="center">
+          <Flex direction="column" gap={1.25} align="center">
             <Image
               src={SkillUpSymbolBlack}
               alt="Skill Up Symbol Black"
               width={48}
               height={35.78}
             />
-            <div className={styles.loginModalRightInnerTitleText}>
+            <Flex direction="column" gap={0.5} align="center">
               <Text typography="head2_sb_30" color="black">
                 스킬업에 오신 것을 환영합니다
               </Text>
               <Text typography="body1_r_16" color="neutral-40">
                 다양한 IT 행사 정보를 만나보세요
               </Text>
-            </div>
-          </div>
-          <div className={styles.loginModalRightInner}>
-            <div className={styles.loginModalRightInnerSocialLogin}>
+            </Flex>
+          </Flex>
+          <Flex direction="column" gap={2.5} align="center">
+            <Flex direction="column" gap={0.5} align="center">
               <SocialLoginButton
                 src={Google}
                 social="Google"
@@ -106,20 +112,20 @@ export default function LoginContent({
                   </Button>
                 </div>
               )}
-            </div>
-            <div className={styles.loginModalRightInnerTerms}>
-              <p>
+            </Flex>
+            <Flex direction="column" align="center" gap={0.12}>
+              <p className={styles.loginModalRightInnerTermsText}>
                 본인은 만 14세 이상이며, <a>서비스 이용약관</a>과{" "}
                 <a>개인정보 처리방침</a>에 동의하고,
               </p>
               <Text typography="label4_m_12" color="neutral-80">
                 서비스 제공을 위해 이름과 이메일 수집에 동의합니다.
               </Text>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 }
 
