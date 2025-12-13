@@ -9,8 +9,6 @@ import { BookmarkIcon } from "@/assets/icons/BookmarkIcon";
 import { PenIcon } from "@/assets/icons/PenIcon";
 import { ChatIcon } from "@/assets/icons/ChatIcon";
 import { useRouter } from "next/navigation";
-import ProfileEditContent from "../ProfileEditContent";
-import Modal from "@/components/common/Modal";
 interface ProfileModalProps {
   isOpen: boolean;
   toggle: () => void;
@@ -31,7 +29,6 @@ export default function ProfileModal({
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
 
   const menuItems = [
     {
@@ -39,14 +36,14 @@ export default function ProfileModal({
       label: "북마크",
       icon: BookmarkIcon,
       iconProps: { width: 20, height: 20, fillColor: "none" },
-      onClick: () => router.push("/bookmarks"),
+      onClick: () => router.push("/profile/bookmarks"),
     },
     {
       id: "profile",
       label: "프로필 수정",
       icon: PenIcon,
       iconProps: { fillColor: "none" },
-      onClick: () => setIsProfileEditOpen(true),
+      onClick: () => router.push("/profile/edit"),
     },
     {
       id: "support",
@@ -153,13 +150,6 @@ export default function ProfileModal({
           })}
         </div>
       </div>
-
-      <Modal
-        isOpen={isProfileEditOpen}
-        toggle={() => setIsProfileEditOpen(false)}
-      >
-        <ProfileEditContent onClose={() => setIsProfileEditOpen(false)} />
-      </Modal>
     </>
   );
 }

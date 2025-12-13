@@ -1,0 +1,28 @@
+/* src/components/myPage/support/WithdrawalReasonGroup/styles.module.css */
+
+.label {
+  cursor: pointer;
+  user-select: none;
+  flex: 1;
+}
+
+.input {
+  width: calc(100% - 1.75rem);
+  margin-left: 1.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--Line-normal);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: var(--Neutral-50);
+}
+
+.input:focus {
+  border-color: var(--Primary-strong);
+}

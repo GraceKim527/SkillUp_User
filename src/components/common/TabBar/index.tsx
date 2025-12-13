@@ -26,7 +26,7 @@ export default function TabBar({ tabs, activeIndex, onChange }: TabBarProps) {
             key={index}
             as="button"
             align="center"
-            gap={0.12}
+            gap={0.5}
             className={`${styles.tab} ${isActive ? styles.active : ""}`}
             onClick={() => onChange(index)}
           >

@@ -6,8 +6,9 @@ import SkillUpWhiteLogo from "@/assets/svg/skillUp_white.svg";
 import SkillUpBlackLogo from "@/assets/svg/skillUp_black.svg";
 import Link from "next/link";
 import styles from "./styles.module.css";
-// import Modal from "../Modal";
-// import LoginContent from "@/components/login/LoginContent";
+import Modal from "../Modal";
+import LoginContent, { SocialType } from "@/components/login/LoginContent";
+import TermsAgreementContent from "@/components/login/TermsAgreementContent";
 import EventCategoryTabs from "@/components/common/Header/EventCategoryTabs";
 import Button from "../Button";
 import IconButton from "../IconButton";
@@ -17,17 +18,26 @@ import ProfileModal from "@/components/login/ProfileModal";
 import LogoDefaultImg from "@/assets/images/logoDefaultImg.png";
 import Alert from "../Alert";
 import { useAuth } from "@/hooks/useAuth";
-import { useLogin } from "@/hooks/useLogin";
+import { getSocialLogin } from "@/api/auth";
+import { useAtomValue } from "jotai";
+import { userNameAtom, userEmailAtom } from "@/store/authAtoms";
+import { useUserEmailAndName } from "@/hooks/useUser";
+import CautionIcon from "@/assets/icons/CautionIcon";
 
 interface HeaderProps {
   variant: "main" | "sub";
 }
 
 export default function Header({ variant }: HeaderProps) {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const toggleModal = () => setIsModalOpen((prev) => !prev);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen((prev) => !prev);
   const { isAuthenticated, logout } = useAuth();
-  const { mutate: loginMutate, isPending: isLoginPending } = useLogin();
+
+  // 로그인 상태일 때 유저 이메일/이름 자동 조회 (백그라운드 업데이트)
+  useUserEmailAndName();
+
+  const userName = useAtomValue(userNameAtom);
+  const userEmail = useAtomValue(userEmailAtom);
 
   // 클라이언트 마운트 체크 (Hydration 깜빡임 방지)
   const [isMounted, setIsMounted] = useState(false);
@@ -36,21 +46,54 @@ export default function Header({ variant }: HeaderProps) {
     setIsMounted(true);
   }, []);
 
-  // 테스트 로그인 핸들러 : 추후 소셜로 변경필요
-  const handleTestLogin = () => {
-    loginMutate();
-  };
-
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const toggleProfileModal = () => setIsProfileModalOpen((prev) => !prev);
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const toggleAlert = () => setIsAlertOpen((prev) => !prev);
 
+  // 약관 동의 모달 상태
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+  const [pendingSocialType, setPendingSocialType] = useState<SocialType | null>(
+    null
+  );
+
   const profileBtnRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleSocialLoginClick = (socialType: SocialType) => {
+    setPendingSocialType(socialType);
+    setIsTermsModalOpen(true);
+  };
+
+  const handleTermsConfirm = async () => {
+    if (!pendingSocialType) return;
+
+    try {
+      const response = await getSocialLogin(pendingSocialType.toLowerCase());
+
+      // 응답에서 URL 추출 (data 필드에 URL이 포함되어 있음)
+      if (response.code === "SUCCESS" && response.data) {
+        const url = response.data.includes(":")
+          ? response.data.split(": ")[1]
+          : response.data;
+
+        window.location.href = url;
+      }
+    } catch (error) {
+      console.error("소셜 로그인 실패:", error);
+      // 에러 발생 시에만 모달 닫기
+      setIsTermsModalOpen(false);
+      setPendingSocialType(null);
+    }
+  };
+
+  const handleTermsCancel = () => {
+    setIsTermsModalOpen(false);
+    setPendingSocialType(null);
   };
 
   return (
@@ -121,8 +164,8 @@ export default function Header({ variant }: HeaderProps) {
                   isOpen={isProfileModalOpen}
                   toggle={toggleProfileModal}
                   user={{
-                    name: "홍길동",
-                    email: "skillup@gmail.com",
+                    name: userName || "",
+                    email: userEmail || "",
                     profileImage: LogoDefaultImg.src.toString(),
                   }}
                   triggerRef={profileBtnRef as RefObject<HTMLDivElement>}
@@ -137,10 +180,9 @@ export default function Header({ variant }: HeaderProps) {
                 <Button
                   variant="secondary"
                   size="large"
-                  onClick={handleTestLogin}
-                  disabled={isLoginPending}
+                  onClick={() => setIsModalOpen(true)}
                 >
-                  {isLoginPending ? "로그인 중..." : "로그인 · 회원가입"}
+                  로그인 · 회원가입
                 </Button>
               ) : (
                 <Button variant="secondary" size="large" onClick={toggleAlert}>
@@ -152,14 +194,24 @@ export default function Header({ variant }: HeaderProps) {
         </div>
       </div>
 
-      {/* <Modal isOpen={isModalOpen} toggle={toggleModal}>
-        <LoginContent />
-      </Modal> */}
+      <Modal isOpen={isModalOpen} toggle={toggleModal}>
+        <LoginContent
+          onSocialLoginClick={handleSocialLoginClick}
+          onLoginSuccess={toggleModal}
+        />
+      </Modal>
+
+      {/* 약관 동의 모달 (로그인 모달과 독립적으로 렌더링) */}
+      <Modal isOpen={isTermsModalOpen} toggle={handleTermsCancel}>
+        <TermsAgreementContent onConfirm={handleTermsConfirm} />
+      </Modal>
+
       <Alert
+        icon={<CautionIcon color="var(--Primary-strong)" />}
         isOpen={isAlertOpen}
         toggle={toggleAlert}
         title="로그아웃 하시겠습니까?"
-        message="로그아웃하면 일부 기능을 이용할 수 없습니다."
+        message={<>로그아웃하면 일부 기능을 이용할 수 없습니다.</>}
         onConfirm={handleLogout}
       />
     </header>

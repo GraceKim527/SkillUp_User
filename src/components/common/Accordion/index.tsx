@@ -10,31 +10,40 @@ interface AccordionItemProps {
   id: string;
   question: string;
   answerTitle: string;
-  answerDetail: string;
+  answerContent: string;
   isOpen?: boolean;
   onToggle?: (id: string) => void;
+  extraButton?: React.ReactNode;
 }
 
 export function AccordionItem({
   id,
   question,
   answerTitle,
-  answerDetail,
+  answerContent,
   isOpen = false,
   onToggle,
+  extraButton,
 }: AccordionItemProps) {
   return (
-    <div className={`${styles.item} ${isOpen ? styles.open : ""}`}>
+    <div
+      className={`${styles.item} ${isOpen ? styles.open : ""}`}
+      onClick={() => onToggle?.(id)}
+    >
       <Flex
-        as="button"
+        as="div"
         justify="space-between"
         align="center"
         className={styles.question}
-        onClick={() => onToggle?.(id)}
         aria-label={question}
       >
-        <Flex align="center" gap="1rem" style={{ flex: 1 }}>
-          <Text typography="head3_m_24" color="neutral-30" as="span">
+        <Flex align="center" gap="1rem">
+          <Text
+            typography="head3_m_24"
+            color="neutral-30"
+            as="span"
+            className={styles.answerTitle}
+          >
             Q
           </Text>
           <Text typography="sub2_m_18" color="black">
@@ -59,17 +68,30 @@ export function AccordionItem({
         </svg>
       </Flex>
       {isOpen && (
-        <Flex gap="1rem" style={{ marginTop: "1.5rem", paddingLeft: "0.25rem" }}>
-          <Text typography="head3_m_24" color="primary-strong" as="span">
+        <Flex gap="1rem">
+          <Text
+            typography="head3_m_24"
+            color="primary-strong"
+            as="span"
+            className={styles.answerTitle}
+          >
             A
           </Text>
-          <Flex direction="column" align="flex-start" gap="0.75rem" style={{ flex: "1 0 0" }}>
+          <Flex
+            direction="column"
+            align="flex-start"
+            gap="0.75rem"
+            style={{ flex: "1 0 0" }}
+          >
             <Text typography="sub2_m_18" color="black">
               {answerTitle}
             </Text>
             <Text typography="body2_r_14" color="neutral-30">
-              {answerDetail}
+              {answerContent}
             </Text>
+            {extraButton && (
+              <div onClick={(e) => e.stopPropagation()}>{extraButton}</div>
+            )}
           </Flex>
         </Flex>
       )}
@@ -82,7 +104,8 @@ interface AccordionProps {
     id: string;
     question: string;
     answerTitle: string;
-    answerDetail: string;
+    answerContent: string;
+    extraButton?: React.ReactNode;
   }>;
   defaultOpenId?: string;
   allowMultiple?: boolean;
@@ -115,9 +138,10 @@ export default function Accordion({
           id={item.id}
           question={item.question}
           answerTitle={item.answerTitle}
-          answerDetail={item.answerDetail}
+          answerContent={item.answerContent}
           isOpen={openIds.includes(item.id)}
           onToggle={handleToggle}
+          extraButton={item.extraButton}
         />
       ))}
     </Flex>

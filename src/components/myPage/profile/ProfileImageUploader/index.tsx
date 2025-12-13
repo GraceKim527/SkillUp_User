@@ -5,6 +5,7 @@ import styles from "./styles.module.css";
 import Image from "next/image";
 import { PenIcon } from "@/assets/icons/PenIcon";
 import { useRef } from "react";
+import logoDefaultImg from "@/assets/images/logoDefaultImg.png";
 
 interface ProfileImageUploaderProps {
   imageUrl: string;
@@ -28,10 +29,13 @@ export default function ProfileImageUploader({
     }
   };
 
+  // 유효한 이미지 URL인지 확인
+  const isValidUrl = imageUrl && (imageUrl.startsWith('/') || imageUrl.startsWith('http://') || imageUrl.startsWith('https://'));
+
   return (
     <div className={styles.wrapper}>
       <Image
-        src={imageUrl}
+        src={isValidUrl ? imageUrl : logoDefaultImg}
         alt="Profile"
         width={120}
         height={120}

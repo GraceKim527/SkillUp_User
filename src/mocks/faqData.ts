@@ -1,4 +1,4 @@
-// src/app/support/faqData.ts
+// src/mocks/faqData.ts
 
 export interface FAQItem {
   id: string;

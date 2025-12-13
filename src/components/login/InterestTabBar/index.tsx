@@ -11,10 +11,10 @@ interface InterestTabBarProps {
 }
 
 const tabs = [
-  { label: "기획", value: "planning" },
-  { label: "디자인", value: "design" },
-  { label: "마케팅", value: "marketing" },
-  { label: "개발", value: "development" },
+  { label: "기획", value: "기획자" },
+  { label: "디자인", value: "디자이너" },
+  { label: "마케팅", value: "마케팅" },
+  { label: "개발", value: "개발자" },
 ];
 
 export default function InterestTabBar({

@@ -12,6 +12,7 @@ export const EVENT_CATEGORY = {
 export type EventCategory =
   (typeof EVENT_CATEGORY)[keyof typeof EVENT_CATEGORY];
 
+// 행사 카테고리 라벨
 export const EVENT_CATEGORY_LABEL = {
   CONFERENCE_SEMINAR: "컨퍼런스 · 세미나",
   BOOTCAMP_CLUB: "부트캠프",

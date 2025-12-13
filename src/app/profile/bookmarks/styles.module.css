@@ -11,3 +11,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 3.75rem 0.75rem;
 }
+
+.cardListContainer {
+  flex: 1;
+}

@@ -3,15 +3,18 @@
 
 import styles from "./styles.module.css";
 import Text from "@/components/common/Text";
-import CautionIcon from "@/assets/icons/CautionIcon";
 import Button from "@/components/common/Button";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
+
 interface AlertProps {
   isOpen: boolean;
   toggle: () => void;
   title: string;
-  message: string;
+  message: React.ReactNode;
   onConfirm: () => void;
+  noCancelButton?: boolean;
+  icon?: React.ReactNode;
 }
 
 export default function Alert({
@@ -20,6 +23,8 @@ export default function Alert({
   title,
   message,
   onConfirm,
+  icon,
+  noCancelButton = false,
 }: AlertProps) {
   useEffect(() => {
     if (!isOpen) return;
@@ -32,7 +37,7 @@ export default function Alert({
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className={styles.alertBackdrop} onClick={toggle}>
       <div
         className={styles.alert}
@@ -44,7 +49,8 @@ export default function Alert({
       >
         <div className={styles.alertContent}>
           <div className={styles.alertIcon}>
-            <CautionIcon color="var(--Primary-strong)" />
+            {icon}
+            {/* {icon === "caution" && <CautionIcon color="var(--Primary-strong)" />} */}
           </div>
           <div className={styles.alertMessage}>
             <Text typography="head4_sb_20" color="black">
@@ -60,9 +66,11 @@ export default function Alert({
           </div>
         </div>
         <div className={styles.alertFooter}>
-          <Button variant="outlined" size="large" onClick={toggle}>
-            취소
-          </Button>
+          {!noCancelButton && (
+            <Button variant="outlined" size="large" onClick={toggle}>
+              취소
+            </Button>
+          )}
           <Button
             variant="primary"
             size="large"
@@ -75,6 +83,7 @@ export default function Alert({
           </Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

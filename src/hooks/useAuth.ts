@@ -5,12 +5,14 @@ import {
   tokenAtom,
   isAuthenticatedAtom,
   userNameAtom,
+  userEmailAtom,
 } from "@/store/authAtoms";
 
 // 인증 관련 훅
 export const useAuth = () => {
   const [token, setToken] = useAtom(tokenAtom);
   const [userName, setUserName] = useAtom(userNameAtom);
+  const [userEmail, setUserEmail] = useAtom(userEmailAtom);
   const isAuthenticated = useAtomValue(isAuthenticatedAtom);
 
   // 로그인 - 토큰만 저장
@@ -22,6 +24,7 @@ export const useAuth = () => {
   const logout = () => {
     setToken(null);
     setUserName(null);
+    setUserEmail(null);
   };
 
   // 토큰 업데이트
@@ -32,10 +35,12 @@ export const useAuth = () => {
   return {
     token,
     userName,
+    userEmail,
     isAuthenticated,
     login,
     logout,
     updateToken,
     setUserName,
+    setUserEmail,
   };
 };

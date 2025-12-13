@@ -12,7 +12,7 @@ const tokenInstance = axios.create({
   },
 });
 
-//토큰 인증 로직 추가 코드
+// 토큰 인증 로직 추가 코드
 tokenInstance.interceptors.request.use(
   (config) => {
     const store = getDefaultStore();

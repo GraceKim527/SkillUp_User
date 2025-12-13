@@ -97,7 +97,7 @@ export const useUrlSync = (
     setTimeout(() => {
       isUpdatingFromUrlRef.current = false;
     }, 0);
-  }, [pageId]); // pageId만 의존성으로 - 페이지 변경 시에만 재실행
+  }, [pageId, searchParams, setters]);
 
   // 상태 변경 시 URL 업데이트
   useEffect(() => {

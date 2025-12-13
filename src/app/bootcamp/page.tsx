@@ -61,7 +61,7 @@ export default async function page({ searchParams }: PageProps) {
     (await getEventList(apiParams))?.homeEventResponseList || [];
 
   return (
-    <div style={{ paddingTop: "6rem", paddingBottom: "11.25rem" }}>
+    <div style={{ paddingTop: "6rem" }}>
       <BootcampPageLayout
         initialEventList={initialEventList}
         initialParams={apiParams}

@@ -1,0 +1,27 @@
+/* src/components/myPage/support/WithDrawalModalContent/styles.module.css */
+
+.container {
+  width: 38.75rem;
+  border-radius: 0.25rem;
+  background: var(--Common-white);
+  padding: 2rem 1.75rem;
+}
+
+.button {
+  width: 7.0625rem;
+}
+
+.reasonSection {
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  background: var(--Neutral-99);
+}
+
+.agreementSection {
+  padding: 0.5rem 0;
+}
+
+.agreementLabel {
+  cursor: pointer;
+  user-select: none;
+}

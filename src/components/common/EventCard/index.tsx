@@ -73,9 +73,7 @@ export default function EventCard({ size, event, block }: EventCardProps) {
             icon={
               <BookmarkIcon
                 fillColor={isBookmarked ? "var(--Common-white)" : "none"}
-                strokeColor={
-                  isBookmarked ? "var(--Common-black)" : "var(--Common-white)"
-                }
+                strokeColor={isBookmarked ? "none" : "var(--Common-white)"}
               />
             }
             onClick={handleBookmarkClick}

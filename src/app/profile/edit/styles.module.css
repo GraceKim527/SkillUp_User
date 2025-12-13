@@ -1,0 +1,30 @@
+/* src/app/profile/edit/styles.module.css */
+
+.container {
+  max-width: 1240px;
+  height: calc(100vh - 12rem);
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.header {
+  width: 10rem;
+}
+
+.itemGroup {
+  width: 61.25rem;
+}
+
+.marketingSection {
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  background: var(--Neutral-99);
+}
+
+.marketingSection.active {
+  background: var(--Primary-ExtraLight);
+}
+
+.footerButton {
+  width: 7.5rem;
+}

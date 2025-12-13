@@ -7,6 +7,7 @@ import Button from "@/components/common/Button";
 import Text from "@/components/common/Text";
 import BulletPointIcon from "@/assets/svg/bulletPointIcon.svg";
 import Flex from "@/components/common/Flex";
+import { useRouter } from "next/navigation";
 
 interface ProfileCardProps {
   name: string;
@@ -21,6 +22,7 @@ export default function ProfileCard({
   job,
   bookmarkCount,
 }: ProfileCardProps) {
+  const router = useRouter();
   return (
     <Flex direction="column" gap={1.25} className={styles.card}>
       <Flex direction="column" gap={1}>
@@ -62,7 +64,12 @@ export default function ProfileCard({
           </Flex>
         </Flex>
       </Flex>
-      <Button variant="primary" size="large">
+      <Button
+        variant="primary"
+        size="large"
+        block
+        onClick={() => router.push("/profile/edit")}
+      >
         프로필 수정
       </Button>
     </Flex>
