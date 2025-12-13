@@ -20,6 +20,8 @@ interface FlexProps {
   className?: string;
   style?: React.CSSProperties;
   onClick?: (e?: React.MouseEvent) => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   "aria-label"?: string;
 }
 
@@ -34,6 +36,8 @@ export default function Flex({
   className = "",
   style = {},
   onClick,
+  onMouseEnter,
+  onMouseLeave,
   "aria-label": ariaLabel,
 }: FlexProps) {
   const flexStyle: React.CSSProperties = {
@@ -51,6 +55,8 @@ export default function Flex({
       className={`${styles.flex} ${className}`}
       style={flexStyle}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       aria-label={ariaLabel}
     >
       {children}
