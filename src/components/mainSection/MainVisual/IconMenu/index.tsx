@@ -1,15 +1,16 @@
+"use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import Flex from "@/components/common/Flex";
+import Text from "@/components/common/Text";
 import styles from "./style.module.css";
 
 // 아이콘 import
-import SeminarIcon from "@/assets/icons/icon_seminar.svg";
-import BootcampIcon from "@/assets/icons/icon_Education.svg";
-import HackathonIcon from "@/assets/icons/icon_hackathon.svg";
-import NetworkIcon from "@/assets/icons/icon_networking.svg";
-import ArticleIcon from "@/assets/icons/icon_article.svg";
+import SeminarIcon from "@/assets/icons/SeminarIcon";
+import BootcampIcon from "@/assets/icons/BootcampIcon";
+import HackathonIcon from "@/assets/icons/HackathonIcon";
+import NetworkIcon from "@/assets/icons/NetworkIcon";
+import ArticleIcon from "@/assets/icons/ArticleIcon";
 
 const menuItems = [
   { icon: SeminarIcon, label: "컨퍼런스·세미나", path: "/conference" },
@@ -19,35 +20,32 @@ const menuItems = [
   { icon: ArticleIcon, label: "아티클", path: "/article" },
 ];
 
-
 export default function IconMenu() {
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
 
   return (
-    <nav className={styles.iconMenu}>
-      <Flex justify="center" gap="16px" as="ul">
-        {menuItems.map((item, idx) => (
-          <li
-            key={idx}
-            className={`${styles.menuItem} ${idx === activeIdx ? styles.active : ""}`}
-            onClick={() => setActiveIdx(idx)}
-          >
-            <Link href={item.path} className={styles.link}>
-              <Flex direction="column" justify="center" align="center" gap="4px">
-                <Flex justify="center" align="center">
-                  <Image
-                    src={item.icon}
-                    alt={item.label}
-                    width={40}
-                    height={40}
-                  />
-                </Flex>
-                <span>{item.label}</span>
-              </Flex>
-            </Link>
-          </li>
-        ))}
-      </Flex>
-    </nav>
+    <Flex justify="center" gap="0.75" as="ul" className={styles.iconMenu}>
+      {menuItems.map((item, idx) => (
+        <li
+          key={idx}
+          className={`${styles.menuItem} ${
+            idx === activeIdx ? styles.active : ""
+          }`}
+          onClick={() => setActiveIdx(idx)}
+        >
+          <Link href={item.path} className={styles.link}>
+            <Flex direction="column" justify="center" align="center" gap="0.25">
+              <item.icon className={styles.icon} />
+              <Text
+                typography="label1_r_18"
+                color={idx === activeIdx ? "primary-strong" : "neutral-30"}
+              >
+                {item.label}
+              </Text>
+            </Flex>
+          </Link>
+        </li>
+      ))}
+    </Flex>
   );
 }
