@@ -1,6 +1,7 @@
 .iconMenu {
-  background: #fff;
-  padding: 40px 20px;
+  display: flex;
+  padding: 1.5rem 0;
+  gap: 0.75rem;
 }
 
 .iconMenu ul {
@@ -9,8 +10,12 @@
 }
 
 .menuItem {
-  width: 150px;
-  height: 100px;
+  width: 9.375rem;
+  height: 6.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   font-size: 14px;
   color: #333;
   cursor: pointer;
@@ -19,9 +24,22 @@
 }
 
 .menuItem:hover {
-  color: #5a23ff;
+  color: var(--Primary-strong);
 }
 
-.menuItem:hover img {
-  filter: invert(21%) sepia(93%) saturate(5983%) hue-rotate(247deg) brightness(94%) contrast(102%);
+.icon {
+  color: var(--Neutral-30);
+  transition: color 0.25s ease;
+}
+
+.menuItem:hover .icon {
+  color: var(--Primary-strong);
+}
+
+.link span {
+  transition: color 0.25s ease;
+}
+
+.menuItem:hover .link span {
+  color: var(--Primary-strong) !important;
 }
