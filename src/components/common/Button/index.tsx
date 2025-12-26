@@ -58,7 +58,7 @@ export default function Button({
       disabled={disabled}
       style={backgroundStyle}
     >
-      {children && <span>{children}</span>}
+      {children && children}
       {icon && <div className={styles.icon}>{icon}</div>}
     </button>
   );

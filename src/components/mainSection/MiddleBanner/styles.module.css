@@ -1,6 +1,6 @@
 .middleBanner {
   position: relative;
-  height: 546px;
+  height: 25.0625rem;
   overflow: hidden;
 }
 
@@ -12,10 +12,9 @@
 
 .inner {
   position: relative;
-  z-index: 1;
-  color: #fff;
   height: 100%;
-  padding: 24px;
+  width: 77.5rem;
+  margin: 0 auto;
 }
 
 .kicker {
