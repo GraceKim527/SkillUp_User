@@ -1,5 +1,10 @@
 // src/types/event/event.ts
-import { EventCategory, EventSortOption, EventStatus } from "@/constants/event";
+import {
+  EventCategory,
+  EventSortOption,
+  EventStatus,
+  EventFormat,
+} from "@/constants/event";
 
 export interface Event {
   id: number;
@@ -57,4 +62,15 @@ export interface EventSearchParams {
 export interface EventListResponse {
   total: number;
   homeEventResponseList: Event[];
+}
+
+// 행사 검색 요청 타입
+export interface EventSearchRequest {
+  searchString: string;
+  sort?: EventSortOption;
+  eventStart?: string;
+  eventEnd?: string;
+  eventFormat?: EventFormat;
+  isFree?: boolean;
+  page: number;
 }

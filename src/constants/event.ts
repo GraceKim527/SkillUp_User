@@ -40,3 +40,12 @@ export const EVENT_STATUS = {
 } as const;
 
 export type EventStatus = (typeof EVENT_STATUS)[keyof typeof EVENT_STATUS];
+
+// 행사 포맷
+export const EVENT_FORMAT = {
+  ONLINE: "ONLINE",
+  OFFLINE: "OFFLINE",
+  HYBRID: "HYBRID",
+} as const;
+
+export type EventFormat = (typeof EVENT_FORMAT)[keyof typeof EVENT_FORMAT];
