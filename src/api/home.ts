@@ -3,7 +3,6 @@
 import instance from "./instance";
 import tokenInstance from "./tokenInstance";
 import { EventCategory } from "@/constants/event";
-import { EventSearchRequest } from "@/types/event";
 import { BannersResponse } from "@/types/home";
 
 // 해시태그 기반 추천
@@ -59,17 +58,5 @@ export const getCategoryEvents = async (
 // 배너 조회
 export const getBanners = async (): Promise<BannersResponse> => {
   const response = await instance.get("/events/home/banners");
-  return response.data.data;
-};
-
-// 행사 검색
-export const searchEvents = async (searchParams: EventSearchRequest) => {
-  const response = await instance.get("/events/search/home", {
-    params: {
-      request: {
-        ...searchParams,
-      },
-    },
-  });
   return response.data.data;
 };

@@ -8,10 +8,8 @@ import {
   getEndingSoonEvents,
   getCategoryEvents,
   getBanners,
-  searchEvents,
 } from "@/api/home";
 import { EventCategory, EVENT_CATEGORY } from "@/constants/event";
-import { EventSearchRequest } from "@/types/event";
 import { useAuth } from "./useAuth";
 
 // 해시태그 기반 추천 행사
@@ -88,19 +86,6 @@ export const useBanners = (enabled = true) => {
     queryKey: ["home", "banners"],
     queryFn: getBanners,
     staleTime: 10 * 60 * 1000, // 10분간 캐시 유지
-    enabled,
-  });
-};
-
-// 행사 검색
-export const useSearchEvents = (
-  searchParams: EventSearchRequest,
-  enabled = true
-) => {
-  return useQuery({
-    queryKey: ["home", "search", searchParams],
-    queryFn: () => searchEvents(searchParams),
-    staleTime: 3 * 60 * 1000, // 3분간 캐시 유지
     enabled,
   });
 };
