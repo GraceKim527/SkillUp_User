@@ -51,6 +51,8 @@ interface TextProps {
     | "fill-normal"
     | "error-normal"
     | "gray-scale-900";
+
+  align?: "left" | "center" | "right";
 }
 
 export default function Text({
@@ -59,6 +61,7 @@ export default function Text({
   className,
   typography,
   color,
+  align = "left",
 }: TextProps) {
   const Component = as as keyof JSX.IntrinsicElements;
   return (
@@ -66,6 +69,7 @@ export default function Text({
       className={`${styles.text} ${className || ""} ${styles[typography]} ${
         color ? styles[color as keyof typeof styles] : ""
       }`}
+      style={{ textAlign: align }}
     >
       {children}
     </Component>
