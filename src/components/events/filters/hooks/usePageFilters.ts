@@ -118,6 +118,7 @@ export const usePageFilters = ({ pageId }: UsePageFiltersProps) => {
     endDate,
     tempStartDate,
     tempEndDate,
+    currentPage,
     // 액션
     setSelectedRoles,
     setOnOfflineFilter,
@@ -129,6 +130,7 @@ export const usePageFilters = ({ pageId }: UsePageFiltersProps) => {
     setEndDate,
     setTempStartDate,
     setTempEndDate,
+    setCurrentPage,
     // 핸들러
     handleApply,
     handleReset,
