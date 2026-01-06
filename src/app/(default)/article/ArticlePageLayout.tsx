@@ -25,31 +25,43 @@ export default function ArticlePageLayout() {
   );
 
   const articles = data?.articles || [];
-  const totalCount = data?.totalCount || 0;
+  const totalCount = data?.totalArticles || 0;
   const totalPages = data?.totalPages || 1;
 
   return (
     <div className={styles.container}>
       <Flex direction="column" gap={1.25}>
         <Flex direction="column" gap={1.5}>
-          <EventHeader title="아티클" count={totalCount} />
+          <EventHeader title="아티클" count={totalCount} isArticle={true} />
           <RoleSelector selected={selectedRoles} onSelect={setSelectedRoles} />
         </Flex>
         <Flex direction="column" gap={3.75}>
           {isLoading ? (
-            <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
+            <Flex
+              justify="center"
+              align="center"
+              style={{ minHeight: "300px" }}
+            >
               <Text typography="body1_r_16" color="neutral-60">
                 로딩중...
               </Text>
             </Flex>
           ) : error ? (
-            <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
+            <Flex
+              justify="center"
+              align="center"
+              style={{ minHeight: "300px" }}
+            >
               <Text typography="body1_r_16" color="neutral-60">
                 데이터를 불러오는데 실패했습니다.
               </Text>
             </Flex>
           ) : articles.length === 0 ? (
-            <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
+            <Flex
+              justify="center"
+              align="center"
+              style={{ minHeight: "300px" }}
+            >
               <Text typography="body1_r_16" color="neutral-60">
                 검색 결과가 없습니다.
               </Text>
@@ -65,9 +77,6 @@ export default function ArticlePageLayout() {
                 totalPages={totalPages}
                 currentPage={currentPage}
                 onPageChange={(page) => setCurrentPage(page)}
-                options={[]}
-                selected={{ label: "1", value: "1" }}
-                onSelect={() => {}}
               />
             </>
           )}

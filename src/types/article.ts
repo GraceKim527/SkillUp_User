@@ -3,9 +3,16 @@
 export interface Article {
   id: number;
   thumbnailUrl: string;
-  category: string; // "다양이", "이벤트", etc.
   title: string;
-  description: string;
-  tags: string[];
-  date: string; // "2025.01.01"
+  summary: string;
+  source: string;
+  originalPublishedDate: string;
+  originalUrl: string;
+  targetRoles: string[];
+}
+
+export interface SearchArticlesResponse {
+  totalArticles: number;
+  totalPages: number;
+  articles: Article[];
 }

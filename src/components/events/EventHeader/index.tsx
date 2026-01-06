@@ -6,9 +6,11 @@ import Flex from "@/components/common/Flex";
 export default function EventHeader({
   title,
   count,
+  isArticle = false,
 }: {
   title: string;
   count: number;
+  isArticle?: boolean;
 }) {
   return (
     <Flex align="center" gap={1}>
@@ -19,7 +21,7 @@ export default function EventHeader({
         <Text typography="body1_r_16" color="primary-strong">
           {count}개
         </Text>
-        의 행사가 있습니다.
+        {isArticle ? "의 아티클이 있습니다." : "의 행사가 있습니다."}
       </Text>
     </Flex>
   );

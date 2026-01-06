@@ -13,7 +13,7 @@ export const useRecommendedArticles = (tab?: typeof ARTICLE_TAB) => {
   });
 };
 
-// 아티클 검색 및 목록 조회 (다중 탭 지원)
+// 아티클 검색 및 목록 조회
 export const useSearchArticles = (
   keyword?: string,
   page?: number,

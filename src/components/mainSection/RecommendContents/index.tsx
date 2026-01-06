@@ -100,12 +100,20 @@ export default function RecommendedContent() {
                   <Flex align="center" gap="0.5rem">
                     <div className={styles.badge}>
                       <Text typography="label3_m_14" color="neutral-60">
-                        {article.category}
+                        {article.targetRoles.map((role) => (
+                          <Text
+                            typography="label3_m_14"
+                            color="neutral-60"
+                            key={role}
+                          >
+                            #{role}
+                          </Text>
+                        ))}
                       </Text>
                     </div>
                     <div className={styles.badge}>
                       <Text typography="label3_m_14" color="neutral-60">
-                        {article.date}
+                        {article.originalPublishedDate}
                       </Text>
                     </div>
                   </Flex>
@@ -116,7 +124,7 @@ export default function RecommendedContent() {
                   color="neutral-60"
                   className={styles.cardDesc}
                 >
-                  {article.description}
+                  {article.summary}
                 </Text>
               </Flex>
             </Flex>
