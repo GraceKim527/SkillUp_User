@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@/styles/global.css";
 import QueryProvider from "@/providers/QueryProvider";
+import ToastProvider from "@/providers/ToastProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -24,7 +25,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </QueryProvider>
       </body>
     </html>
   );
