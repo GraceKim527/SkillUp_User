@@ -60,12 +60,9 @@ export default function SearchModalContent({
     >
       <Flex direction="column" gap={0.75} block>
         <Flex justify="space-between">
-          <Flex align="center" gap={0.25}>
-            <ChevronLeftIcon />
-            <Text typography="head4_sb_20" color="black">
-              어떤 행사를 찾아볼까요?
-            </Text>
-          </Flex>
+          <Text typography="head4_sb_20" color="black">
+            어떤 행사를 찾아볼까요?
+          </Text>
           <button type="button" onClick={onClose}>
             <DeleteIcon />
           </button>
