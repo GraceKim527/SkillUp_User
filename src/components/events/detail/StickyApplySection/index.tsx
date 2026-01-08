@@ -11,6 +11,7 @@ import Badge from "@/components/common/Badge";
 import { EVENT_CATEGORY_LABEL } from "@/constants/event";
 import { EventCategory } from "@/constants/event";
 import { formatPrice } from "@/utils/format";
+import LoginImage from "@/assets/images/loginImg.png";
 
 interface StickyApplySectionProps {
   category: EventCategory;
@@ -49,7 +50,7 @@ export default function StickyApplySection({
           </div>
           <div className={styles.stickyApplySectionContentHeaderImage}>
             <img
-              src={image}
+              src={image || LoginImage.src.toString()}
               alt="Event Thumbnail Image"
               width={284}
               height={160}
