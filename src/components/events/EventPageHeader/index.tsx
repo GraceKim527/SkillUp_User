@@ -9,13 +9,13 @@ import RoleSelector from "@/components/events/filters/RoleSelector";
 import FilterBadges from "@/components/events/filters/FilterBadges";
 import Flex from "@/components/common/Flex";
 import { SORT_OPTIONS } from "@/constants/pagination";
-import { RoleOption } from "@/components/events/filters/types/role";
+import { JobCategory } from "@/constants/category";
 
 interface EventPageHeaderProps {
   title: string;
   count: number;
-  selectedRoles: RoleOption[];
-  onRolesChange: (roles: RoleOption[]) => void;
+  selectedRoles: JobCategory[];
+  onRolesChange: (roles: JobCategory[]) => void;
   onOfflineFilter: string;
   freeFilter: boolean;
   onClearOnOfflineFilter: () => void;

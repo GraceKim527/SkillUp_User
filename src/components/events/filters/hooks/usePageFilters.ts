@@ -4,6 +4,7 @@ import { useAtom } from "jotai";
 import { pageFilterAtomsMap, PageId } from "../atoms/pageFilterAtoms";
 import { EVENT_SORT_OPTIONS } from "@/constants/event";
 import { useUrlSync } from "./useUrlSync";
+import { JOB_CATEGORY } from "@/constants/category";
 
 interface UsePageFiltersProps {
   pageId: PageId;
@@ -84,7 +85,7 @@ export const usePageFilters = ({ pageId }: UsePageFiltersProps) => {
 
   // 역할 필터 초기화 함수
   const resetRoleFilter = () => {
-    setSelectedRoles(["전체"]);
+    setSelectedRoles([JOB_CATEGORY.ALL]);
     setCurrentPage(1); // 역할 필터 초기화 시 첫 페이지로
   };
 

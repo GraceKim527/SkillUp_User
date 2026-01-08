@@ -2,11 +2,16 @@
 
 import { useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { RoleOption } from "@/components/events/filters/types/role";
 import { EventSortOption } from "@/constants/event";
+import {
+  JobCategory,
+  JOB_CATEGORY,
+  getJobCategoryByLabel,
+  getJobCategoryLabel,
+} from "@/constants/category";
 
 interface UrlSyncParams {
-  selectedRoles: RoleOption[];
+  selectedRoles: JobCategory[];
   onOfflineFilter: string;
   freeFilter: boolean;
   sortOption: EventSortOption;
@@ -16,7 +21,7 @@ interface UrlSyncParams {
 }
 
 interface SettersParams {
-  setSelectedRoles: (roles: RoleOption[]) => void;
+  setSelectedRoles: (roles: JobCategory[]) => void;
   setOnOfflineFilter: (filter: string) => void;
   setFreeFilter: (free: boolean) => void;
   setSortOption: (sort: EventSortOption) => void;
@@ -56,7 +61,10 @@ export const useUrlSync = (
     const pageParam = searchParams.get("page");
 
     if (rolesParam) {
-      const roles = rolesParam.split(",") as RoleOption[];
+      // URL에서 한국어 라벨 또는 enum 값을 읽어서 JobCategory로 변환
+      const roles = rolesParam
+        .split(",")
+        .map((role) => getJobCategoryByLabel(role) || (role as JobCategory));
       setters.setSelectedRoles(roles);
     }
 
@@ -107,12 +115,15 @@ export const useUrlSync = (
     const newSearchParams = new URLSearchParams(searchParams.toString());
 
     // 필터 관련 파라미터만 업데이트/삭제
-    // roles
+    // roles - JobCategory enum을 한국어 라벨로 변환하여 URL에 저장
     if (
       params.selectedRoles.length > 0 &&
-      !params.selectedRoles.includes("전체")
+      !params.selectedRoles.includes(JOB_CATEGORY.ALL)
     ) {
-      newSearchParams.set("roles", params.selectedRoles.join(","));
+      const roleLabels = params.selectedRoles.map((role) =>
+        getJobCategoryLabel(role)
+      );
+      newSearchParams.set("roles", roleLabels.join(","));
     } else {
       newSearchParams.delete("roles");
     }
