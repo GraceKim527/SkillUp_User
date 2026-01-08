@@ -1,13 +1,14 @@
 // src/components/events/filters/atoms/pageFilterAtoms.ts
 
-import { RoleOption } from "@/components/events/filters/types/role";
 import { atom } from "jotai";
 import { EventSearchParams } from "@/types/event";
 import { EVENT_SORT_OPTIONS, EventSortOption } from "@/constants/event";
+import { JobCategory } from "@/constants/category";
+import { JOB_CATEGORY, JOB_CATEGORY_LABEL } from "@/constants/category";
 
 // 기본 필터 상태 타입 정의
 export interface PageFilterState {
-  roleFilter: RoleOption[];
+  roleFilter: JobCategory[];
   onOfflineFilter: string;
   freeFilter: boolean;
   sortOption: string;
@@ -22,7 +23,7 @@ export interface PageFilterState {
 // 페이지별 필터 상태를 관리하는 atom 생성 함수
 export const createPageFilterAtoms = () => {
   return {
-    roleFilterAtom: atom<RoleOption[]>(["전체"]),
+    roleFilterAtom: atom<JobCategory[]>([JOB_CATEGORY.ALL]),
     onOfflineFilterAtom: atom<string>(""),
     freeFilterAtom: atom<boolean>(false),
     sortOptionAtom: atom<EventSortOption>(EVENT_SORT_OPTIONS.POPULARITY),
@@ -67,19 +68,11 @@ export const PAGE_CATEGORY_MAP: Partial<
   article: "ARTICLE",
 };
 
-// UI 역할명을 API 역할명으로 변환하는 맵
-const ROLE_TO_API_MAP: Record<string, string> = {
-  기획: "기획자",
-  디자인: "디자이너",
-  개발: "개발자",
-  AI: "AI 개발자",
-};
-
 // UI 역할명을 API 역할명으로 변환하는 함수
-const convertRolesToApi = (roles: RoleOption[]): string[] => {
+const convertRolesToApi = (roles: JobCategory[]): string[] => {
   return roles
-    .filter((role) => role !== "전체")
-    .map((role) => ROLE_TO_API_MAP[role] || role);
+    .filter((role) => role !== JOB_CATEGORY.ALL)
+    .map((role) => JOB_CATEGORY_LABEL[role] || role);
 };
 
 // Jotai 필터 상태를 API params로 변환하는 derived atom 생성
@@ -105,7 +98,7 @@ export const createEventSearchParamsAtom = (
     };
 
     // 선택 필드들 - 값이 있을 때만 추가
-    if (selectedRoles.length > 0 && !selectedRoles.includes("전체")) {
+    if (selectedRoles.length > 0 && !selectedRoles.includes(JOB_CATEGORY.ALL)) {
       params.targetRoles = convertRolesToApi(selectedRoles);
     }
 
