@@ -7,7 +7,6 @@ import Flex from "@/components/common/Flex";
 import styles from "./styles.module.css";
 
 import SkillUpLogo from "@/assets/svg/skillUp_white.svg";
-import SearchIcon from "@/assets/icons/SearchIcon";
 import InstagramIcon from "@/assets/icons/InstagramIcon";
 import MailIcon from "@/assets/icons/MailIcon";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
@@ -41,7 +40,7 @@ export default function Footer() {
               skillup01.official@gmail.com
             </Text>
             <Text typography="label4_m_12" color="neutral-70">
-              ⓒ 2025 Skill UP. All rights reserved.
+              ⓒ 2026 Skill UP. All rights reserved.
             </Text>
           </Flex>
         </Flex>
