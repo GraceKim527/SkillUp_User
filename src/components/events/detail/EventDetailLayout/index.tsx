@@ -10,13 +10,11 @@ import GlobeIcon from "@/assets/svg/globeIcon.svg";
 import CursorIcon from "@/assets/svg/cursorIcon.svg";
 import Image from "next/image";
 import Text from "@/components/common/Text";
-import EventCard from "@/components/common/EventCard";
 import Flex from "@/components/common/Flex";
+import RecommendedEventsSection from "@/components/events/RecommendedEventsSection";
 import { useEventDetail } from "@/hooks/useEventDetail";
-import { useRecommendedEvents } from "@/hooks/useRecommendedEvents";
 import { formatDate, formatPriceWithUnit, getDdayLabel } from "@/utils/format";
 import { EventCategory } from "@/constants/event";
-import { Event } from "@/types/event";
 
 interface EventDetailLayoutProps {
   eventId: number;
@@ -30,8 +28,6 @@ export default function EventDetailLayout({
   className,
 }: EventDetailLayoutProps) {
   const { data: eventDetail, isLoading } = useEventDetail(eventId);
-  const { data: recommendedEvents, isLoading: isLoadingRecommended } =
-    useRecommendedEvents(category);
 
   if (isLoading) {
     return (
@@ -102,30 +98,13 @@ export default function EventDetailLayout({
             </Flex>
           </EventInfoCard>
         </Flex>
-        <Flex direction="column" gap="1rem">
-          <Text typography="head3_m_24" color="black" as="h3">
-            이런 행사는 어떠세요?
-          </Text>
-          {isLoadingRecommended ? (
-            <Flex align="center" gap="0.5rem">
-              <Text typography="body1_r_16" color="neutral-40">
-                추천 행사를 불러오는 중...
-              </Text>
-            </Flex>
-          ) : recommendedEvents && recommendedEvents.length > 0 ? (
-            <Flex align="center" gap="0.5rem">
-              {recommendedEvents.slice(0, 3).map((event: Event) => (
-                <EventCard key={event.id} size="small" event={event} block />
-              ))}
-            </Flex>
-          ) : (
-            <Flex align="center" gap="0.5rem">
-              <Text typography="body1_r_16" color="neutral-40">
-                추천할 행사가 없습니다.
-              </Text>
-            </Flex>
-          )}
-        </Flex>
+        <RecommendedEventsSection
+          category={category}
+          cardSize="small"
+          blockCard={true}
+          containerType="flex"
+          flexGap="0.5rem"
+        />
       </Flex>
     </Flex>
   );

@@ -8,16 +8,13 @@ import EventCard from "@/components/common/EventCard";
 import EventEmpty from "@/components/events/EventEmpty";
 import EventPageHeader from "@/components/events/EventPageHeader";
 import Pagination from "@/components/common/Pagination";
-import Button from "@/components/common/Button";
 import Flex from "@/components/common/Flex";
-import Text from "@/components/common/Text";
-import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
+import RecommendedEventsSection from "@/components/events/RecommendedEventsSection";
 import { Event, EventSearchParams } from "@/types/event";
 import { usePageFilters } from "@/components/events/filters/hooks/usePageFilters";
 import { ITEMS_PER_PAGE } from "@/constants/pagination";
 import styles from "./styles.module.css";
 import { EventSortOption } from "@/constants/event";
-import { useRecommendedEvents } from "@/hooks/useRecommendedEvents";
 import { useEventList } from "@/hooks/useEventList";
 import {
   PAGE_CATEGORY_MAP,
@@ -79,8 +76,6 @@ export default function EventPageLayout({
   // 추천 이벤트 조회 - 검색 결과가 없을 때만 호출 (로딩 중이 아닐 때)
   const category = PAGE_CATEGORY_MAP[pageId]!;
   const shouldFetchRecommended = !isLoadingEventList && eventList.length === 0;
-  const { data: recommendedEvents, isLoading: isLoadingRecommended } =
-    useRecommendedEvents(category, shouldFetchRecommended);
 
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
@@ -131,37 +126,13 @@ export default function EventPageLayout({
               url={emptyUrl}
               buttonText="행사 등록하기"
             />
-            <Flex direction="column" gap={1}>
-              <Flex align="center" justify="space-between">
-                <Text typography="head3_m_24" color="black" as="h3">
-                  이런 행사는 어떠세요?
-                </Text>
-                <Button
-                  variant="textOnly"
-                  icon={<ChevronRightIcon />}
-                  size="medium"
-                >
-                  IT 행사 더보기
-                </Button>
-              </Flex>
-              <div className={styles.cardList}>
-                {isLoadingRecommended ? (
-                  <Text typography="body1_r_16" color="neutral-40">
-                    추천 행사를 불러오는 중...
-                  </Text>
-                ) : recommendedEvents && recommendedEvents.length > 0 ? (
-                  recommendedEvents
-                    .slice(0, 3)
-                    .map((event: Event) => (
-                      <EventCard key={event.id} size="medium" event={event} />
-                    ))
-                ) : (
-                  <Text typography="body1_r_16" color="neutral-40">
-                    추천할 행사가 없습니다.
-                  </Text>
-                )}
-              </div>
-            </Flex>
+            <RecommendedEventsSection
+              category={category}
+              shouldFetch={shouldFetchRecommended}
+              cardSize="medium"
+              showMoreButton={true}
+              cardContainerClassName={styles.cardList}
+            />
           </>
         ) : eventList.length === 0 ? (
           // total도 0이고 데이터도 없는 경우 (실제로 데이터가 없음)
@@ -171,37 +142,13 @@ export default function EventPageLayout({
               url={emptyUrl}
               buttonText="행사 등록하기"
             />
-            <Flex direction="column" gap={1}>
-              <Flex align="center" justify="space-between">
-                <Text typography="head3_m_24" color="black" as="h3">
-                  이런 행사는 어떠세요?
-                </Text>
-                <Button
-                  variant="textOnly"
-                  icon={<ChevronRightIcon />}
-                  size="medium"
-                >
-                  IT 행사 더보기
-                </Button>
-              </Flex>
-              <div className={styles.cardList}>
-                {isLoadingRecommended ? (
-                  <Text typography="body1_r_16" color="neutral-40">
-                    추천 행사를 불러오는 중...
-                  </Text>
-                ) : recommendedEvents && recommendedEvents.length > 0 ? (
-                  recommendedEvents
-                    .slice(0, 3)
-                    .map((event: Event) => (
-                      <EventCard key={event.id} size="medium" event={event} />
-                    ))
-                ) : (
-                  <Text typography="body1_r_16" color="neutral-40">
-                    추천할 행사가 없습니다.
-                  </Text>
-                )}
-              </div>
-            </Flex>
+            <RecommendedEventsSection
+              category={category}
+              shouldFetch={shouldFetchRecommended}
+              cardSize="medium"
+              showMoreButton={true}
+              cardContainerClassName={styles.cardList}
+            />
           </>
         ) : (
           // 데이터가 있는 경우
