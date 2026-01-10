@@ -6,9 +6,7 @@ import {
   EventFormat,
 } from "@/constants/event";
 
-/**
- * 모든 이벤트의 공통 기본 필드
- */
+// 모든 이벤트의 공통 기본 필드
 export interface BaseEvent {
   id: number;
   title: string;
@@ -16,10 +14,7 @@ export interface BaseEvent {
   category: EventCategory;
 }
 
-/**
- * 이벤트 목록 API 응답 (서버 → 클라이언트)
- * 서버에서 포맷팅된 문자열과 계산된 값을 포함
- */
+// 이벤트 목록 API 응답 (서버 → 클라이언트)
 export interface EventListItemDto extends BaseEvent {
   online: boolean; // API 필드명 그대로
   locationText: string;
@@ -32,10 +27,7 @@ export interface EventListItemDto extends BaseEvent {
   recommendedRate: number;
 }
 
-/**
- * 이벤트 상세 API 응답 (서버 → 클라이언트)
- * 원본 데이터를 포함 (날짜, 가격 등)
- */
+// 이벤트 상세 API 응답 (서버 → 클라이언트)
 export interface EventDetailDto extends BaseEvent {
   eventStart: string; // ISO 8601 형식
   eventEnd: string;
@@ -54,22 +46,16 @@ export interface EventDetailDto extends BaseEvent {
   targetRoles: string[];
 }
 
-/**
- * 클라이언트에서 사용하는 이벤트 타입
- * EventListItemDto의 별칭
- */
+// 클라이언트에서 사용하는 이벤트 타입
+// EventListItemDto의 별칭
 export type Event = EventListItemDto;
 
-/**
- * 클라이언트에서 사용하는 이벤트 상세 타입
- * EventDetailDto의 별칭
- */
+// 클라이언트에서 사용하는 이벤트 상세 타입
+// EventDetailDto의 별칭
 export type EventDetail = EventDetailDto;
 
-/**
- * 행사 목록 조회 요청 파라미터
- * 카테고리별 행사 목록을 필터링하고 정렬하는데 사용
- */
+// 행사 목록 조회 요청 파라미터
+// 카테고리별 행사 목록을 필터링하고 정렬하는데 사용
 export interface EventSearchParams {
   category: EventCategory;
   isOnline?: boolean;
@@ -83,18 +69,14 @@ export interface EventSearchParams {
   validSort?: boolean;
 }
 
-/**
- * 행사 목록 조회 API 응답
- */
+// 행사 목록 조회 API 응답
 export interface EventListResponse {
   total: number;
   homeEventResponseList: Event[];
 }
 
-/**
- * 행사 검색 요청 파라미터
- * 키워드 기반 행사 검색에 사용
- */
+// 행사 검색 요청 파라미터
+// 키워드 기반 행사 검색에 사용
 export interface EventSearchRequest {
   searchString: string;
   sort?: EventSortOption;
