@@ -1,6 +1,7 @@
 // src/components/common/EventCard/index.tsx
 "use client";
 
+import clsx from "clsx";
 import styles from "./styles.module.css";
 import Image from "next/image";
 import Badge from "@/components/common/Badge";
@@ -73,13 +74,14 @@ export default function EventCard({
       direction="column"
       gap="1rem"
       onClick={() => router.push(eventUrl)}
-      className={`${styles.eventCard} ${
-        size === "large"
-          ? styles.large
-          : size === "medium"
-          ? styles.medium
-          : size === "small"
-      } ${block ? styles.block : ""} ${className}`}
+      className={clsx(
+        styles.eventCard,
+        styles[size],
+        {
+          [styles.block]: block,
+        },
+        className
+      )}
     >
       <div className={styles.eventCardImage}>
         {/* 추후 바뀔 수도 있음 */}

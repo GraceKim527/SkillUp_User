@@ -1,5 +1,6 @@
 // src/components/common/Flex/index.tsx
 
+import clsx from "clsx";
 import React from "react";
 import styles from "./styles.module.css";
 
@@ -55,7 +56,7 @@ export default function Flex({
 
   return (
     <Component
-      className={`${styles.flex} ${className}`}
+      className={clsx(styles.flex, className)}
       style={flexStyle}
       onClick={onClick}
       onMouseEnter={onMouseEnter}

@@ -1,5 +1,6 @@
 // src/components/common/Text/index.tsx
 
+import clsx from "clsx";
 import styles from "./styles.module.css";
 import { JSX } from "react";
 
@@ -66,9 +67,12 @@ export default function Text({
   const Component = as as keyof JSX.IntrinsicElements;
   return (
     <Component
-      className={`${styles.text} ${className || ""} ${styles[typography]} ${
-        color ? styles[color as keyof typeof styles] : ""
-      }`}
+      className={clsx(
+        styles.text,
+        className,
+        styles[typography],
+        color && styles[color as keyof typeof styles]
+      )}
       style={{ textAlign: align }}
     >
       {children}

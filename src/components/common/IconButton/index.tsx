@@ -1,5 +1,6 @@
 // src/components/common/IconButton/index.tsx
 
+import clsx from "clsx";
 import styles from "./styles.module.css";
 
 interface IconButtonProps {
@@ -21,17 +22,15 @@ export default function IconButton({
 }: IconButtonProps) {
   return (
     <button
-      className={`${styles.iconButton} ${className || ""} ${
-        variant === "primary" ? styles.primary : ""
-      } ${variant === "secondary" ? styles.secondary : ""} ${
-        variant === "disabled" ? styles.disabled : ""
-      } ${variant === "opacity" ? styles.opacity : ""}
-      } ${size === "small" ? styles.small : ""} ${
-        size === "medium" ? styles.medium : ""
-      } ${size === "large" ? styles.large : ""} ${
-        size === "extraLarge" ? styles.extraLarge : ""
-      } ${disabled ? styles.disabled : ""}
-      `}
+      className={clsx(
+        styles.iconButton,
+        className,
+        styles[variant],
+        size && styles[size],
+        {
+          [styles.disabled]: disabled,
+        }
+      )}
       onClick={onClick}
       disabled={disabled}
     >
