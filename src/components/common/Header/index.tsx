@@ -25,7 +25,7 @@ import { useRouter } from "next/navigation";
 import SearchModalContent from "@/components/main/SearchModalContent";
 
 interface HeaderProps {
-  variant: "main" | "sub";
+  variant: "main" | "sub" | "policy";
 }
 
 export default function Header({ variant }: HeaderProps) {
@@ -105,100 +105,131 @@ export default function Header({ variant }: HeaderProps) {
       className={
         styles.header +
         " " +
-        (variant === "main" ? styles.mainHeader : styles.subHeader)
+        (variant === "main"
+          ? styles.mainHeader
+          : variant === "sub"
+          ? styles.subHeader
+          : styles.policyHeader)
       }
     >
       <div className={styles.inner}>
-        {/* 로고 + Nav 메뉴바 */}
-        <div className={styles.logoNavMenu}>
-          <Link href="/">
-            {variant === "main" ? (
-              <Image
-                src={SkillUpWhiteLogo}
-                alt="스킬업 메인 로고"
-                width={120}
-                height={18}
-                priority
-              />
-            ) : (
+        {/* policy variant: 심플한 헤더 (로고 + 문의하기만) */}
+        {variant === "policy" ? (
+          <>
+            <Link href="/">
               <Image
                 src={SkillUpBlackLogo}
-                alt="스킬업 서브 로고"
+                alt="스킬업 로고"
                 width={120}
                 height={18}
                 priority
               />
-            )}
-          </Link>
-          {variant === "sub" && <EventCategoryTabs />}
-        </div>
+            </Link>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfi28YC_XHpe94p9TkJvjmZz20lWvPAGiCNQgSvYq4YTlYerQ/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.inquiryBtn}
+            >
+              <Text typography="label3_m_14" color="fill-normal">
+                문의하기
+              </Text>
+            </a>
+          </>
+        ) : (
+          <>
+            {/* 로고 + Nav 메뉴바 */}
+            <div className={styles.logoNavMenu}>
+              <Link href="/">
+                {variant === "main" ? (
+                  <Image
+                    src={SkillUpWhiteLogo}
+                    alt="스킬업 메인 로고"
+                    width={120}
+                    height={18}
+                    priority
+                  />
+                ) : (
+                  <Image
+                    src={SkillUpBlackLogo}
+                    alt="스킬업 서브 로고"
+                    width={120}
+                    height={18}
+                    priority
+                  />
+                )}
+              </Link>
+              {variant === "sub" && <EventCategoryTabs />}
+            </div>
 
-        {/* 검색창, 로그인, 회원가입 메뉴바 */}
-        <div className={styles.topMenu}>
-          <div className={styles.searchWrap}>
-            <input
-              type="text"
-              placeholder="검색어를 입력해주세요."
-              className={styles.searchBox}
-              id="searchInput"
-              readOnly
-              onClick={toggleSearchModal}
-            />
-            <button className={styles.searchBtn} onClick={toggleSearchModal}>
-              <Image src={SearchIcon} alt="search" width={20} height={20} />
-            </button>
-          </div>
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSfi28YC_XHpe94p9TkJvjmZz20lWvPAGiCNQgSvYq4YTlYerQ/viewform"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.inquiryBtn}
-          >
-            <Text typography="label3_m_14" color="fill-normal">
-              문의하기
-            </Text>
-          </a>
-
-          {isMounted && (
-            <>
-              {!isAuthenticated ? (
-                <button
-                  className={styles.loginBtn}
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  <Text typography="label3_m_14" color="fill-normal">
-                    로그인 · 회원가입
-                  </Text>
+            {/* 검색창, 로그인, 회원가입 메뉴바 */}
+            <div className={styles.topMenu}>
+              <div className={styles.searchWrap}>
+                <input
+                  type="text"
+                  placeholder="검색어를 입력해주세요."
+                  className={styles.searchBox}
+                  id="searchInput"
+                  readOnly
+                  onClick={toggleSearchModal}
+                />
+                <button className={styles.searchBtn} onClick={toggleSearchModal}>
+                  <Image src={SearchIcon} alt="search" width={20} height={20} />
                 </button>
-              ) : (
-                <div className={styles.profileBtnWrap} ref={profileBtnRef}>
-                  <button
-                    className={styles.profileBtn}
-                    onClick={toggleProfileModal}
-                  >
-                    <Text typography="label3_m_14" color="fill-normal">
-                      {userName}
-                    </Text>
-                    <ChevronDownIcon />
-                  </button>
-                  <div className={styles.profileBtnContent}>
-                    <ProfileModal
-                      isOpen={isProfileModalOpen}
-                      toggle={toggleProfileModal}
-                      user={{
-                        name: userName || "",
-                        email: userEmail || "",
-                        profileImage: LogoDefaultImg.src.toString(),
-                      }}
-                      triggerRef={profileBtnRef as RefObject<HTMLDivElement>}
-                      handleLogout={handleLogout}
-                    />
-                  </div>
-                </div>
+              </div>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfi28YC_XHpe94p9TkJvjmZz20lWvPAGiCNQgSvYq4YTlYerQ/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.inquiryBtn}
+              >
+                <Text typography="label3_m_14" color="fill-normal">
+                  문의하기
+                </Text>
+              </a>
+
+              {isMounted && (
+                <>
+                  {!isAuthenticated ? (
+                    <button
+                      className={styles.loginBtn}
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      <Text typography="label3_m_14" color="fill-normal">
+                        로그인 · 회원가입
+                      </Text>
+                    </button>
+                  ) : (
+                    <div className={styles.profileBtnWrap} ref={profileBtnRef}>
+                      <button
+                        className={styles.profileBtn}
+                        onClick={toggleProfileModal}
+                      >
+                        <Text typography="label3_m_14" color="fill-normal">
+                          {userName}
+                        </Text>
+                        <ChevronDownIcon />
+                      </button>
+                      <div className={styles.profileBtnContent}>
+                        <ProfileModal
+                          isOpen={isProfileModalOpen}
+                          toggle={toggleProfileModal}
+                          user={{
+                            name: userName || "",
+                            email: userEmail || "",
+                            profileImage: LogoDefaultImg.src.toString(),
+                          }}
+                          triggerRef={profileBtnRef as RefObject<HTMLDivElement>}
+                          handleLogout={handleLogout}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
       </div>
 
       {/* 로그인 모달 */}

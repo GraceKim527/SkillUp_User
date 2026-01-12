@@ -22,7 +22,7 @@ import Club from "@/components/mainSection/Club";
 import RecommendContents from "@/components/mainSection/RecommendContents";
 import Bootcamp from "@/components/mainSection/Bootcamp";
 import IconMenu from "@/components/mainSection/MainVisual/IconMenu";
-import NewsletterCTA from "@/components/mainSection/NewsletterCTA";
+// import NewsletterCTA from "@/components/mainSection/NewsletterCTA";
 import { ARTICLE_TAB } from "@/constants/article";
 import { getArticleList } from "@/api/article";
 
@@ -126,7 +126,7 @@ export default async function Home() {
         {/* 동아리, 해커톤, 공모전 */}
         <Club />
         {/* 뉴스레터 CTA */}
-        <NewsletterCTA />
+        {/* <NewsletterCTA /> */}
       </main>
     </HydrationBoundary>
   );
