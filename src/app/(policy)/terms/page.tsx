@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { SERVICE_TERMS, PRIVACY_POLICY } from "@/constants/policyPages";
 import Text from "@/components/common/Text";
 import Dropdown, { DropdownOption } from "@/components/common/Dropdown";
@@ -14,10 +15,18 @@ const dateOptions: DropdownOption[] = [
 ];
 
 export default function TermsPage() {
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<TabType>("service");
   const [selectedDate, setSelectedDate] = useState<DropdownOption>(
     dateOptions[0]
   );
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab === "privacy") {
+      setActiveTab("privacy");
+    }
+  }, [searchParams]);
 
   const currentPolicy =
     activeTab === "service" ? SERVICE_TERMS : PRIVACY_POLICY;

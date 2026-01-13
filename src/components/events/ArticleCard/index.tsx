@@ -4,20 +4,18 @@ import styles from "./styles.module.css";
 import Flex from "@/components/common/Flex";
 import type { Article } from "@/types/article";
 import Text from "@/components/common/Text";
-import { useRouter } from "next/navigation";
 
 interface ArticleCardProps {
   article: Article;
 }
 
 export default function ArticleCard({ article }: ArticleCardProps) {
-  const router = useRouter();
   return (
     <Flex
       direction="column"
       gap={0.75}
       className={styles.container}
-      onClick={() => router.push(article.originalUrl)}
+      onClick={() => window.open(article.originalUrl, "_blank")}
     >
       <div className={styles.articleCardImage}>
         <img src={article.thumbnailUrl} alt={article.title} />
@@ -45,11 +43,6 @@ export default function ArticleCard({ article }: ArticleCardProps) {
           <div className={styles.articleCardBadge}>
             <Text typography="label3_m_14" color="neutral-60">
               {article.source}
-            </Text>
-          </div>
-          <div className={styles.articleCardBadge}>
-            <Text typography="label3_m_14" color="neutral-60">
-              {article.originalPublishedDate}
             </Text>
           </div>
         </Flex>
