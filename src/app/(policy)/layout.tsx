@@ -1,4 +1,5 @@
 import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
 
 export default function PolicyLayout({
   children,
@@ -7,8 +8,9 @@ export default function PolicyLayout({
 }) {
   return (
     <div id="wrap">
-      <Header variant="policy" />
+      <Header variant="sub" />
       {children}
+      <Footer />
     </div>
   );
 }
