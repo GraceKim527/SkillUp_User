@@ -17,6 +17,7 @@ import {
 } from "@/constants/category";
 import { useState } from "react";
 import { JobCategory } from "@/constants/category";
+import CautionIcon from "@/assets/icons/CautionIcon";
 export default function Bootcamp() {
   const [selectedCategory, setSelectedCategory] = useState<JobCategory>(
     JOB_CATEGORY.ALL
@@ -79,9 +80,19 @@ export default function Bootcamp() {
         ) : !data ||
           !data.homeEventResponseList ||
           data.homeEventResponseList.length === 0 ? (
-          <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
-            <Text typography="body1_r_16" color="neutral-95">
-              모집중인 부트캠프가 없습니다.
+          <Flex
+            justify="center"
+            align="center"
+            gap={0.5}
+            direction="column"
+            className={styles.empty}
+          >
+            <CautionIcon color="#9B9B9B" />
+            <Text typography="head4_sb_20" color="white">
+              지금 모집 중인 부트캠프가 없어요
+            </Text>
+            <Text typography="body2_r_14" color="neutral-60" align="center">
+              원하는 행사가 있다면 <br /> 상단의 문의하기를 통해 문의해주세요.
             </Text>
           </Flex>
         ) : (

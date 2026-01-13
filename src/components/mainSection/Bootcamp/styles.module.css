@@ -7,3 +7,10 @@
   width: 77.5rem;
   margin: 0 auto;
 }
+
+.empty {
+  height: 26.1875rem;
+  border-radius: 0.75rem;
+  background: var(--Opacity_w_10);
+  height: 26.1875rem;
+}
