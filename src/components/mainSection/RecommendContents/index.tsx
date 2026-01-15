@@ -116,11 +116,6 @@ export default function RecommendedContent() {
                         {article.source}
                       </Text>
                     </div>
-                    <div className={styles.badge}>
-                      <Text typography="label3_m_14" color="neutral-60">
-                        {article.originalPublishedDate}
-                      </Text>
-                    </div>
                   </Flex>
                 </Flex>
 
