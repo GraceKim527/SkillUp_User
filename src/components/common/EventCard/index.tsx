@@ -103,7 +103,12 @@ export default function EventCard({
           />
         </Flex>
       </div>
-      <Flex direction="column" gap="1rem" style={{ padding: "0 1rem" }}>
+      <Flex
+        direction="column"
+        justify="space-between"
+        gap="1rem"
+        className={styles.eventCardContentContainer}
+      >
         <Flex direction="column" gap="0.75rem">
           <Flex direction="column" gap="0.25rem">
             <Badge label={categoryBadgeLabel} />
