@@ -1,5 +1,7 @@
 // src/components/events/detail/StickyApplySection/index.tsx
+"use client";
 
+import { useState } from "react";
 import Button from "@/components/common/Button";
 import styles from "./styles.module.css";
 import CalendarIcon from "@/assets/svg/calendarIcon.svg";
@@ -13,8 +15,10 @@ import { EventCategory } from "@/constants/event";
 import { formatPrice } from "@/utils/format";
 import LoginImage from "@/assets/images/loginImg.png";
 import Link from "next/link";
+import { useToggleEventBookmark } from "@/hooks/useEventDetail";
 
 interface StickyApplySectionProps {
+  eventId: number;
   category: EventCategory;
   title: string;
   eventStart: string;
@@ -24,9 +28,11 @@ interface StickyApplySectionProps {
   phoneNumber: string;
   image: string;
   hashTags?: string[];
+  bookmarked?: boolean;
 }
 
 export default function StickyApplySection({
+  eventId,
   category,
   title,
   eventStart,
@@ -36,7 +42,23 @@ export default function StickyApplySection({
   phoneNumber,
   image,
   hashTags = [],
+  bookmarked = false,
 }: StickyApplySectionProps) {
+  const [isBookmarked, setIsBookmarked] = useState(bookmarked);
+  const { mutate: toggleBookmark, isPending } = useToggleEventBookmark();
+
+  const handleBookmarkClick = () => {
+    // 낙관적 업데이트 (즉시 UI 변경)
+    setIsBookmarked(!isBookmarked);
+
+    // API 호출
+    toggleBookmark(eventId, {
+      onError: () => {
+        // 에러 발생 시 원래 상태로 되돌림
+        setIsBookmarked(isBookmarked);
+      },
+    });
+  };
   return (
     <div className={styles.stickyApplySection}>
       <div className={styles.stickyApplySectionContent}>
@@ -114,8 +136,14 @@ export default function StickyApplySection({
         <Button variant="primary" size="extraLarge" block>
           신청하기
         </Button>
-        <Button variant="outlined" size="extraLarge" block>
-          북마크에 추가
+        <Button
+          variant="outlined"
+          size="extraLarge"
+          block
+          onClick={handleBookmarkClick}
+          disabled={isPending}
+        >
+          {isBookmarked ? "북마크 해제" : "북마크에 추가"}
         </Button>
       </div>
       <div className={styles.stickyApplySectionFooter}>

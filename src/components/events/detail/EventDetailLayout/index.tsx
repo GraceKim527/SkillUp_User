@@ -44,6 +44,7 @@ export default function EventDetailLayout({
   return (
     <Flex gap="1rem" className={className || styles.container}>
       <StickyApplySection
+        eventId={eventId}
         category={eventDetail.category}
         title={eventDetail.title}
         eventStart={formatDate(eventDetail.eventStart)}
@@ -53,6 +54,7 @@ export default function EventDetailLayout({
         phoneNumber={eventDetail.contact}
         image={eventDetail.thumbnailUrl}
         hashTags={eventDetail.hashTags}
+        bookmarked={eventDetail.bookmarked}
       />
       <Flex
         direction="column"

@@ -44,6 +44,7 @@ export interface EventDetailDto extends BaseEvent {
   description: string;
   hashTags: string[];
   targetRoles: string[];
+  bookmarked: boolean;
 }
 
 // 클라이언트에서 사용하는 이벤트 타입
