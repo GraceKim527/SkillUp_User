@@ -41,20 +41,20 @@ export const useSocialLoginCallback = () => {
       code: string;
       state?: string;
     }) => {
-      // 1. 토큰 받기
+      // 토큰 받기
       const token = await sendAuthorizationCode(socialType, code, state);
 
-      // 2. 토큰 저장
+      // 토큰 저장
       login(token);
 
-      // 3. 유저 정보 가져오기 (토큰 저장 후 바로 호출)
+      // 유저 정보 가져오기 (토큰 저장 후 바로 호출)
       try {
         const userData = await getUserEmailAndName();
-        if (userData?.userName) {
-          setUserName(userData.userName);
+        if (userData?.name) {
+          setUserName(userData.name);
         }
-        if (userData?.userEmail) {
-          setUserEmail(userData.userEmail);
+        if (userData?.email) {
+          setUserEmail(userData.email);
         }
         // 쿼리 캐시에도 저장
         queryClient.setQueryData(["userEmailAndName"], userData);
