@@ -15,6 +15,8 @@ export default function MainVisual() {
   const [defaultBannerIndex, setDefaultBannerIndex] = useState(1); // 무한 슬라이드: 초기값 1
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [isDefaultTransitioning, setIsDefaultTransitioning] = useState(true);
+  const [isAnimating, setIsAnimating] = useState(false); // 애니메이션 중 클릭 방지
+  const [isDefaultAnimating, setIsDefaultAnimating] = useState(false); // 기본 배너 애니메이션 중 클릭 방지
   const sliderRef = useRef<HTMLDivElement>(null);
   const defaultSliderRef = useRef<HTMLDivElement>(null);
   const { data, isLoading, error } = useBanners();
@@ -48,25 +50,28 @@ export default function MainVisual() {
 
   // 기본 배너 이전/다음 핸들러
   const handleDefaultPrev = () => {
-    if (!isDefaultTransitioning) return;
+    if (!isDefaultTransitioning || isDefaultAnimating) return;
+    setIsDefaultAnimating(true);
     setDefaultBannerIndex((prev) => prev - 1);
   };
 
   const handleDefaultNext = () => {
-    if (!isDefaultTransitioning) return;
+    if (!isDefaultTransitioning || isDefaultAnimating) return;
+    setIsDefaultAnimating(true);
     setDefaultBannerIndex((prev) => prev + 1);
   };
 
   // 기본 배너 자동 롤링 (3초마다)
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isDefaultTransitioning) {
+      if (isDefaultTransitioning && !isDefaultAnimating) {
+        setIsDefaultAnimating(true);
         setDefaultBannerIndex((prev) => prev + 1);
       }
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isDefaultTransitioning]);
+  }, [isDefaultTransitioning, isDefaultAnimating]);
 
   // 기본 배너 transition 끝날 때 처리
   useEffect(() => {
@@ -74,6 +79,8 @@ export default function MainVisual() {
     if (!slider) return;
 
     const handleTransitionEnd = () => {
+      setIsDefaultAnimating(false); // 애니메이션 완료, 클릭 가능
+
       // 마지막 복제본에 도달했을 때 (첫번째 실제 배너로 점프)
       if (defaultBannerIndex === extendedDefaultBanners.length - 1) {
         setIsDefaultTransitioning(false);
@@ -101,6 +108,8 @@ export default function MainVisual() {
     if (!slider || sortedBanners.length === 0) return;
 
     const handleTransitionEnd = () => {
+      setIsAnimating(false); // 애니메이션 완료, 클릭 가능
+
       // 마지막 복제본에 도달했을 때 (첫번째 실제 배너로 점프)
       if (currentIndex === extendedBanners.length - 1) {
         setIsTransitioning(false);
@@ -145,12 +154,14 @@ export default function MainVisual() {
 
   // API 배너 핸들러
   const handlePrev = () => {
-    if (!isTransitioning) return;
+    if (!isTransitioning || isAnimating) return;
+    setIsAnimating(true);
     setCurrentIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    if (!isTransitioning) return;
+    if (!isTransitioning || isAnimating) return;
+    setIsAnimating(true);
     setCurrentIndex((prev) => prev + 1);
   };
 
@@ -187,7 +198,11 @@ export default function MainVisual() {
             ))}
           </div>
           <Flex align="center" gap="12px" className={styles.paging}>
-            <button onClick={handleDefaultPrev} className={styles.pagingButton}>
+            <button
+              onClick={handleDefaultPrev}
+              className={styles.pagingButton}
+              disabled={isDefaultAnimating}
+            >
               <ChevronLeftIcon color="#fff" width={18} height={18} />
             </button>
             <Flex align="center" gap={0.1}>
@@ -202,7 +217,11 @@ export default function MainVisual() {
               </Text>
             </Flex>
 
-            <button onClick={handleDefaultNext} className={styles.pagingButton}>
+            <button
+              onClick={handleDefaultNext}
+              className={styles.pagingButton}
+              disabled={isDefaultAnimating}
+            >
               <ChevronRightIcon color="#fff" width={18} height={18} />
             </button>
           </Flex>
@@ -235,12 +254,16 @@ export default function MainVisual() {
         </div>
 
         <Flex align="center" gap="12px" className={styles.paging}>
-          <button onClick={handlePrev}>&lt;</button>
+          <button onClick={handlePrev} disabled={isAnimating}>
+            &lt;
+          </button>
           <span className={styles.current}>
             {getActualIndex(currentIndex, sortedBanners.length)}
           </span>
           /<span>{sortedBanners.length}</span>
-          <button onClick={handleNext}>&gt;</button>
+          <button onClick={handleNext} disabled={isAnimating}>
+            &gt;
+          </button>
         </Flex>
       </div>
     </section>
