@@ -28,11 +28,11 @@ export default async function MentoringPage({ searchParams }: PageProps) {
     page: params.page ? parseInt(params.page as string, 10) - 1 : 0,
   };
 
-  // 역할 필터
+  // 역할 필터 (단일 선택)
   if (params.roles && typeof params.roles === "string") {
-    const roles = params.roles.split(",");
-    if (!roles.includes("전체")) {
-      apiParams.targetRoles = roles;
+    const role = params.roles;
+    if (role !== "전체" && role !== "ALL") {
+      apiParams.targetRole = role;
     }
   }
 
