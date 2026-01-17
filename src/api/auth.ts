@@ -41,5 +41,5 @@ export const sendAuthorizationCode = async (
   });
 
   // 백엔드에서 액세스 토큰 반환
-  return response.data.data || response.data;
+  return response.data.data.accessToken;
 };
