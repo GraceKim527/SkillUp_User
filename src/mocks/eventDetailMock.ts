@@ -25,6 +25,7 @@ export const eventDetailMock: EventDetail[] = [
     contact: "010-1234-1234",
     hashTags: ["디자인", "트렌드", "2025"],
     targetRoles: ["디자이너", "기획자"],
+    bookmarked: false,
   },
   {
     id: 2,
@@ -46,6 +47,7 @@ export const eventDetailMock: EventDetail[] = [
     contact: "010-1234-1234",
     hashTags: ["AI", "리더십", "서밋"],
     targetRoles: ["개발자", "PM"],
+    bookmarked: false,
   },
   {
     id: 3,
@@ -67,6 +69,7 @@ export const eventDetailMock: EventDetail[] = [
     contact: "010-1234-1234",
     hashTags: ["개발자", "밋업", "네트워킹"],
     targetRoles: ["개발자"],
+    bookmarked: false,
   },
   {
     id: 4,
@@ -88,5 +91,6 @@ export const eventDetailMock: EventDetail[] = [
     contact: "010-1234-1234",
     hashTags: ["기획", "네트워킹"],
     targetRoles: ["기획자", "PM"],
+    bookmarked: false,
   },
 ];
