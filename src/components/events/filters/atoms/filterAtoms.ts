@@ -1,9 +1,9 @@
 // src/components/events/filters/atoms/filterAtoms.ts
 
-import { RoleOption } from "@/components/events/filters/types/role";
+import { JobCategory, JOB_CATEGORY } from "@/constants/category";
 import { atom } from "jotai";
 
-export const roleFilterAtom = atom<RoleOption[]>(["전체"]);
+export const roleFilterAtom = atom<JobCategory[]>([JOB_CATEGORY.ALL]);
 export const onOfflineFilterAtom = atom<string>("");
 export const freeFilterAtom = atom<boolean>(false);
 export const sortOptionAtom = atom<string>("인기순");
