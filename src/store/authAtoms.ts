@@ -17,3 +17,6 @@ export const isAuthenticatedAtom = atom((get) => {
   const token = get(tokenAtom);
   return token !== null && token !== "";
 });
+
+// 로그인 모달 상태 Atom (401 에러 시 전역에서 모달 열기 위해 사용)
+export const loginModalAtom = atom<boolean>(false);

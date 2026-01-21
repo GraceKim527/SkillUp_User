@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "@/styles/global.css";
 import QueryProvider from "@/providers/QueryProvider";
 import ToastProvider from "@/providers/ToastProvider";
-import AuthEventListener from "@/providers/AuthEventListener";
 
 export const metadata: Metadata = {
   title: {
@@ -27,10 +26,7 @@ export default function RootLayout({
       </head>
       <body>
         <QueryProvider>
-          <ToastProvider>
-            <AuthEventListener />
-            {children}
-          </ToastProvider>
+          <ToastProvider>{children}</ToastProvider>
         </QueryProvider>
       </body>
     </html>

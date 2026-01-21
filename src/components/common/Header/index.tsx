@@ -16,8 +16,8 @@ import ProfileModal from "@/components/login/ProfileModal";
 import LogoDefaultImg from "@/assets/images/logoDefaultImg.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useSocialLogin } from "@/hooks/useSocialLogin";
-import { useAtomValue } from "jotai";
-import { userNameAtom, userEmailAtom } from "@/store/authAtoms";
+import { useAtom, useAtomValue } from "jotai";
+import { userNameAtom, userEmailAtom, loginModalAtom } from "@/store/authAtoms";
 import { useUserEmailAndName } from "@/hooks/useUser";
 import Text from "../Text";
 import ChevronDownIcon from "@/assets/icons/ChevronDownIcon";
@@ -29,7 +29,7 @@ interface HeaderProps {
 }
 
 export default function Header({ variant }: HeaderProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useAtom(loginModalAtom);
   const toggleModal = () => setIsModalOpen((prev) => !prev);
   const { isAuthenticated, logout } = useAuth();
   const { mutate: startSocialLogin } = useSocialLogin();

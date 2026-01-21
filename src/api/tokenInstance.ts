@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { getDefaultStore } from "jotai";
-import { tokenAtom } from "@/store/authAtoms";
+import { tokenAtom, loginModalAtom } from "@/store/authAtoms";
 
 const tokenInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -40,10 +40,8 @@ tokenInstance.interceptors.response.use(
       const store = getDefaultStore();
       store.set(tokenAtom, null);
 
-      // 이벤트 발생 (AuthEventListener가 감지하여 라우팅 처리)
-      if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("auth:unauthorized"));
-      }
+      // 로그인 모달 열기 (현재 페이지에 머물면서 로그인 유도)
+      store.set(loginModalAtom, true);
     }
 
     return Promise.reject(error);
