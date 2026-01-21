@@ -1,5 +1,4 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
 import Flex from "@/components/common/Flex";
 import styles from "./styles.module.css";
 import Button from "@/components/common/Button";
@@ -11,11 +10,10 @@ import { EVENT_CATEGORY } from "@/constants/event";
 import { Event } from "@/types/event";
 import { useRouter } from "next/navigation";
 import LoginImage from "@/assets/images/loginImg.png";
+import { useScrollCarousel } from "@/hooks/useScrollCarousel";
 
 export default function Club() {
   const router = useRouter();
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [isScrolling, setIsScrolling] = useState(false);
 
   // API 데이터 가져오기 (동아리·해커톤·공모전 카테고리, 8개)
   const { data, isLoading, error } = useCategoryEvents(
@@ -29,68 +27,13 @@ export default function Club() {
   const originalCards = data?.homeEventResponseList || [];
   const cards = [...originalCards, ...originalCards, ...originalCards];
 
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!el || originalCards.length === 0) return;
-
-    // 초기 위치를 중간(원본 카드 세트)으로 설정
-    const firstCard = el.querySelector(`.${styles.card}`) as HTMLElement;
-    if (firstCard) {
-      const cardWidth = firstCard.offsetWidth;
-      const gap = 24; // 1.5rem = 24px
-      const initialScroll = originalCards.length * (cardWidth + gap);
-      el.scrollLeft = initialScroll;
-    }
-
-    const handleScroll = () => {
-      if (isScrolling) return;
-
-      const scrollLeft = el.scrollLeft;
-      const scrollWidth = el.scrollWidth;
-      const clientWidth = el.clientWidth;
-      const oneSetWidth = (scrollWidth - clientWidth) / 2;
-
-      // 오른쪽 끝에 도달하면 중간으로 순간이동
-      if (scrollLeft >= oneSetWidth * 1.9) {
-        setIsScrolling(true);
-        el.style.scrollBehavior = "auto";
-        el.scrollLeft = oneSetWidth;
-        setTimeout(() => {
-          el.style.scrollBehavior = "smooth";
-          setIsScrolling(false);
-        }, 50);
-      }
-      // 왼쪽 끝에 도달하면 중간으로 순간이동
-      else if (scrollLeft <= oneSetWidth * 0.1) {
-        setIsScrolling(true);
-        el.style.scrollBehavior = "auto";
-        el.scrollLeft = oneSetWidth;
-        setTimeout(() => {
-          el.style.scrollBehavior = "smooth";
-          setIsScrolling(false);
-        }, 50);
-      }
-    };
-
-    el.addEventListener("scroll", handleScroll);
-
-    return () => {
-      el.removeEventListener("scroll", handleScroll);
-    };
-  }, [isScrolling, originalCards.length]);
-
-  const scroll = (dir: "prev" | "next") => {
-    const el = trackRef.current;
-    if (!el) return;
-    const firstCard = el.querySelector(`.${styles.card}`) as HTMLElement;
-    if (!firstCard) return;
-
-    const cardWidth = firstCard.offsetWidth;
-    const gap = 24; // 1.5rem = 24px
-    const step = cardWidth + gap;
-
-    el.scrollBy({ left: dir === "next" ? step : -step, behavior: "smooth" });
-  };
+  // 무한 루프 캐러셀 훅 사용
+  const { carouselRef, prev, next } = useScrollCarousel({
+    infinite: true,
+    itemCount: originalCards.length,
+    gap: 24, // 1.5rem = 24px
+    cardSelector: `.${styles.card}`,
+  });
 
   return (
     <Flex
@@ -119,7 +62,7 @@ export default function Club() {
           <button
             type="button"
             className={styles.arrowBtn}
-            onClick={() => scroll("prev")}
+            onClick={prev}
             aria-label="이전"
           >
             <ChevronLeftIcon />
@@ -127,7 +70,7 @@ export default function Club() {
           <button
             type="button"
             className={`${styles.arrowBtn} ${styles.dark}`}
-            onClick={() => scroll("next")}
+            onClick={next}
             aria-label="다음"
           >
             <ChevronRightIcon color="#fff" />
@@ -155,7 +98,7 @@ export default function Club() {
       ) : (
         <div className={styles.trackWrap}>
           <Flex gap="1.5rem" className={styles.track} as="div">
-            <div ref={trackRef} className={styles.trackInner}>
+            <div ref={carouselRef} className={styles.trackInner}>
               {cards.map((event: Event, idx) => (
                 <article
                   key={`${event.id}-${idx}`}

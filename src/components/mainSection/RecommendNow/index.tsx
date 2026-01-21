@@ -3,7 +3,7 @@
 
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Flex from "@/components/common/Flex";
 import EventCard from "@/components/common/EventCard";
 import styles from "./styles.module.css";
@@ -19,9 +19,9 @@ import {
   JOB_CATEGORY_TABS,
   getJobCategoryByLabel,
 } from "@/constants/category";
+import { useScrollCarousel } from "@/hooks/useScrollCarousel";
 
 export default function RecommendNow() {
-  const carouselRef = useRef<HTMLDivElement>(null);
   const [selectedCategory, setSelectedCategory] = useState<JobCategory>(
     JOB_CATEGORY.ALL
   );
@@ -29,36 +29,11 @@ export default function RecommendNow() {
   // API 데이터 가져오기
   const { data, isLoading, error } = useFeaturedEvents(selectedCategory);
 
-  const getCardWidth = () => {
-    if (!carouselRef.current) return 0;
-    const firstCard = carouselRef.current.querySelector(
-      `.${styles.carouselItem}`
-    ) as HTMLElement;
-    if (!firstCard) return 0;
-    const cardWidth = firstCard.offsetWidth;
-    const gap = 12; // 0.75rem = 12px
-    return cardWidth + gap;
-  };
-
-  const prev = () => {
-    if (carouselRef.current) {
-      const scrollAmount = getCardWidth();
-      carouselRef.current.scrollBy({
-        left: -scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const next = () => {
-    if (carouselRef.current) {
-      const scrollAmount = getCardWidth();
-      carouselRef.current.scrollBy({
-        left: scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+  // 스크롤 캐러셀 훅 사용
+  const { carouselRef, prev, next } = useScrollCarousel({
+    gap: 12, // 0.75rem = 12px
+    cardSelector: `.${styles.carouselItem}`,
+  });
 
   return (
     <section className={styles.recommendNow}>
