@@ -17,7 +17,12 @@ import LogoDefaultImg from "@/assets/images/logoDefaultImg.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useSocialLogin } from "@/hooks/mutations/useSocialLogin";
 import { useAtom, useAtomValue } from "jotai";
-import { userNameAtom, userEmailAtom, loginModalAtom } from "@/store/authAtoms";
+import {
+  userNameAtom,
+  userEmailAtom,
+  userProfileImageAtom,
+  loginModalAtom,
+} from "@/store/authAtoms";
 import { useUserEmailAndName } from "@/hooks/queries/useUser";
 import Text from "../Text";
 import ChevronDownIcon from "@/assets/icons/ChevronDownIcon";
@@ -34,11 +39,12 @@ export default function Header({ variant }: HeaderProps) {
   const { isAuthenticated, logout } = useAuth();
   const { mutate: startSocialLogin } = useSocialLogin();
   const router = useRouter();
-  // 로그인 상태일 때 유저 이메일/이름 자동 조회 (백그라운드 업데이트)
+  // 로그인 상태일 때 유저 이메일/이름/프로필 이미지 자동 조회 (백그라운드 업데이트)
   useUserEmailAndName();
 
   const userName = useAtomValue(userNameAtom);
   const userEmail = useAtomValue(userEmailAtom);
+  const userProfileImage = useAtomValue(userProfileImageAtom);
 
   // 클라이언트 마운트 체크 (Hydration 깜빡임 방지)
   const [isMounted, setIsMounted] = useState(false);
@@ -180,7 +186,8 @@ export default function Header({ variant }: HeaderProps) {
                       user={{
                         name: userName || "",
                         email: userEmail || "",
-                        profileImage: LogoDefaultImg.src.toString(),
+                        profileImage:
+                          userProfileImage || LogoDefaultImg.src.toString(),
                       }}
                       triggerRef={profileBtnRef as RefObject<HTMLDivElement>}
                       handleLogout={handleLogout}

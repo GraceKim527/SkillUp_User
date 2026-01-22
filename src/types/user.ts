@@ -59,3 +59,20 @@ export interface UserBookmarks {
     totalPages: number;
   };
 }
+
+// 유저 이메일 및 이름 응답 타입
+export interface UserEmailAndName {
+  name: string;
+  email: string;
+  profileImageUrl: string;
+}
+
+// 탈퇴 사유 카테고리
+export interface WithdrawalCategory {
+  description: string;
+}
+
+// 회원 탈퇴 요청
+export interface WithdrawRequest {
+  detail: string;
+}

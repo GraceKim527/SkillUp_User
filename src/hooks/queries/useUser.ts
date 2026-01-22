@@ -7,11 +7,16 @@ import {
   getUserInterests,
   getUserEmailAndName,
   getUserBookmarks,
+  getWithdrawalCategories,
 } from "@/api/user";
 import { useAuth } from "../useAuth";
 import { useSetAtom } from "jotai";
-import { userNameAtom, userEmailAtom } from "@/store/authAtoms";
-import { UserBookmarks } from "@/types/user";
+import {
+  userNameAtom,
+  userEmailAtom,
+  userProfileImageAtom,
+} from "@/store/authAtoms";
+import { UserBookmarks, WithdrawalCategory } from "@/types/user";
 import { RoleName } from "@/constants/role";
 import { queryKeys } from "../queryKeys";
 
@@ -62,6 +67,7 @@ export const useUserEmailAndName = () => {
   const { isAuthenticated } = useAuth();
   const setUserName = useSetAtom(userNameAtom);
   const setUserEmail = useSetAtom(userEmailAtom);
+  const setUserProfileImage = useSetAtom(userProfileImageAtom);
 
   return useQuery({
     queryKey: queryKeys.user.emailAndName(),
@@ -72,6 +78,9 @@ export const useUserEmailAndName = () => {
       }
       if (data?.email) {
         setUserEmail(data.email);
+      }
+      if (data?.profileImageUrl) {
+        setUserProfileImage(data.profileImageUrl);
       }
       return data;
     },
@@ -92,5 +101,20 @@ export const useUserBookmarks = (sort: "deadline" | "latest", page: number) => {
     },
     enabled: isAuthenticated,
     retry: false,
+  });
+};
+
+// 탈퇴 사유 카테고리 조회 Hook
+export const useWithdrawalCategories = () => {
+  const { isAuthenticated } = useAuth();
+
+  return useQuery<WithdrawalCategory[]>({
+    queryKey: ["withdrawalCategories"],
+    queryFn: async () => {
+      return await getWithdrawalCategories();
+    },
+    enabled: isAuthenticated,
+    retry: false,
+    staleTime: 10 * 60 * 1000,
   });
 };

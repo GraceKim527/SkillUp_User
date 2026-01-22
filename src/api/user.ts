@@ -2,7 +2,13 @@
 
 import tokenInstance from "@/api/tokenInstance";
 import instance from "@/api/instance";
-import { UserBookmarks, UpdateUserProfileRequest } from "@/types/user";
+import {
+  UserBookmarks,
+  UpdateUserProfileRequest,
+  UserEmailAndName,
+  WithdrawalCategory,
+  WithdrawRequest,
+} from "@/types/user";
 import { RoleName } from "@/constants/role";
 
 // 테스트 로그인 API
@@ -73,7 +79,7 @@ export const getUserInterests = async (roleName: RoleName) => {
 };
 
 // 유저 이메일 및 이름
-export const getUserEmailAndName = async () => {
+export const getUserEmailAndName = async (): Promise<UserEmailAndName> => {
   const response = await tokenInstance.get("/user/my-page/home");
   return response.data.data;
 };
@@ -90,4 +96,20 @@ export const getUserBookmarks = async (
     },
   });
   return response.data.data;
+};
+
+// 탈퇴 사유 카테고리 조회
+export const getWithdrawalCategories = async (): Promise<
+  WithdrawalCategory[]
+> => {
+  const response = await tokenInstance.get("/user/my-page/with-draw/category");
+  return response.data.data;
+};
+
+// 회원 탈퇴
+export const withdrawUser = async (data: WithdrawRequest) => {
+  const response = await tokenInstance.delete("/user/my-page/with-draw", {
+    data,
+  });
+  return response.data;
 };

@@ -7,7 +7,7 @@ import { queryKeys } from "../queryKeys";
 
 // 테스트 로그인 Mutation Hook 코드
 export const useLogin = () => {
-  const { login, setUserName, setUserEmail } = useAuth();
+  const { login, setUserName, setUserEmail, setUserProfileImage } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -18,11 +18,15 @@ export const useLogin = () => {
       // 유저 이메일 및 이름 바로 조회하여 전역 상태에 저장
       try {
         const userData = await getUserEmailAndName();
-        if (userData?.userName) {
-          setUserName(userData.userName);
+        if (userData?.name) {
+          setUserName(userData.name);
         }
-        if (userData?.userEmail) {
-          setUserEmail(userData.userEmail);
+        if (userData?.email) {
+          setUserEmail(userData.email);
+        }
+
+        if (userData?.profileImageUrl) {
+          setUserProfileImage(userData.profileImageUrl);
         }
         // 쿼리 캐시에도 저장
         queryClient.setQueryData(queryKeys.user.emailAndName(), userData);

@@ -2,6 +2,7 @@
 
 "use client";
 import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./styles.module.css";
 import Text from "@/components/common/Text";
 import Accordion from "@/components/common/Accordion";
@@ -24,6 +25,7 @@ interface SupportPageLayoutProps {
 
 export default function SupportPageLayout({ faqData }: SupportPageLayoutProps) {
   const faqs = faqData && faqData.length > 0 ? faqData : [];
+  const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPageOption, setSelectedPageOption] = useState<DropdownOption>({
@@ -32,11 +34,6 @@ export default function SupportPageLayout({ faqData }: SupportPageLayoutProps) {
   });
   const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [withdrawalData, setWithdrawalData] = useState<{
-    reason: string;
-    customReason: string;
-    isAgreed: boolean;
-  } | null>(null);
 
   const totalPages = Math.ceil(faqs.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -68,20 +65,15 @@ export default function SupportPageLayout({ faqData }: SupportPageLayoutProps) {
     setIsWithdrawalModalOpen(true);
   };
 
-  const handleWithdrawal = (data: {
-    reason: string;
-    customReason: string;
-    isAgreed: boolean;
-  }) => {
-    setWithdrawalData(data);
-    setIsWithdrawalModalOpen(false);
+  const handleWithdrawalSuccess = () => {
+    // 탈퇴 성공 시 Alert 열기
     setIsAlertOpen(true);
   };
 
   const handleConfirmWithdrawal = () => {
-    // TODO: 탈퇴 API 호출
-    console.log("탈퇴 데이터:", withdrawalData);
     setIsAlertOpen(false);
+    // Alert 확인 버튼 클릭 시 홈으로 이동
+    router.push("/");
   };
 
   return (
@@ -132,7 +124,7 @@ export default function SupportPageLayout({ faqData }: SupportPageLayoutProps) {
         >
           <WithDrawalModalContent
             onClose={() => setIsWithdrawalModalOpen(false)}
-            onWithdrawal={handleWithdrawal}
+            onSuccess={handleWithdrawalSuccess}
           />
         </Modal>
       )}

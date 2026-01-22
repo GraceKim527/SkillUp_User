@@ -12,6 +12,12 @@ export const userNameAtom = atomWithStorage<string | null>("userName", null);
 // 유저 이메일 Atom - localStorage에 자동 저장
 export const userEmailAtom = atomWithStorage<string | null>("userEmail", null);
 
+// 유저 프로필 이미지 Atom - localStorage에 자동 저장
+export const userProfileImageAtom = atomWithStorage<string | null>(
+  "userProfileImage",
+  null
+);
+
 // 로그인 상태 확인 Atom (파생 상태)
 export const isAuthenticatedAtom = atom((get) => {
   const token = get(tokenAtom);

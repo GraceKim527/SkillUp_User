@@ -1,35 +1,44 @@
 // src/components/myPage/support/WithdrawalReasonGroup/index.tsx
 
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import Radio from "@/components/common/Radio";
 import Text from "@/components/common/Text";
 import Flex from "@/components/common/Flex";
 import styles from "./styles.module.css";
+import { WithdrawalCategory } from "@/types/user";
 
 interface WithdrawalReasonGroupProps {
+  reasons: WithdrawalCategory[];
   value: string;
   onChange: (value: string) => void;
   inputValue?: string;
   onInputChange?: (value: string) => void;
 }
 
-const WITHDRAWAL_REASONS = [
-  { label: "원하는 IT 행사 정보가 부족했어요", value: "lack_of_events" },
-  { label: "서비스 사용이 불편했어요", value: "inconvenient" },
-  { label: "최근에는 서비스를 거의 사용하지 않았어요", value: "not_using" },
-  { label: "콘텐츠가 기대와 달랐어요", value: "content_mismatch" },
-  { label: "다른 계정으로 다시 가입할 예정이에요", value: "rejoin" },
-  { label: "직접 입력", value: "custom", hasInput: true },
-];
-
 export default function WithdrawalReasonGroup({
+  reasons,
   value,
   onChange,
   inputValue = "",
   onInputChange,
 }: WithdrawalReasonGroupProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // API 데이터를 UI에 맞는 형태로 변환 + "직접 입력" 옵션 추가
+  const withdrawalReasons = useMemo(() => {
+    const apiReasons = reasons.map((reason, index) => ({
+      label: reason.description,
+      value: `reason_${index}`,
+      hasInput: false,
+    }));
+
+    // "직접 입력" 옵션을 마지막에 추가
+    return [
+      ...apiReasons,
+      { label: "직접 입력", value: "custom", hasInput: true },
+    ];
+  }, [reasons]);
 
   const handleRadioChange = (newValue: string) => {
     onChange(newValue);
@@ -44,7 +53,7 @@ export default function WithdrawalReasonGroup({
 
   return (
     <Flex direction="column" gap={0.5}>
-      {WITHDRAWAL_REASONS.map((reason) => (
+      {withdrawalReasons.map((reason) => (
         <Flex
           key={reason.value}
           direction={reason.hasInput ? "column" : "row"}
