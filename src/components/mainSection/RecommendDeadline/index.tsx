@@ -2,6 +2,7 @@
 "use client";
 import Flex from "@/components/common/Flex";
 import EventCard from "@/components/common/EventCard";
+import Skeleton from "@/components/common/Skeleton";
 import Text from "@/components/common/Text";
 import styles from "./styles.module.css";
 import { useEndingSoonEvents } from "@/hooks/queries/useHome";
@@ -29,10 +30,14 @@ export default function RecommendDeadline() {
         </Flex>
 
         {isLoading ? (
-          <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
-            <Text typography="body1_r_16" color="neutral-95">
-              로딩중...
-            </Text>
+          <Flex gap="0.75rem">
+            {[1, 2, 3, 4].map((i) => (
+              <Flex key={i} direction="column" gap="0.5rem" style={{ flex: 1 }}>
+                <Skeleton height="280px" borderRadius="0.75rem" />
+                <Skeleton height="1.5rem" width="85%" />
+                <Skeleton height="1rem" width="65%" />
+              </Flex>
+            ))}
           </Flex>
         ) : error ? (
           <Flex justify="center" align="center" style={{ minHeight: "300px" }}>

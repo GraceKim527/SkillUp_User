@@ -19,8 +19,8 @@ export const useRecommendedEvents = () => {
   const { isAuthenticated } = useAuth();
 
   return useQuery({
-    queryKey: queryKeys.home.recommended(),
-    queryFn: getRecommendedEvents,
+    queryKey: queryKeys.home.recommended(isAuthenticated),
+    queryFn: () => getRecommendedEvents(isAuthenticated),
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
     enabled: isAuthenticated,
   });
@@ -44,9 +44,11 @@ export const useFeaturedEvents = (
   size?: number,
   enabled = true
 ) => {
+  const { isAuthenticated } = useAuth();
+
   return useQuery({
-    queryKey: queryKeys.home.featured(category, size),
-    queryFn: () => getFeaturedEvents(category, size),
+    queryKey: queryKeys.home.featured(isAuthenticated, category, size),
+    queryFn: () => getFeaturedEvents(isAuthenticated, category, size),
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
     enabled,
   });
@@ -54,9 +56,11 @@ export const useFeaturedEvents = (
 
 // 곧 종료되는 행사 리스트
 export const useEndingSoonEvents = (size?: number) => {
+  const { isAuthenticated } = useAuth();
+
   return useQuery({
-    queryKey: queryKeys.home.endingSoon(size),
-    queryFn: () => getEndingSoonEvents(size),
+    queryKey: queryKeys.home.endingSoon(isAuthenticated, size),
+    queryFn: () => getEndingSoonEvents(isAuthenticated, size),
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
     enabled: true,
   });
@@ -70,10 +74,13 @@ export const useCategoryEvents = (
   page?: number,
   enabled = true
 ) => {
+  const { isAuthenticated } = useAuth();
+
   return useQuery({
-    queryKey: queryKeys.home.category({ category, tab, size, page }),
+    queryKey: queryKeys.home.category({ isAuthenticated, category, tab, size, page }),
     queryFn: () =>
       getCategoryEvents(
+        isAuthenticated,
         category as Exclude<EventCategory, typeof EVENT_CATEGORY.ARTICLE>,
         tab,
         size,
@@ -86,9 +93,11 @@ export const useCategoryEvents = (
 
 // 배너 조회
 export const useBanners = (enabled = true) => {
+  const { isAuthenticated } = useAuth();
+
   return useQuery({
-    queryKey: queryKeys.home.banners(),
-    queryFn: getBanners,
+    queryKey: queryKeys.home.banners(isAuthenticated),
+    queryFn: () => getBanners(isAuthenticated),
     staleTime: 10 * 60 * 1000, // 10분간 캐시 유지
     enabled,
   });

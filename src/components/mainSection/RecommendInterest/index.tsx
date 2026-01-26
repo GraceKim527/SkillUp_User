@@ -4,6 +4,7 @@
 "use client";
 import { useState } from "react";
 import Flex from "@/components/common/Flex";
+import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
 import { BookmarkIcon } from "@/assets/icons/BookmarkIcon";
 import IconButton from "@/components/common/IconButton";
@@ -97,15 +98,15 @@ export default function RecommendInterest() {
 
         <div className={styles.cardGrid}>
           {isLoading ? (
-            <Flex
-              justify="center"
-              align="center"
-              style={{ gridColumn: "1 / -1", minHeight: "300px" }}
-            >
-              <Text typography="body1_r_16" color="neutral-95">
-                로딩중...
-              </Text>
-            </Flex>
+            <>
+              {[1, 2, 3, 4].map((i) => (
+                <Flex key={i} direction="column" gap="0.5rem">
+                  <Skeleton height="360px" borderRadius="0.75rem" />
+                  <Skeleton height="1.5rem" width="90%" />
+                  <Skeleton height="1rem" width="70%" />
+                </Flex>
+              ))}
+            </>
           ) : error ? (
             <Flex
               justify="center"

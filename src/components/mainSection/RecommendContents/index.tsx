@@ -2,6 +2,7 @@
 "use client";
 import { useState } from "react";
 import Flex from "@/components/common/Flex";
+import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
 import TabMenu from "@/components/common/Tab";
 import Text from "@/components/common/Text";
@@ -62,11 +63,15 @@ export default function RecommendedContent() {
       </Flex>
 
       {isLoading ? (
-        <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
-          <Text typography="body1_r_16" color="neutral-70">
-            로딩중...
-          </Text>
-        </Flex>
+        <div className={styles.cardList}>
+          {[1, 2, 3, 4, 5].map((i) => (
+            <Flex key={i} direction="column" gap="0.75rem">
+              <Skeleton height={i === 1 ? "520px" : "220px"} borderRadius="0.75rem" />
+              <Skeleton height="1.5rem" width="80%" />
+              <Skeleton height="1rem" width="60%" />
+            </Flex>
+          ))}
+        </div>
       ) : error ? (
         <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
           <Text typography="body1_r_16" color="neutral-70">

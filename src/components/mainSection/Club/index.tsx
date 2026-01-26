@@ -1,5 +1,6 @@
 "use client";
 import Flex from "@/components/common/Flex";
+import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
 import Button from "@/components/common/Button";
 import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
@@ -78,10 +79,12 @@ export default function Club() {
         </Flex>
       </Flex>
       {isLoading ? (
-        <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
-          <Text typography="body1_r_16" color="neutral-70">
-            로딩중...
-          </Text>
+        <Flex gap="1.5rem" style={{ overflow: "hidden" }}>
+          {[1, 2, 3, 4].map((i) => (
+            <Flex key={i} direction="column" gap="0.75rem" style={{ flex: "0 0 calc(25% - 1.125rem)" }}>
+              <Skeleton height="400px" borderRadius="0.75rem" />
+            </Flex>
+          ))}
         </Flex>
       ) : error ? (
         <Flex justify="center" align="center" style={{ minHeight: "300px" }}>

@@ -28,12 +28,13 @@ import { getArticleList } from "@/api/article";
 
 export default async function Home() {
   const queryClient = new QueryClient();
+  const isAuthenticated = false; // 서버 prefetch는 비로그인 상태로
 
   await Promise.all([
-    // 해시태그 기반 추천 행사
+    // 해시태그 기반 추천 행사 (비로그인은 스킵)
     queryClient.prefetchQuery({
-      queryKey: ["home", "recommended"],
-      queryFn: getRecommendedEvents,
+      queryKey: ["home", "recommended", isAuthenticated],
+      queryFn: () => getRecommendedEvents(isAuthenticated),
     }),
 
     // 인기/추천 행사 (지금 주목받고 있어요) - 전체 탭만 prefetch
@@ -41,15 +42,15 @@ export default async function Home() {
       queryKey: [
         "home",
         "featured",
-        { category: JOB_CATEGORY.ALL, size: undefined },
+        { isAuthenticated, category: JOB_CATEGORY.ALL, size: undefined },
       ],
-      queryFn: () => getFeaturedEvents(JOB_CATEGORY.ALL),
+      queryFn: () => getFeaturedEvents(isAuthenticated, JOB_CATEGORY.ALL),
     }),
 
     // 곧 종료되는 행사 (신청 마감 행사)
     queryClient.prefetchQuery({
-      queryKey: ["home", "ending-soon", { size: 8 }],
-      queryFn: () => getEndingSoonEvents(8),
+      queryKey: ["home", "ending-soon", { isAuthenticated, size: 8 }],
+      queryFn: () => getEndingSoonEvents(isAuthenticated, 8),
     }),
 
     // 부트캠프 카테고리
@@ -58,6 +59,7 @@ export default async function Home() {
         "home",
         "category",
         {
+          isAuthenticated,
           category: EVENT_CATEGORY.BOOTCAMP_CLUB,
           tab: JOB_CATEGORY.ALL,
           size: 8,
@@ -65,7 +67,13 @@ export default async function Home() {
         },
       ],
       queryFn: () =>
-        getCategoryEvents(EVENT_CATEGORY.BOOTCAMP_CLUB, JOB_CATEGORY.ALL, 8, 1),
+        getCategoryEvents(
+          isAuthenticated,
+          EVENT_CATEGORY.BOOTCAMP_CLUB,
+          JOB_CATEGORY.ALL,
+          8,
+          1
+        ),
     }),
 
     // 동아리·해커톤·공모전 카테고리
@@ -74,6 +82,7 @@ export default async function Home() {
         "home",
         "category",
         {
+          isAuthenticated,
           category: EVENT_CATEGORY.COMPETITION_HACKATHON,
           tab: undefined,
           size: 8,
@@ -82,6 +91,7 @@ export default async function Home() {
       ],
       queryFn: () =>
         getCategoryEvents(
+          isAuthenticated,
           EVENT_CATEGORY.COMPETITION_HACKATHON,
           undefined,
           8,
@@ -91,8 +101,8 @@ export default async function Home() {
 
     // 배너
     queryClient.prefetchQuery({
-      queryKey: ["home", "banners"],
-      queryFn: getBanners,
+      queryKey: ["home", "banners", isAuthenticated],
+      queryFn: () => getBanners(isAuthenticated),
     }),
 
     // 추천 아티클

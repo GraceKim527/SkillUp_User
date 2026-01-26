@@ -6,6 +6,7 @@
 import { useState } from "react";
 import Flex from "@/components/common/Flex";
 import EventCard from "@/components/common/EventCard";
+import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
 import TabMenu from "@/components/common/Tab";
 import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
@@ -66,14 +67,14 @@ export default function RecommendNow() {
 
         <div className={styles.carouselWrapper}>
           {isLoading ? (
-            <Flex
-              justify="center"
-              align="center"
-              style={{ minHeight: "300px" }}
-            >
-              <Text typography="body1_r_16" color="neutral-70">
-                로딩중...
-              </Text>
+            <Flex gap="0.75rem">
+              {[1, 2, 3, 4].map((i) => (
+                <Flex key={i} direction="column" gap="0.75rem" style={{ flex: "0 0 calc(25% - 0.5625rem)" }}>
+                  <Skeleton height="320px" borderRadius="0.75rem" />
+                  <Skeleton height="1.5rem" width="80%" />
+                  <Skeleton height="1rem" width="60%" />
+                </Flex>
+              ))}
             </Flex>
           ) : error ? (
             <Flex

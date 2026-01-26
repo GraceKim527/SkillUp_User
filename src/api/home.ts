@@ -7,8 +7,9 @@ import { JobCategory } from "@/constants/category";
 import { BannersResponse } from "@/types/home";
 
 // 해시태그 기반 추천
-export const getRecommendedEvents = async () => {
-  const response = await tokenInstance.get("/events/home/recommended");
+export const getRecommendedEvents = async (isAuthenticated: boolean) => {
+  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+  const response = await axiosInstance.get("/events/home/recommended");
   return response.data.data;
 };
 
@@ -21,10 +22,12 @@ export const getRecentEvents = async (isAuthenticated: boolean) => {
 
 // 추천/인기 행사 리스트
 export const getFeaturedEvents = async (
+  isAuthenticated: boolean,
   category?: JobCategory,
   size?: number
 ) => {
-  const response = await instance.get("/events/home/featured", {
+  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+  const response = await axiosInstance.get("/events/home/featured", {
     params: {
       ...(category && { category }),
       ...(size !== undefined && { size }),
@@ -34,8 +37,12 @@ export const getFeaturedEvents = async (
 };
 
 // 곧 종료되는 행사 리스트
-export const getEndingSoonEvents = async (size?: number) => {
-  const response = await instance.get("/events/home/closing-soon", {
+export const getEndingSoonEvents = async (
+  isAuthenticated: boolean,
+  size?: number
+) => {
+  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+  const response = await axiosInstance.get("/events/home/closing-soon", {
     params: {
       ...(size !== undefined && { size }),
     },
@@ -45,12 +52,14 @@ export const getEndingSoonEvents = async (size?: number) => {
 
 // 카테고리별 홈 리스트
 export const getCategoryEvents = async (
+  isAuthenticated: boolean,
   category?: Exclude<EventCategory, "ARTICLE">,
   tab?: JobCategory,
   size?: number,
   page?: number
 ) => {
-  const response = await instance.get("/events/home/category", {
+  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+  const response = await axiosInstance.get("/events/home/category", {
     params: {
       ...(category && { category }),
       ...(tab !== undefined && { tab }),
@@ -62,7 +71,10 @@ export const getCategoryEvents = async (
 };
 
 // 배너 조회
-export const getBanners = async (): Promise<BannersResponse> => {
-  const response = await instance.get("/events/home/banners");
+export const getBanners = async (
+  isAuthenticated: boolean
+): Promise<BannersResponse> => {
+  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+  const response = await axiosInstance.get("/events/home/banners");
   return response.data.data;
 };

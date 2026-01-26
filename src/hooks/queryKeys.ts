@@ -15,16 +15,18 @@ export const queryKeys = {
   // Home
   home: {
     all: ["home"] as const,
-    recommended: () => [...queryKeys.home.all, "recommended"] as const,
+    recommended: (isAuthenticated: boolean) =>
+      [...queryKeys.home.all, "recommended", isAuthenticated] as const,
     recent: (isAuthenticated: boolean) =>
       [...queryKeys.home.all, "recent", isAuthenticated] as const,
-    featured: (category?: string, size?: number) =>
-      [...queryKeys.home.all, "featured", { category, size }] as const,
-    endingSoon: (size?: number) =>
-      [...queryKeys.home.all, "ending-soon", { size }] as const,
+    featured: (isAuthenticated: boolean, category?: string, size?: number) =>
+      [...queryKeys.home.all, "featured", { isAuthenticated, category, size }] as const,
+    endingSoon: (isAuthenticated: boolean, size?: number) =>
+      [...queryKeys.home.all, "ending-soon", { isAuthenticated, size }] as const,
     category: (filters: object) =>
       [...queryKeys.home.all, "category", filters] as const,
-    banners: () => [...queryKeys.home.all, "banners"] as const,
+    banners: (isAuthenticated: boolean) =>
+      [...queryKeys.home.all, "banners", isAuthenticated] as const,
   },
 
   // User
