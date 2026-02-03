@@ -18,10 +18,15 @@ export default function RecentEvent() {
   // API 데이터 가져오기
   const { data, isLoading, error } = useRecentEvents();
 
+  // 데이터가 없으면 섹션 전체를 렌더링하지 않음
+  if (!isLoading && (!data || data.length === 0)) {
+    return null;
+  }
+
   const getCardWidth = () => {
     if (!carouselRef.current) return 0;
     const firstCard = carouselRef.current.querySelector(
-      `.${styles.carouselItem}`
+      `.${styles.carouselItem}`,
     ) as HTMLElement;
     if (!firstCard) return 0;
     const cardWidth = firstCard.offsetWidth;
@@ -31,7 +36,7 @@ export default function RecentEvent() {
 
   const prev = () => {
     if (carouselRef.current) {
-      const scrollAmount = getCardWidth();
+      const scrollAmount = getCardWidth() * 3; // 3개씩 이동
       carouselRef.current.scrollBy({
         left: -scrollAmount,
         behavior: "smooth",
@@ -41,7 +46,7 @@ export default function RecentEvent() {
 
   const next = () => {
     if (carouselRef.current) {
-      const scrollAmount = getCardWidth();
+      const scrollAmount = getCardWidth() * 3; // 3개씩 이동
       carouselRef.current.scrollBy({
         left: scrollAmount,
         behavior: "smooth",
@@ -75,7 +80,12 @@ export default function RecentEvent() {
         {isLoading ? (
           <Flex gap="0.75rem">
             {[1, 2, 3, 4].map((i) => (
-              <Flex key={i} direction="column" gap="0.75rem" style={{ flex: "0 0 calc(25% - 0.5625rem)" }}>
+              <Flex
+                key={i}
+                direction="column"
+                gap="0.75rem"
+                style={{ flex: "0 0 calc(25% - 0.5625rem)" }}
+              >
                 <Skeleton height="320px" borderRadius="0.75rem" />
                 <Skeleton height="1.5rem" width="80%" />
                 <Skeleton height="1rem" width="60%" />
@@ -88,17 +98,9 @@ export default function RecentEvent() {
               데이터를 불러오는데 실패했습니다.
             </Text>
           </Flex>
-        ) : !data ||
-          !data.homeEventResponseList ||
-          data.homeEventResponseList.length === 0 ? (
-          <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
-            <Text typography="body1_r_16" color="neutral-70">
-              최근 본 행사가 없습니다.
-            </Text>
-          </Flex>
         ) : (
           <div ref={carouselRef} className={styles.carouselContainer}>
-            {data.homeEventResponseList.map((item: Event) => (
+            {data.map((item: Event) => (
               <div key={item.id} className={styles.carouselItem}>
                 <EventCard size="large" event={item} />
               </div>
