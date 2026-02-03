@@ -99,7 +99,7 @@ export default function StickyApplySection({
                 장소
               </Text>
               <Text typography="body1_r_16" color="neutral-20">
-                {place}
+                {place || "온라인"}
               </Text>
             </div>
           </div>
@@ -115,7 +115,7 @@ export default function StickyApplySection({
             </div>
           </div>
           <div className={styles.stickyApplySectionContentBodyItemDivider} />
-          <div className={styles.stickyApplySectionContentBodyItem}>
+          <div className={styles.stickyApplySectionContentBodyHashTags}>
             {hashTags.map((tag, index) => {
               // # 기호 제거
               const cleanTag = tag.startsWith("#") ? tag.slice(1) : tag;
@@ -146,17 +146,19 @@ export default function StickyApplySection({
           {isBookmarked ? "북마크 해제" : "북마크에 추가"}
         </Button>
       </div>
-      <div className={styles.stickyApplySectionFooter}>
-        <div className={styles.stickyApplySectionFooterItem}>
-          <div className={styles.circle} />
-          <Text typography="label3_m_14" color="neutral-60">
-            문의
+      {phoneNumber && (
+        <div className={styles.stickyApplySectionFooter}>
+          <div className={styles.stickyApplySectionFooterItem}>
+            <div className={styles.circle} />
+            <Text typography="label3_m_14" color="neutral-60">
+              문의
+            </Text>
+          </div>
+          <Text typography="body2_r_14" color="neutral-20">
+            {phoneNumber}
           </Text>
         </div>
-        <Text typography="body2_r_14" color="neutral-20">
-          {phoneNumber}
-        </Text>
-      </div>
+      )}
     </div>
   );
 }

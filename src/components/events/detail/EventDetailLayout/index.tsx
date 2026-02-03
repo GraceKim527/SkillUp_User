@@ -78,7 +78,7 @@ export default function EventDetailLayout({
           <EventInfoCard title="참가비">
             <Flex align="center" gap="1rem">
               <Text typography="body1_r_16" color="neutral-20">
-                {formatPriceWithUnit(eventDetail.price, eventDetail.isFree)}
+                {formatPriceWithUnit(eventDetail.price)}
               </Text>
               {eventDetail.isFree && <Badge label="무료" />}
             </Flex>
@@ -94,7 +94,7 @@ export default function EventDetailLayout({
               <Flex align="center" gap="0.375rem">
                 <Image src={CursorIcon} alt="cursor icon" />
                 <Text typography="body1_r_16" color="neutral-20">
-                  {eventDetail.locationText}
+                  {eventDetail.locationText || "온라인"}
                 </Text>
               </Flex>
               {!eventDetail.isOnline && (

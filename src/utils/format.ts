@@ -26,8 +26,7 @@ export const formatPrice = (price: number): string => {
 };
 
 // 가격을 "원" 단위로 포맷팅
-export const formatPriceWithUnit = (price: number, isFree: boolean): string => {
-  if (isFree) return "무료";
+export const formatPriceWithUnit = (price: number): string => {
   return `${formatPrice(price)}원`;
 };
 

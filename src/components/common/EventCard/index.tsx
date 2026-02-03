@@ -81,7 +81,7 @@ export default function EventCard({
         {
           [styles.block]: block,
         },
-        className
+        className,
       )}
     >
       <div className={styles.eventCardImage}>
@@ -153,7 +153,7 @@ export default function EventCard({
                 color="neutral-40"
                 className={styles.eventCardContentBodyDatePlaceItemText}
               >
-                {locationText}
+                {locationText || "온라인"}
               </Text>
             </Flex>
           </Flex>
