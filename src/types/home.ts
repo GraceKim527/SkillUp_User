@@ -4,6 +4,8 @@
 export interface Banner {
   displayOrder: number;
   title: string;
+  subtitle?: string;
+  description?: string;
   bannerImageUrl: string;
   bannerLink: string;
   bannerType: string;

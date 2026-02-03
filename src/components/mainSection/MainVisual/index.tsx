@@ -2,10 +2,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Flex from "@/components/common/Flex";
-import styles from "./style.module.css";
+import styles from "./styles.module.css";
 import { useBanners } from "@/hooks/queries/useHome";
-import Banner from "@/assets/images/main_banner.jpg";
-import Banner2 from "@/assets/images/main_banner2.png";
+import Banner from "@/assets/images/main_banner.png";
 import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import Text from "@/components/common/Text";
@@ -22,7 +21,7 @@ export default function MainVisual() {
   const { data, isLoading, error } = useBanners();
 
   // 기본 배너 배열
-  const defaultBanners = [Banner, Banner2];
+  const defaultBanners = [Banner];
   // 무한 슬라이드를 위한 복제: [마지막, 원본들, 첫번째]
   const extendedDefaultBanners = [
     defaultBanners[defaultBanners.length - 1],
@@ -34,7 +33,7 @@ export default function MainVisual() {
   const sortedBanners =
     data && data.homeBannerResponseList
       ? [...data.homeBannerResponseList].sort(
-          (a, b) => a.displayOrder - b.displayOrder
+          (a, b) => a.displayOrder - b.displayOrder,
         )
       : [];
 
@@ -188,12 +187,28 @@ export default function MainVisual() {
           >
             {extendedDefaultBanners.map((banner, index) => (
               <div key={`default-${index}`} className={styles.slideItem}>
-                <Image
-                  src={banner}
-                  alt={`비주얼 배너 ${index}`}
-                  fill
-                  priority={index === 1}
-                />
+                <div className={styles.slideItemImage}>
+                  <Image
+                    src={banner}
+                    alt={`비주얼 배너 ${index}`}
+                    fill
+                    priority={index === 1}
+                  />
+                </div>
+                <div className={styles.slideInner}>
+                  <div className={styles.slideContent}>
+                    <Text typography="sub2_m_18" color="primary-strong" as="p">
+                      OPPORTUNITY
+                    </Text>
+                    <Text typography="head1_m_42" color="white" as="h2">
+                      취업을 넘어 커리어를 만드는 힘, <br /> 스킬업에서
+                    </Text>
+                    <Text typography="body1_r_16" color="neutral-70" as="p">
+                      IT 취업을 준비하는 당신에게 꼭 필요한 <br /> 실전 기회들을
+                      모아, 성장의 길을 열어드립니다.
+                    </Text>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -243,12 +258,27 @@ export default function MainVisual() {
         >
           {extendedBanners.map((banner, index) => (
             <div key={`banner-${index}`} className={styles.slideItem}>
-              <Image
-                src={banner.bannerImageUrl}
-                alt={banner.title}
-                fill
-                priority={index === 1}
-              />
+              <div className={styles.slideItemImage}>
+                <Image
+                  src={banner.bannerImageUrl}
+                  alt={banner.title}
+                  fill
+                  priority={index === 1}
+                />
+              </div>
+              <div className={styles.slideInner}>
+                <div className={styles.slideContent}>
+                  <Text typography="sub2_m_18" color="primary-strong" as="p">
+                    {banner.subtitle || ""}
+                  </Text>
+                  <Text typography="head1_m_42" color="white" as="h2">
+                    {banner.title}
+                  </Text>
+                  <Text typography="body1_r_16" color="neutral-70" as="p">
+                    {banner.description || ""}
+                  </Text>
+                </div>
+              </div>
             </div>
           ))}
         </div>
