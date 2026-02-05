@@ -19,6 +19,8 @@ export const useToggleEventBookmark = () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.events.all });
       // 홈 화면의 추천/인기/마감 행사들도 refetch
       queryClient.invalidateQueries({ queryKey: queryKeys.home.all });
+      // 북마크 페이지도 refetch
+      queryClient.invalidateQueries({ queryKey: queryKeys.user.all });
     },
   });
 };
