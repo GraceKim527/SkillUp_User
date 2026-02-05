@@ -90,3 +90,9 @@ export interface EventSearchRequest {
   isFree?: boolean;
   page: number;
 }
+
+// 추천 행사 API 응답 (해시태그 기반)
+export interface RecommendedEventsResponse {
+  events: Event[];
+  hashTags: string[];
+}

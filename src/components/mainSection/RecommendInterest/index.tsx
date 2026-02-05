@@ -12,11 +12,12 @@ import Text from "@/components/common/Text";
 import { useRecommendedEvents } from "@/hooks/queries/useHome";
 import { Event } from "@/types/event";
 import { useAuth } from "@/hooks/useAuth";
+import LoginImage from "@/assets/images/loginImg.png";
 
 export default function RecommendInterest() {
   const { isAuthenticated } = useAuth();
   const [bookmarkedCards, setBookmarkedCards] = useState<Set<number>>(
-    new Set()
+    new Set(),
   );
 
   // API 데이터 가져오기 (Hook은 항상 먼저 호출)
@@ -29,7 +30,7 @@ export default function RecommendInterest() {
 
   const handleBookmarkClick = (
     e: React.MouseEvent<HTMLButtonElement>,
-    eventId: number
+    eventId: number,
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -44,15 +45,8 @@ export default function RecommendInterest() {
     });
   };
 
-  const keywords = [
-    "#기획",
-    "#디자인",
-    "#AI",
-    "#개발",
-    "#마케팅",
-    "#교육",
-    "#데이터",
-  ];
+  // API에서 받아온 해시태그 사용
+  const keywords = data?.hashTags || [];
 
   return (
     <section className={styles.interestSection}>
@@ -84,14 +78,9 @@ export default function RecommendInterest() {
 
           <Flex wrap="wrap" gap="0.5rem" className={styles.keywordBox}>
             {keywords.map((kw, i) => (
-              <button
-                key={i}
-                type="button"
-                className={styles.keywordBtn}
-                aria-label={`${kw} 카테고리 필터`}
-              >
+              <span key={i} className={styles.keywordBtn}>
                 {kw}
-              </button>
+              </span>
             ))}
           </Flex>
         </Flex>
@@ -117,9 +106,7 @@ export default function RecommendInterest() {
                 데이터를 불러오는데 실패했습니다.
               </Text>
             </Flex>
-          ) : !data ||
-            !data.homeEventResponseList ||
-            data.homeEventResponseList.length === 0 ? (
+          ) : !data || !data.events || data.events.length === 0 ? (
             <Flex
               justify="center"
               align="center"
@@ -130,12 +117,15 @@ export default function RecommendInterest() {
               </Text>
             </Flex>
           ) : (
-            data.homeEventResponseList.map((event: Event) => {
+            data.events.slice(0, 4).map((event: Event) => {
               const isBookmarked = bookmarkedCards.has(event.id);
               return (
                 <Flex key={event.id} direction="column" gap="0.5rem">
                   <div className={styles.imgBox}>
-                    <img src={event.thumbnailUrl} alt={event.title} />
+                    <img
+                      src={event.thumbnailUrl ?? LoginImage.src.toString()}
+                      alt={event.title}
+                    />
                     <IconButton
                       variant="opacity"
                       size="large"

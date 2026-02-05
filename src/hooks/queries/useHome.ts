@@ -13,12 +13,13 @@ import { EventCategory, EVENT_CATEGORY } from "@/constants/event";
 import { JobCategory } from "@/constants/category";
 import { useAuth } from "../useAuth";
 import { queryKeys } from "../queryKeys";
+import { RecommendedEventsResponse } from "@/types/event";
 
 // 해시태그 기반 추천 행사
 export const useRecommendedEvents = () => {
   const { isAuthenticated } = useAuth();
 
-  return useQuery({
+  return useQuery<RecommendedEventsResponse>({
     queryKey: queryKeys.home.recommended(isAuthenticated),
     queryFn: () => getRecommendedEvents(isAuthenticated),
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지

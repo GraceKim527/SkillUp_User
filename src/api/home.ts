@@ -5,9 +5,12 @@ import tokenInstance from "./tokenInstance";
 import { EventCategory } from "@/constants/event";
 import { JobCategory } from "@/constants/category";
 import { BannersResponse } from "@/types/home";
+import { RecommendedEventsResponse } from "@/types/event";
 
 // 해시태그 기반 추천
-export const getRecommendedEvents = async (isAuthenticated: boolean) => {
+export const getRecommendedEvents = async (
+  isAuthenticated: boolean
+): Promise<RecommendedEventsResponse> => {
   const axiosInstance = isAuthenticated ? tokenInstance : instance;
   const response = await axiosInstance.get("/events/home/recommended");
   return response.data.data;
