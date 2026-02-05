@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "skillup-project-s3-bucket.s3.ap-northeast-2.amazonaws.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.skillup.com",
+        pathname: "/**",
+      },
     ],
   },
 };

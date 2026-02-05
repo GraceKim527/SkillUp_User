@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import Flex from "@/components/common/Flex";
 import styles from "./styles.module.css";
 import { useBanners } from "@/hooks/queries/useHome";
@@ -11,28 +10,15 @@ import Text from "@/components/common/Text";
 
 export default function MainVisual() {
   const [currentIndex, setCurrentIndex] = useState(1); // 무한 슬라이드: 초기값 1
-  const [defaultBannerIndex, setDefaultBannerIndex] = useState(1); // 무한 슬라이드: 초기값 1
   const [isTransitioning, setIsTransitioning] = useState(true);
-  const [isDefaultTransitioning, setIsDefaultTransitioning] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false); // 애니메이션 중 클릭 방지
-  const [isDefaultAnimating, setIsDefaultAnimating] = useState(false); // 기본 배너 애니메이션 중 클릭 방지
   const sliderRef = useRef<HTMLDivElement>(null);
-  const defaultSliderRef = useRef<HTMLDivElement>(null);
   const { data, isLoading, error } = useBanners();
-
-  // 기본 배너 배열
-  const defaultBanners = [Banner];
-  // 무한 슬라이드를 위한 복제: [마지막, 원본들, 첫번째]
-  const extendedDefaultBanners = [
-    defaultBanners[defaultBanners.length - 1],
-    ...defaultBanners,
-    defaultBanners[0],
-  ];
 
   // displayOrder로 정렬
   const sortedBanners =
-    data && data.homeBannerResponseList
-      ? [...data.homeBannerResponseList].sort(
+    data && data.eventMainBannerReponseList
+      ? [...data.eventMainBannerReponseList].sort(
           (a, b) => a.displayOrder - b.displayOrder,
         )
       : [];
@@ -46,60 +32,6 @@ export default function MainVisual() {
           sortedBanners[0],
         ]
       : [];
-
-  // 기본 배너 이전/다음 핸들러
-  const handleDefaultPrev = () => {
-    if (!isDefaultTransitioning || isDefaultAnimating) return;
-    setIsDefaultAnimating(true);
-    setDefaultBannerIndex((prev) => prev - 1);
-  };
-
-  const handleDefaultNext = () => {
-    if (!isDefaultTransitioning || isDefaultAnimating) return;
-    setIsDefaultAnimating(true);
-    setDefaultBannerIndex((prev) => prev + 1);
-  };
-
-  // 기본 배너 자동 롤링 (3초마다)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isDefaultTransitioning && !isDefaultAnimating) {
-        setIsDefaultAnimating(true);
-        setDefaultBannerIndex((prev) => prev + 1);
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isDefaultTransitioning, isDefaultAnimating]);
-
-  // 기본 배너 transition 끝날 때 처리
-  useEffect(() => {
-    const slider = defaultSliderRef.current;
-    if (!slider) return;
-
-    const handleTransitionEnd = () => {
-      setIsDefaultAnimating(false); // 애니메이션 완료, 클릭 가능
-
-      // 마지막 복제본에 도달했을 때 (첫번째 실제 배너로 점프)
-      if (defaultBannerIndex === extendedDefaultBanners.length - 1) {
-        setIsDefaultTransitioning(false);
-        setDefaultBannerIndex(1);
-      }
-      // 첫번째 복제본에 도달했을 때 (마지막 실제 배너로 점프)
-      if (defaultBannerIndex === 0) {
-        setIsDefaultTransitioning(false);
-        setDefaultBannerIndex(defaultBanners.length);
-      }
-    };
-
-    slider.addEventListener("transitionend", handleTransitionEnd);
-    return () =>
-      slider.removeEventListener("transitionend", handleTransitionEnd);
-  }, [
-    defaultBannerIndex,
-    defaultBanners.length,
-    extendedDefaultBanners.length,
-  ]);
 
   // API 배너 transition 끝날 때 처리
   useEffect(() => {
@@ -126,16 +58,7 @@ export default function MainVisual() {
       slider.removeEventListener("transitionend", handleTransitionEnd);
   }, [currentIndex, sortedBanners.length, extendedBanners.length]);
 
-  // transition 상태 복원 (기본 배너)
-  useEffect(() => {
-    if (!isDefaultTransitioning) {
-      setTimeout(() => {
-        setIsDefaultTransitioning(true);
-      }, 50);
-    }
-  }, [isDefaultTransitioning]);
-
-  // transition 상태 복원 (API 배너)
+  // transition 상태 복원
   useEffect(() => {
     if (!isTransitioning) {
       setTimeout(() => {
@@ -164,85 +87,15 @@ export default function MainVisual() {
     setCurrentIndex((prev) => prev + 1);
   };
 
-  // API 데이터가 없거나 로딩 중이거나 에러일 경우 기본 배너 표시
+  // API 데이터가 없거나 로딩 중이거나 에러일 경우 표시하지 않음
   if (
     isLoading ||
     error ||
     !data ||
-    !data.homeBannerResponseList ||
-    data.homeBannerResponseList.length === 0
+    !data.eventMainBannerReponseList ||
+    data.eventMainBannerReponseList.length === 0
   ) {
-    return (
-      <section id="mainVisual" className={styles.mainVisual}>
-        <div className={styles.visualSlide}>
-          <div
-            ref={defaultSliderRef}
-            className={styles.sliderTrack}
-            style={{
-              transform: `translateX(-${defaultBannerIndex * 100}%)`,
-              transition: isDefaultTransitioning
-                ? "transform 0.5s ease-in-out"
-                : "none",
-            }}
-          >
-            {extendedDefaultBanners.map((banner, index) => (
-              <div key={`default-${index}`} className={styles.slideItem}>
-                <div className={styles.slideItemImage}>
-                  <Image
-                    src={banner}
-                    alt={`비주얼 배너 ${index}`}
-                    fill
-                    priority={index === 1}
-                  />
-                </div>
-                <div className={styles.slideInner}>
-                  <div className={styles.slideContent}>
-                    <Text typography="sub2_m_18" color="primary-strong" as="p">
-                      OPPORTUNITY
-                    </Text>
-                    <Text typography="head1_m_42" color="white" as="h2">
-                      취업을 넘어 커리어를 만드는 힘, <br /> 스킬업에서
-                    </Text>
-                    <Text typography="body1_r_16" color="neutral-70" as="p">
-                      IT 취업을 준비하는 당신에게 꼭 필요한 <br /> 실전 기회들을
-                      모아, 성장의 길을 열어드립니다.
-                    </Text>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <Flex align="center" gap="12px" className={styles.paging}>
-            <button
-              onClick={handleDefaultPrev}
-              className={styles.pagingButton}
-              disabled={isDefaultAnimating}
-            >
-              <ChevronLeftIcon color="#fff" width={18} height={18} />
-            </button>
-            <Flex align="center" gap={0.1}>
-              <Text typography="body2_r_14" color="white">
-                {getActualIndex(defaultBannerIndex, defaultBanners.length)}
-              </Text>
-              <Text typography="body2_r_14" color="white">
-                /
-              </Text>
-              <Text typography="body2_r_14" color="white">
-                {defaultBanners.length}
-              </Text>
-            </Flex>
-
-            <button
-              onClick={handleDefaultNext}
-              className={styles.pagingButton}
-              disabled={isDefaultAnimating}
-            >
-              <ChevronRightIcon color="#fff" width={18} height={18} />
-            </button>
-          </Flex>
-        </div>
-      </section>
-    );
+    return null;
   }
 
   return (
@@ -259,20 +112,18 @@ export default function MainVisual() {
           {extendedBanners.map((banner, index) => (
             <div key={`banner-${index}`} className={styles.slideItem}>
               <div className={styles.slideItemImage}>
-                <Image
-                  src={banner.bannerImageUrl}
-                  alt={banner.title}
-                  fill
-                  priority={index === 1}
+                <img
+                  src={banner.bannerImageUrl ?? Banner.src.toString()}
+                  alt={banner.mainTitle}
                 />
               </div>
               <div className={styles.slideInner}>
                 <div className={styles.slideContent}>
                   <Text typography="sub2_m_18" color="primary-strong" as="p">
-                    {banner.subtitle || ""}
+                    {banner.subTitle || ""}
                   </Text>
                   <Text typography="head1_m_42" color="white" as="h2">
-                    {banner.title}
+                    {banner.mainTitle}
                   </Text>
                   <Text typography="body1_r_16" color="neutral-70" as="p">
                     {banner.description || ""}
@@ -284,15 +135,31 @@ export default function MainVisual() {
         </div>
 
         <Flex align="center" gap="12px" className={styles.paging}>
-          <button onClick={handlePrev} disabled={isAnimating}>
-            &lt;
+          <button
+            onClick={handlePrev}
+            className={styles.pagingButton}
+            disabled={isAnimating}
+          >
+            <ChevronLeftIcon color="#fff" width={18} height={18} />
           </button>
-          <span className={styles.current}>
-            {getActualIndex(currentIndex, sortedBanners.length)}
-          </span>
-          /<span>{sortedBanners.length}</span>
-          <button onClick={handleNext} disabled={isAnimating}>
-            &gt;
+          <Flex align="center" gap={0.1}>
+            <Text typography="body2_r_14" color="white">
+              {getActualIndex(currentIndex, sortedBanners.length)}
+            </Text>
+            <Text typography="body2_r_14" color="white">
+              /
+            </Text>
+            <Text typography="body2_r_14" color="white">
+              {sortedBanners.length}
+            </Text>
+          </Flex>
+
+          <button
+            onClick={handleNext}
+            className={styles.pagingButton}
+            disabled={isAnimating}
+          >
+            <ChevronRightIcon color="#fff" width={18} height={18} />
           </button>
         </Flex>
       </div>

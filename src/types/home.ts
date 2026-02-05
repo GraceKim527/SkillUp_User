@@ -3,9 +3,12 @@
 // 배너 타입
 export interface Banner {
   displayOrder: number;
-  title: string;
-  subtitle?: string;
-  description?: string;
+  id: number;
+  no: number;
+  mainTitle: string;
+  subTitle: string;
+  clickCount: number;
+  description: string;
   bannerImageUrl: string;
   bannerLink: string;
   bannerType: string;
@@ -15,5 +18,5 @@ export interface Banner {
 
 // 배너 목록 응답 타입
 export interface BannersResponse {
-  homeBannerResponseList: Banner[];
+  eventMainBannerReponseList: Banner[];
 }
