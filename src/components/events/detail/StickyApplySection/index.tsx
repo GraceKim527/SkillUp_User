@@ -29,6 +29,7 @@ interface StickyApplySectionProps {
   image: string;
   hashTags?: string[];
   bookmarked?: boolean;
+  applyLink?: string;
 }
 
 export default function StickyApplySection({
@@ -43,6 +44,7 @@ export default function StickyApplySection({
   image,
   hashTags = [],
   bookmarked = false,
+  applyLink,
 }: StickyApplySectionProps) {
   const [isBookmarked, setIsBookmarked] = useState(bookmarked);
   const { mutate: toggleBookmark, isPending } = useToggleEventBookmark();
@@ -58,6 +60,11 @@ export default function StickyApplySection({
         setIsBookmarked(isBookmarked);
       },
     });
+  };
+  const handleApplyClick = () => {
+    if (applyLink) {
+      window.open(applyLink, "_blank");
+    }
   };
   return (
     <div className={styles.stickyApplySection}>
@@ -133,9 +140,16 @@ export default function StickyApplySection({
         </div>
       </div>
       <div className={styles.stickyApplyButtonList}>
-        <Button variant="primary" size="extraLarge" block>
-          신청하기
-        </Button>
+        {applyLink && (
+          <Button
+            variant="primary"
+            size="extraLarge"
+            block
+            onClick={handleApplyClick}
+          >
+            신청하기
+          </Button>
+        )}
         <Button
           variant="outlined"
           size="extraLarge"

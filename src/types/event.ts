@@ -10,7 +10,7 @@ import {
 export interface BaseEvent {
   id: number;
   title: string;
-  thumbnailUrl: string;
+  thumbnailUrl: string | null;
   category: EventCategory;
 }
 
@@ -37,16 +37,16 @@ export interface EventDetailDto extends BaseEvent {
   price: number;
   isOnline: boolean;
   locationText: string;
-  locationLink: string;
-  applyLink: string;
+  locationLink: string | null;
+  applyLink: string | null;
   status: EventStatus;
-  contact: string;
+  contact: string | null;
   description: string;
   hashTags: string[];
   targetRoles: string[];
   bookmarked: boolean;
-  latitude?: number; // 위도 (백엔드에 요청 필요)
-  longitude?: number; // 경도 (백엔드에 요청 필요)
+  latitude: number;
+  longitude: number;
 }
 
 // 클라이언트에서 사용하는 이벤트 타입

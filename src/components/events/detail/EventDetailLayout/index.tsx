@@ -16,6 +16,7 @@ import { useEventDetail } from "@/hooks/queries/useEventDetail";
 import { formatDate, formatPriceWithUnit, getDdayLabel } from "@/utils/format";
 import { EventCategory } from "@/constants/event";
 import NaverMap from "@/components/common/NaverMap";
+import parse from "html-react-parser";
 
 interface EventDetailLayoutProps {
   eventId: number;
@@ -56,6 +57,7 @@ export default function EventDetailLayout({
         image={eventDetail.thumbnailUrl}
         hashTags={eventDetail.hashTags}
         bookmarked={eventDetail.bookmarked}
+        applyLink={eventDetail.applyLink ?? undefined}
       />
       <Flex
         direction="column"
@@ -64,7 +66,9 @@ export default function EventDetailLayout({
       >
         <Flex direction="column" gap="0.75rem">
           <EventInfoCard title="행사 설명">
-            {eventDetail.description}
+            <div className={styles.markdown}>
+              {parse(eventDetail.description)}
+            </div>
           </EventInfoCard>
           <EventInfoCard title="모집 기간" isDate>
             <Flex align="center" gap="1rem">
