@@ -28,6 +28,7 @@ import Text from "../Text";
 import ChevronDownIcon from "@/assets/icons/ChevronDownIcon";
 import { useRouter } from "next/navigation";
 import SearchModalContent from "@/components/main/SearchModalContent";
+import { useToast } from "@/hooks/useToast";
 
 interface HeaderProps {
   variant: "main" | "sub";
@@ -39,6 +40,7 @@ export default function Header({ variant }: HeaderProps) {
   const { isAuthenticated, logout } = useAuth();
   const { mutate: startSocialLogin } = useSocialLogin();
   const router = useRouter();
+  const { showToast } = useToast();
   // 로그인 상태일 때 유저 이메일/이름/프로필 이미지 자동 조회 (백그라운드 업데이트)
   useUserEmailAndName();
 
@@ -70,6 +72,12 @@ export default function Header({ variant }: HeaderProps) {
 
   const handleLogout = () => {
     logout();
+    showToast({
+      title: "로그아웃 완료",
+      message: "로그아웃되었습니다.",
+      type: "success",
+      duration: 2000,
+    });
     router.push("/");
   };
 
