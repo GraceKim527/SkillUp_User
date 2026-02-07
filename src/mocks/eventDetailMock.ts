@@ -26,6 +26,8 @@ export const eventDetailMock: EventDetail[] = [
     hashTags: ["디자인", "트렌드", "2025"],
     targetRoles: ["디자이너", "기획자"],
     bookmarked: false,
+    latitude: 37.5447,
+    longitude: 127.0557,
   },
   {
     id: 2,
@@ -48,6 +50,8 @@ export const eventDetailMock: EventDetail[] = [
     hashTags: ["AI", "리더십", "서밋"],
     targetRoles: ["개발자", "PM"],
     bookmarked: false,
+    latitude: 37.5012,
+    longitude: 127.0396,
   },
   {
     id: 3,
@@ -70,6 +74,8 @@ export const eventDetailMock: EventDetail[] = [
     hashTags: ["개발자", "밋업", "네트워킹"],
     targetRoles: ["개발자"],
     bookmarked: false,
+    latitude: 37.5665,
+    longitude: 126.9780,
   },
   {
     id: 4,
@@ -92,5 +98,7 @@ export const eventDetailMock: EventDetail[] = [
     hashTags: ["기획", "네트워킹"],
     targetRoles: ["기획자", "PM"],
     bookmarked: false,
+    latitude: 35.1584,
+    longitude: 129.1604,
   },
 ];
