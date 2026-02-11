@@ -7,10 +7,8 @@ import {
   getRecommendedEvents,
   getFeaturedEvents,
   getEndingSoonEvents,
-  getCategoryEvents,
   getBanners,
 } from "@/api/home";
-import { EVENT_CATEGORY } from "@/constants/event";
 import { JOB_CATEGORY } from "@/constants/category";
 import MainVisual from "@/components/mainSection/MainVisual";
 import RecommendNow from "@/components/mainSection/RecommendNow";
@@ -23,21 +21,21 @@ import RecommendContents from "@/components/mainSection/RecommendContents";
 import Bootcamp from "@/components/mainSection/Bootcamp";
 import IconMenu from "@/components/mainSection/MainVisual/IconMenu";
 // import NewsletterCTA from "@/components/mainSection/NewsletterCTA";
-import { ARTICLE_TAB } from "@/constants/article";
-import { getArticleList } from "@/api/article";
 
 export default async function Home() {
   const queryClient = new QueryClient();
   const isAuthenticated = false; // 서버 prefetch는 비로그인 상태로
 
+  // 초기 화면(Above the fold)에 필요한 데이터만 prefetch
+  // 나머지는 클라이언트에서 로드하여 빌드 타임아웃 방지
   await Promise.all([
-    // 해시태그 기반 추천 행사 (비로그인은 스킵)
+    // 배너 (최상단)
     queryClient.prefetchQuery({
-      queryKey: ["home", "recommended", isAuthenticated],
-      queryFn: () => getRecommendedEvents(isAuthenticated),
+      queryKey: ["home", "banners", isAuthenticated],
+      queryFn: () => getBanners(isAuthenticated),
     }),
 
-    // 인기/추천 행사 (지금 주목받고 있어요) - 전체 탭만 prefetch
+    // 인기/추천 행사 (지금 주목받고 있어요)
     queryClient.prefetchQuery({
       queryKey: [
         "home",
@@ -47,68 +45,16 @@ export default async function Home() {
       queryFn: () => getFeaturedEvents(isAuthenticated, JOB_CATEGORY.ALL),
     }),
 
+    // 해시태그 기반 추천 행사 (관심있어하실 행사)
+    queryClient.prefetchQuery({
+      queryKey: ["home", "recommended", isAuthenticated],
+      queryFn: () => getRecommendedEvents(isAuthenticated),
+    }),
+
     // 곧 종료되는 행사 (신청 마감 행사)
     queryClient.prefetchQuery({
       queryKey: ["home", "ending-soon", { isAuthenticated, size: 8 }],
       queryFn: () => getEndingSoonEvents(isAuthenticated, 8),
-    }),
-
-    // 부트캠프 카테고리
-    queryClient.prefetchQuery({
-      queryKey: [
-        "home",
-        "category",
-        {
-          isAuthenticated,
-          category: EVENT_CATEGORY.BOOTCAMP_CLUB,
-          tab: JOB_CATEGORY.ALL,
-          size: 8,
-          page: 1,
-        },
-      ],
-      queryFn: () =>
-        getCategoryEvents(
-          isAuthenticated,
-          EVENT_CATEGORY.BOOTCAMP_CLUB,
-          JOB_CATEGORY.ALL,
-          8,
-          1
-        ),
-    }),
-
-    // 동아리·해커톤·공모전 카테고리
-    queryClient.prefetchQuery({
-      queryKey: [
-        "home",
-        "category",
-        {
-          isAuthenticated,
-          category: EVENT_CATEGORY.COMPETITION_HACKATHON,
-          tab: undefined,
-          size: 8,
-          page: 0,
-        },
-      ],
-      queryFn: () =>
-        getCategoryEvents(
-          isAuthenticated,
-          EVENT_CATEGORY.COMPETITION_HACKATHON,
-          undefined,
-          8,
-          0
-        ),
-    }),
-
-    // 배너
-    queryClient.prefetchQuery({
-      queryKey: ["home", "banners", isAuthenticated],
-      queryFn: () => getBanners(isAuthenticated),
-    }),
-
-    // 추천 아티클
-    queryClient.prefetchQuery({
-      queryKey: ["home", "recommendedArticles", { tab: ARTICLE_TAB.ALL }],
-      queryFn: () => getArticleList(JOB_CATEGORY.ALL),
     }),
   ]);
 

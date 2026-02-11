@@ -15,6 +15,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  staticGeneration: {
+    timeout: 180, // 60초 → 180초 (3분)
+  },
 };
 
 export default nextConfig;
