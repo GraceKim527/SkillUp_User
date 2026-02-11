@@ -10,6 +10,7 @@ import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import { useRecommendedEvents } from "@/hooks/queries/useRecommendedEvents";
 import { EventCategory } from "@/constants/event";
 import { Event } from "@/types/event";
+import RecommendedEventsEmpty from "../RecommendedEventsEmpty";
 
 interface RecommendedEventsSectionProps {
   category: EventCategory;
@@ -37,15 +38,24 @@ export default function RecommendedEventsSection({
 
   const renderContent = () => {
     if (isLoadingRecommended) {
+      if (containerType === "flex") {
+        return (
+          <Text typography="body1_r_16" color="neutral-40">
+            추천 행사를 불러오는 중...
+          </Text>
+        );
+      }
       return (
-        <Text typography="body1_r_16" color="neutral-40">
-          추천 행사를 불러오는 중...
-        </Text>
+        <div className={cardContainerClassName}>
+          <Text typography="body1_r_16" color="neutral-40">
+            추천 행사를 불러오는 중...
+          </Text>
+        </div>
       );
     }
 
     if (recommendedEvents && recommendedEvents.length > 0) {
-      return recommendedEvents
+      const cards = recommendedEvents
         .slice(0, 3)
         .map((event: Event) => (
           <EventCard
@@ -55,13 +65,14 @@ export default function RecommendedEventsSection({
             block={blockCard}
           />
         ));
+
+      if (containerType === "flex") {
+        return cards;
+      }
+      return <div className={cardContainerClassName}>{cards}</div>;
     }
 
-    return (
-      <Text typography="body1_r_16" color="neutral-40">
-        추천할 행사가 없습니다.
-      </Text>
-    );
+    return <RecommendedEventsEmpty />;
   };
 
   return (
@@ -82,7 +93,7 @@ export default function RecommendedEventsSection({
           {renderContent()}
         </Flex>
       ) : (
-        <div className={cardContainerClassName}>{renderContent()}</div>
+        renderContent()
       )}
     </Flex>
   );

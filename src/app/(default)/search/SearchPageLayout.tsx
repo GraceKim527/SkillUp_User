@@ -24,6 +24,7 @@ import { useRecommendedEvents } from "@/hooks/queries/useRecommendedEvents";
 import { pageFilterAtomsMap } from "@/components/events/filters/atoms/pageFilterAtoms";
 import { useSearchEvents } from "@/hooks/queries/useEventList";
 import styles from "@/components/events/EventPageLayout/styles.module.css";
+import RecommendedEventsEmpty from "@/components/events/RecommendedEventsEmpty";
 
 interface SearchPageLayoutProps {
   searchQuery: string;
@@ -87,7 +88,8 @@ export default function SearchPageLayout({
   const total = isFallback ? 0 : data?.total || 0;
 
   // 추천 이벤트 조회 - 검색 결과가 없거나 fallback일 때만 호출
-  const shouldFetchRecommended = !isLoading && (eventList.length === 0 || isFallback);
+  const shouldFetchRecommended =
+    !isLoading && (eventList.length === 0 || isFallback);
   const { data: recommendedEvents, isLoading: isLoadingRecommended } =
     useRecommendedEvents("CONFERENCE_SEMINAR", shouldFetchRecommended);
 
@@ -171,23 +173,21 @@ export default function SearchPageLayout({
                   IT 행사 더보기
                 </Button>
               </Flex>
-              <div className={styles.cardList}>
-                {isLoadingRecommended ? (
+              {isLoadingRecommended ? (
+                <div className={styles.cardList}>
                   <Text typography="body1_r_16" color="neutral-40">
                     추천 행사를 불러오는 중...
                   </Text>
-                ) : recommendedEvents && recommendedEvents.length > 0 ? (
-                  recommendedEvents
-                    .slice(0, 3)
-                    .map((event: Event) => (
-                      <EventCard key={event.id} size="medium" event={event} />
-                    ))
-                ) : (
-                  <Text typography="body1_r_16" color="neutral-40">
-                    추천할 행사가 없습니다.
-                  </Text>
-                )}
-              </div>
+                </div>
+              ) : recommendedEvents && recommendedEvents.length > 0 ? (
+                <div className={styles.cardList}>
+                  {recommendedEvents.slice(0, 3).map((event: Event) => (
+                    <EventCard key={event.id} size="medium" event={event} />
+                  ))}
+                </div>
+              ) : (
+                <RecommendedEventsEmpty />
+              )}
             </Flex>
           </>
         ) : eventList.length === 0 ? (
@@ -213,23 +213,21 @@ export default function SearchPageLayout({
                   IT 행사 더보기
                 </Button>
               </Flex>
-              <div className={styles.cardList}>
-                {isLoadingRecommended ? (
+              {isLoadingRecommended ? (
+                <div className={styles.cardList}>
                   <Text typography="body1_r_16" color="neutral-40">
                     추천 행사를 불러오는 중...
                   </Text>
-                ) : recommendedEvents && recommendedEvents.length > 0 ? (
-                  recommendedEvents
-                    .slice(0, 3)
-                    .map((event: Event) => (
-                      <EventCard key={event.id} size="medium" event={event} />
-                    ))
-                ) : (
-                  <Text typography="body1_r_16" color="neutral-40">
-                    추천할 행사가 없습니다.
-                  </Text>
-                )}
-              </div>
+                </div>
+              ) : recommendedEvents && recommendedEvents.length > 0 ? (
+                <div className={styles.cardList}>
+                  {recommendedEvents.slice(0, 3).map((event: Event) => (
+                    <EventCard key={event.id} size="medium" event={event} />
+                  ))}
+                </div>
+              ) : (
+                <RecommendedEventsEmpty />
+              )}
             </Flex>
           </>
         ) : (
