@@ -29,13 +29,5 @@ export const useToggleEventBookmark = () => {
       // 북마크 페이지도 refetch
       queryClient.invalidateQueries({ queryKey: queryKeys.user.all });
     },
-    onError: () => {
-      showToast({
-        title: "북마크 변경 불가",
-        message: "로그인 상태를 확인해주세요.",
-        type: "error",
-        duration: 2000,
-      });
-    },
   });
 };
