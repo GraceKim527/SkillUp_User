@@ -5,13 +5,15 @@ import { useEffect, useRef } from "react";
 import styles from "./styles.module.css";
 
 interface NaverMapProps {
-  address: string;
+  latitude: number;
+  longitude: number;
   width?: string;
   height?: string;
 }
 
 export default function NaverMap({
-  address,
+  latitude,
+  longitude,
   width = "100%",
   height = "300px",
 }: NaverMapProps) {
@@ -26,8 +28,8 @@ export default function NaverMap({
 
     if (!mapRef.current) return;
 
-    // 임시로 강남역 좌표 사용
-    const position = new window.naver.maps.LatLng(37.4979, 127.0276);
+    // 전달받은 위도/경도 사용
+    const position = new window.naver.maps.LatLng(latitude, longitude);
 
     // 지도 생성
     const map = new window.naver.maps.Map(mapRef.current, {
@@ -49,7 +51,7 @@ export default function NaverMap({
     return () => {
       map.destroy();
     };
-  }, [address]);
+  }, [latitude, longitude]);
 
   return (
     <div

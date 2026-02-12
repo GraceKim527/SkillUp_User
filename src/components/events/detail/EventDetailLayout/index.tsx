@@ -102,7 +102,11 @@ export default function EventDetailLayout({
                 </Text>
               </Flex>
               {!eventDetail.isOnline && (
-                <NaverMap address={eventDetail.locationText} height="400px" />
+                <NaverMap
+                  latitude={eventDetail.latitude}
+                  longitude={eventDetail.longitude}
+                  height="400px"
+                />
               )}
             </Flex>
           </EventInfoCard>
