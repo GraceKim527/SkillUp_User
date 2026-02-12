@@ -1,5 +1,24 @@
 // src/utils/format.ts
 
+import { EventCategory } from "@/constants/event";
+import { PageId } from "@/components/events/filters/atoms/pageFilterAtoms";
+
+// 카테고리를 URL 경로와 PageId로 변환
+export const getCategoryPath = (
+  category: EventCategory
+): { path: string; pageId: PageId } => {
+  const categoryMap: Record<EventCategory, { path: string; pageId: PageId }> =
+    {
+      CONFERENCE_SEMINAR: { path: "/conference", pageId: "conference" },
+      BOOTCAMP_CLUB: { path: "/bootcamp", pageId: "bootcamp" },
+      COMPETITION_HACKATHON: { path: "/hackathon", pageId: "hackathon" },
+      NETWORKING_MENTORING: { path: "/mentoring", pageId: "mentoring" },
+      ARTICLE: { path: "/article", pageId: "article" },
+    };
+
+  return categoryMap[category] || { path: "/conference", pageId: "conference" };
+};
+
 // DateTime 문자열을 "2025. 01. 01" 형태로 포맷팅
 export const formatDate = (dateTime: string): string => {
   if (!dateTime) return "";

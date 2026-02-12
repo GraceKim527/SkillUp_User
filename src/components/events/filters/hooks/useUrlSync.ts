@@ -52,6 +52,7 @@ export const useUrlSync = (
     isUpdatingFromUrlRef.current = true;
     isInitializedRef.current = true;
 
+    const resetParam = searchParams.get("reset");
     const rolesParam = searchParams.get("roles");
     const onOfflineParam = searchParams.get("mode");
     const freeParam = searchParams.get("isFree");
@@ -59,6 +60,29 @@ export const useUrlSync = (
     const startDateParam = searchParams.get("startDate");
     const endDateParam = searchParams.get("endDate");
     const pageParam = searchParams.get("page");
+
+    // reset 파라미터가 있으면 모든 필터 초기화하고 URL에서 reset 제거
+    if (resetParam === "true") {
+      setters.setSelectedRoles([JOB_CATEGORY.ALL]);
+      setters.setOnOfflineFilter("");
+      setters.setTempOnOfflineFilter("");
+      setters.setFreeFilter(false);
+      setters.setTempFreeFilter(false);
+      setters.setSortOption("POPULARITY");
+      setters.setStartDate(undefined);
+      setters.setTempStartDate(undefined);
+      setters.setEndDate(undefined);
+      setters.setTempEndDate(undefined);
+      setters.setCurrentPage(1);
+
+      // URL에서 reset 파라미터 제거
+      router.replace(window.location.pathname, { scroll: false });
+
+      setTimeout(() => {
+        isUpdatingFromUrlRef.current = false;
+      }, 0);
+      return;
+    }
 
     if (rolesParam) {
       // URL에서 한국어 라벨 또는 enum 값을 읽어서 JobCategory로 변환

@@ -11,6 +11,8 @@ import { useRecommendedEvents } from "@/hooks/queries/useRecommendedEvents";
 import { EventCategory } from "@/constants/event";
 import { Event } from "@/types/event";
 import RecommendedEventsEmpty from "../RecommendedEventsEmpty";
+import { getCategoryPath } from "@/utils/format";
+import { useRouter } from "next/navigation";
 
 interface RecommendedEventsSectionProps {
   category: EventCategory;
@@ -33,8 +35,20 @@ export default function RecommendedEventsSection({
   containerType = "div",
   flexGap = "0.5rem",
 }: RecommendedEventsSectionProps) {
+  const router = useRouter();
   const { data: recommendedEvents, isLoading: isLoadingRecommended } =
     useRecommendedEvents(category, shouldFetch);
+
+  // 추천 행사의 첫 번째 이벤트 카테고리에 따라 이동
+  const handleMoreClick = () => {
+    if (recommendedEvents && recommendedEvents.length > 0) {
+      const firstEventCategory = recommendedEvents[0].category;
+      const { path } = getCategoryPath(firstEventCategory);
+
+      // URL 파라미터에 reset 플래그 추가 (useUrlSync에서 처리)
+      router.push(`${path}?reset=true`);
+    }
+  };
 
   const renderContent = () => {
     if (isLoadingRecommended) {
@@ -82,7 +96,18 @@ export default function RecommendedEventsSection({
           이런 행사는 어떠세요?
         </Text>
         {showMoreButton && (
-          <Button variant="textOnly" icon={<ChevronRightIcon />} size="medium">
+          <Button
+            variant="textOnly"
+            icon={
+              <ChevronRightIcon
+                color="var(--Neutral-60)"
+                width={16}
+                height={16}
+              />
+            }
+            size="medium"
+            onClick={handleMoreClick}
+          >
             IT 행사 더보기
           </Button>
         )}

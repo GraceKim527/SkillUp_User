@@ -25,6 +25,8 @@ import { pageFilterAtomsMap } from "@/components/events/filters/atoms/pageFilter
 import { useSearchEvents } from "@/hooks/queries/useEventList";
 import styles from "@/components/events/EventPageLayout/styles.module.css";
 import RecommendedEventsEmpty from "@/components/events/RecommendedEventsEmpty";
+import { getCategoryPath } from "@/utils/format";
+import { useRouter } from "next/navigation";
 
 interface SearchPageLayoutProps {
   searchQuery: string;
@@ -33,6 +35,7 @@ interface SearchPageLayoutProps {
 export default function SearchPageLayout({
   searchQuery,
 }: SearchPageLayoutProps) {
+  const router = useRouter();
   const {
     onOfflineFilter,
     setOnOfflineFilter,
@@ -106,6 +109,17 @@ export default function SearchPageLayout({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // 추천 행사의 첫 번째 이벤트 카테고리에 따라 이동
+  const handleMoreClick = () => {
+    if (recommendedEvents && recommendedEvents.length > 0) {
+      const firstEventCategory = recommendedEvents[0].category;
+      const { path } = getCategoryPath(firstEventCategory);
+
+      // URL 파라미터에 reset 플래그 추가 (useUrlSync에서 처리)
+      router.push(`${path}?reset=true`);
+    }
+  };
+
   return (
     <Flex
       direction="column"
@@ -169,6 +183,7 @@ export default function SearchPageLayout({
                   variant="textOnly"
                   icon={<ChevronRightIcon />}
                   size="medium"
+                  onClick={handleMoreClick}
                 >
                   IT 행사 더보기
                 </Button>
@@ -207,8 +222,15 @@ export default function SearchPageLayout({
                 </Text>
                 <Button
                   variant="textOnly"
-                  icon={<ChevronRightIcon />}
+                  icon={
+                    <ChevronRightIcon
+                      color="var(--Neutral-60)"
+                      width={16}
+                      height={16}
+                    />
+                  }
                   size="medium"
+                  onClick={handleMoreClick}
                 >
                   IT 행사 더보기
                 </Button>
