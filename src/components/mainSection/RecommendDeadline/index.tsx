@@ -16,9 +16,6 @@ export default function RecommendDeadline() {
     <section className={styles.deadlineSection}>
       <Flex direction="column" gap="2.5rem" className={styles.inner}>
         <Flex direction="column" gap="1rem">
-          <Text typography="label1_r_18" color="neutral-95">
-            SEE THE LIVE REVIEWS OF THE EVENT
-          </Text>
           <Flex>
             <Text typography="head5_sb_42" color="white">
               곧 신청 마감되는 행사

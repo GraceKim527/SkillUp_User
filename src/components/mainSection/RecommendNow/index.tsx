@@ -4,6 +4,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Flex from "@/components/common/Flex";
 import EventCard from "@/components/common/EventCard";
 import Skeleton from "@/components/common/Skeleton";
@@ -20,9 +21,11 @@ import {
   JOB_CATEGORY_TABS,
   getJobCategoryByLabel,
 } from "@/constants/category";
+import { EVENT_SORT_OPTIONS } from "@/constants/event";
 import { useScrollCarousel } from "@/hooks/useScrollCarousel";
 
 export default function RecommendNow() {
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<JobCategory>(
     JOB_CATEGORY.ALL,
   );
@@ -36,6 +39,10 @@ export default function RecommendNow() {
     cardSelector: `.${styles.carouselItem}`,
     scrollCount: 3, // 한 번에 3개씩 이동
   });
+
+  const handleMoreClick = () => {
+    router.push(`/conference?sort=${EVENT_SORT_OPTIONS.POPULARITY}`);
+  };
 
   return (
     <section className={styles.recommendNow}>
@@ -144,7 +151,13 @@ export default function RecommendNow() {
           </Flex>
 
           <Flex justify="center">
-            <button className={styles.moreBtn}>IT 인기 행사 더보기</button>
+            <button
+              type="button"
+              className={styles.moreBtn}
+              onClick={handleMoreClick}
+            >
+              IT 인기 행사 더보기
+            </button>
           </Flex>
         </Flex>
       </Flex>
