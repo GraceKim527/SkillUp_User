@@ -42,6 +42,8 @@ export default function EventDetailLayout({
   }
 
   if (!eventDetail) return null;
+  const hasRecruitPeriod =
+    eventDetail.recruitStart != null && eventDetail.recruitEnd != null;
 
   return (
     <Flex gap="1rem" className={className || styles.container}>
@@ -70,15 +72,17 @@ export default function EventDetailLayout({
               {parse(eventDetail.description)}
             </div>
           </EventInfoCard>
-          <EventInfoCard title="모집 기간" isDate>
-            <Flex align="center" gap="1rem">
-              <Text typography="body1_r_16" color="neutral-20">
-                {formatDate(eventDetail.recruitStart)} ~{" "}
-                {formatDate(eventDetail.recruitEnd)}
-              </Text>
-              <Badge label={getDdayLabel(eventDetail.recruitEnd)} />
-            </Flex>
-          </EventInfoCard>
+          {hasRecruitPeriod && (
+            <EventInfoCard title="모집 기간" isDate>
+              <Flex align="center" gap="1rem">
+                <Text typography="body1_r_16" color="neutral-20">
+                  {formatDate(eventDetail.recruitStart)} ~{" "}
+                  {formatDate(eventDetail.recruitEnd)}
+                </Text>
+                <Badge label={getDdayLabel(eventDetail.recruitEnd)} />
+              </Flex>
+            </EventInfoCard>
+          )}
           <EventInfoCard title="참가비">
             <Flex align="center" gap="1rem">
               <Text typography="body1_r_16" color="neutral-20">
