@@ -76,6 +76,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   align-self: stretch;
+  height: 4.25rem;
 }
 
 .eventCardContentBodyItemTitleMedium {
@@ -85,6 +86,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   align-self: stretch;
+  height: 3.75rem;
 }
 
 .eventCardContentBodyDatePlaceItemText {

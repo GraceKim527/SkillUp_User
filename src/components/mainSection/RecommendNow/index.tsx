@@ -109,7 +109,7 @@ export default function RecommendNow() {
               {data.homeEventResponseList.map((item: Event) => (
                 <div key={item.id} className={styles.carouselItem}>
                   <EventCard
-                    size="large"
+                    size="medium"
                     event={item}
                     className={styles.carouselItem}
                   />
