@@ -76,15 +76,21 @@ export default function Footer() {
               </Flex>
             </Link>
           </Flex>
-          <Button
-            variant="secondary"
-            size="extraLarge"
-            icon={<ChevronRightIcon width={16} height={16} />}
+          <Link
+            href="https://forms.gle/XuLEETJJjKVGku9A6"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <Text typography="sub2_m_18" color="white">
-              행사 제보하기
-            </Text>
-          </Button>
+            <Button
+              variant="secondary"
+              size="extraLarge"
+              icon={<ChevronRightIcon width={16} height={16} />}
+            >
+              <Text typography="sub2_m_18" color="white">
+                행사 제보하기
+              </Text>
+            </Button>
+          </Link>
         </Flex>
       </Flex>
     </footer>
