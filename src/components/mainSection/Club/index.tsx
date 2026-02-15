@@ -12,9 +12,12 @@ import { Event } from "@/types/event";
 import { useRouter } from "next/navigation";
 import LoginImage from "@/assets/images/loginImg.png";
 import { useScrollCarousel } from "@/hooks/useScrollCarousel";
+import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
 
 export default function Club() {
   const router = useRouter();
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   // API 데이터 가져오기 (동아리·해커톤·공모전 카테고리, 8개)
   const { data, isLoading, error } = useCategoryEvents(
@@ -32,53 +35,72 @@ export default function Club() {
   const { carouselRef, prev, next } = useScrollCarousel({
     infinite: true,
     itemCount: originalCards.length,
-    gap: 24, // 1.5rem = 24px
+    gap: isMobile ? 12 : isTablet ? 12 : 24, // 0.75rem for mobile/tablet, 1.5rem for desktop
     cardSelector: `.${styles.card}`,
     scrollCount: 3, // 한 번에 3개씩 이동
   });
+
+  // 모바일/태블릿 헤더
+  const renderMobileHeader = () => (
+    <Flex direction="column" gap="0.25rem" className={styles.sectionHeader}>
+      <Text typography="label4_m_12" color="primary-strong">
+        동아리·해커톤·공모전
+      </Text>
+      <Text typography="head3_m_24" color="black" className={styles.mobileTitle}>
+        바로 도전 가능한
+        <br />
+        동아리·해커톤·공모전
+      </Text>
+    </Flex>
+  );
+
+  // 데스크톱 헤더
+  const renderDesktopHeader = () => (
+    <Flex justify="space-between" align="center" gap="2.5rem">
+      <Flex direction="column" gap="0.25rem">
+        <Text typography="sub2_m_18" color="primary-strong">
+          동아리 · 해커톤 · 공모전
+        </Text>
+        <Flex gap="0.5rem">
+          <Text typography="head1_m_42" color="black">
+            바로 도전 가능한
+          </Text>
+          <Text typography="head5_sb_42" color="black">
+            동아리·해커톤·공모전
+          </Text>
+        </Flex>
+      </Flex>
+
+      <Flex align="center" gap="0.75rem">
+        <button
+          type="button"
+          className={styles.arrowBtn}
+          onClick={prev}
+          aria-label="이전"
+        >
+          <ChevronLeftIcon />
+        </button>
+        <button
+          type="button"
+          className={`${styles.arrowBtn} ${styles.dark}`}
+          onClick={next}
+          aria-label="다음"
+        >
+          <ChevronRightIcon color="#fff" />
+        </button>
+      </Flex>
+    </Flex>
+  );
 
   return (
     <Flex
       as="section"
       className={styles.challengeSection}
       aria-labelledby="club-title"
-      gap="2.5rem"
+      gap={isMobile || isTablet ? "1.25rem" : "2.5rem"}
       direction="column"
     >
-      <Flex justify="space-between" align="center" gap="2.5rem">
-        <Flex direction="column" gap="0.25rem">
-          <Text typography="sub2_m_18" color="primary-strong">
-            동아리 · 해커톤 · 공모전
-          </Text>
-          <Flex gap="0.5rem">
-            <Text typography="head1_m_42" color="black">
-              바로 도전 가능한
-            </Text>
-            <Text typography="head5_sb_42" color="black">
-              동아리·해커톤·공모전
-            </Text>
-          </Flex>
-        </Flex>
-
-        <Flex align="center" gap="0.75rem">
-          <button
-            type="button"
-            className={styles.arrowBtn}
-            onClick={prev}
-            aria-label="이전"
-          >
-            <ChevronLeftIcon />
-          </button>
-          <button
-            type="button"
-            className={`${styles.arrowBtn} ${styles.dark}`}
-            onClick={next}
-            aria-label="다음"
-          >
-            <ChevronRightIcon color="#fff" />
-          </button>
-        </Flex>
-      </Flex>
+      {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
       {isLoading ? (
         <div className={styles.trackWrap}>
           <Flex gap="1.5rem" className={styles.track}>
@@ -106,60 +128,69 @@ export default function Club() {
       ) : (
         <div className={styles.trackWrap}>
           <Flex gap="1.5rem" className={styles.track} as="div">
-            <div ref={carouselRef} className={styles.trackInner}>
-              {cards.map((event: Event, idx) => (
-                <article
-                  key={`${event.id}-${idx}`}
-                  className={styles.card}
-                  onClick={() => router.push(`/hackathon/${event.id}`)}
-                >
-                  <div
-                    className={styles.thumb}
-                    style={{
-                      backgroundImage: `url(${
-                        event.thumbnailUrl || LoginImage.src.toString()
-                      })`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  />
-                  <Flex
-                    align="flex-end"
-                    gap="0.75rem"
-                    className={styles.overlay}
+            <div
+              ref={isMobile || isTablet ? undefined : carouselRef}
+              className={styles.trackInner}
+            >
+              {(isMobile || isTablet ? originalCards : cards).map(
+                (event: Event, idx: number) => (
+                  <article
+                    key={`${event.id}-${idx}`}
+                    className={styles.card}
+                    onClick={() => router.push(`/hackathon/${event.id}`)}
                   >
+                    <div
+                      className={styles.thumb}
+                      style={{
+                        backgroundImage: `url(${
+                          event.thumbnailUrl || LoginImage.src.toString()
+                        })`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    />
                     <Flex
-                      direction="column"
-                      gap="0.375rem"
-                      className={styles.texts}
+                      align="flex-end"
+                      gap="0.75rem"
+                      className={styles.overlay}
                     >
-                      <Text
-                        typography="sub1_m_20"
-                        color="white"
-                        className={styles.cardText}
+                      <Flex
+                        direction="column"
+                        gap={isMobile || isTablet ? "0.25rem" : "0.375rem"}
+                        className={styles.texts}
                       >
-                        {event.title}
-                      </Text>
-                      <Text
-                        typography="body2_r_14"
-                        color="white"
-                        className={styles.cardText}
-                      >
-                        {event.scheduleText}
-                      </Text>
+                        <Text
+                          typography={
+                            isMobile || isTablet ? "sub2_m_18" : "sub1_m_20"
+                          }
+                          color="white"
+                          className={styles.cardText}
+                        >
+                          {event.title}
+                        </Text>
+                        <Text
+                          typography="body2_r_14"
+                          color="white"
+                          className={`${styles.cardText} ${styles.cardSubText}`}
+                        >
+                          {event.scheduleText}
+                        </Text>
+                      </Flex>
+                      {!isMobile && !isTablet && (
+                        <Button
+                          size="medium"
+                          variant="secondary"
+                          icon={<ChevronRightIcon width={16} height={16} />}
+                        >
+                          <Text typography="sub3_m_16" color="white">
+                            자세히 보기
+                          </Text>
+                        </Button>
+                      )}
                     </Flex>
-                    <Button
-                      size="medium"
-                      variant="secondary"
-                      icon={<ChevronRightIcon width={16} height={16} />}
-                    >
-                      <Text typography="sub3_m_16" color="white">
-                        자세히 보기
-                      </Text>
-                    </Button>
-                  </Flex>
-                </article>
-              ))}
+                  </article>
+                )
+              )}
             </div>
           </Flex>
         </div>

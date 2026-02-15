@@ -11,9 +11,12 @@ import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import { useRecentEvents } from "@/hooks/queries/useHome";
 import { Event } from "@/types/event";
+import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
 
 export default function RecentEvent() {
   const carouselRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   // API 데이터 가져오기
   const { data, isLoading, error } = useRecentEvents();
@@ -54,27 +57,46 @@ export default function RecentEvent() {
     }
   };
 
+  // 모바일/태블릿 헤더
+  const renderMobileHeader = () => (
+    <Flex direction="column" gap="0.25rem" className={styles.sectionHeader}>
+      <Text typography="label4_m_12" color="primary-strong">
+        최근 본 행사
+      </Text>
+      <Text typography="head3_m_24" color="black" className={styles.mobileTitle}>
+        관심있게 본 행사를
+        <br />
+        다시 만나보세요
+      </Text>
+    </Flex>
+  );
+
+  // 데스크톱 헤더
+  const renderDesktopHeader = () => (
+    <Flex direction="column" gap="0.5rem">
+      <Text typography="sub2_m_18" color="primary-strong">
+        최근 본 행사
+      </Text>
+      <Flex>
+        <Text typography="head5_sb_42" color="black">
+          관심있게 본 행사
+        </Text>
+        <Text typography="head1_m_42" color="black">
+          를 다시 만나보세요
+        </Text>
+      </Flex>
+    </Flex>
+  );
+
   return (
     <Flex
       as="section"
       className={styles.recentEvent}
       aria-labelledby="recent-title"
-      gap="2.5rem"
+      gap={isMobile || isTablet ? "1.25rem" : "2.5rem"}
       direction="column"
     >
-      <Flex direction="column" gap="0.5rem">
-        <Text typography="sub2_m_18" color="primary-strong">
-          최근 본 행사
-        </Text>
-        <Flex>
-          <Text typography="head5_sb_42" color="black">
-            관심있게 본 행사
-          </Text>
-          <Text typography="head1_m_42" color="black">
-            를 다시 만나보세요
-          </Text>
-        </Flex>
-      </Flex>
+      {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
 
       <div className={styles.carouselWrapper}>
         {isLoading ? (
@@ -121,7 +143,10 @@ export default function RecentEvent() {
           <div ref={carouselRef} className={styles.carouselContainer}>
             {data.map((item: Event) => (
               <div key={item.id} className={styles.carouselItem}>
-                <EventCard size="large" event={item} />
+                <EventCard
+                  size={isMobile || isTablet ? "medium" : "large"}
+                  event={item}
+                />
               </div>
             ))}
           </div>

@@ -1,6 +1,9 @@
 .recentEvent {
+  width: 100%;
   max-width: 77.5rem;
   margin: 5rem auto;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
 }
 
 .bottomRow {
@@ -66,4 +69,82 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .recentEvent {
+    max-width: 100%;
+    margin: 0;
+    padding: 3rem 2rem;
+  }
+
+  .sectionHeader {
+    gap: 0.25rem;
+  }
+
+  .carouselWrapper {
+    margin: 0 -2rem;
+    padding: 1rem 2rem;
+  }
+
+  .carouselContainer {
+    gap: 0.5rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .carouselItem {
+    scroll-snap-align: start;
+  }
+
+  .bottomRow {
+    display: none;
+  }
+
+  .skeletonCard {
+    flex: 0 0 15rem;
+    height: auto;
+  }
+}
+
+/* 모바일 (~767px) */
+@media (max-width: 767px) {
+  .recentEvent {
+    max-width: 100%;
+    margin: 0;
+    padding: 3rem 1rem; /* 48px 16px - Figma 기준 */
+  }
+
+  .sectionHeader {
+    gap: 0.25rem; /* 4px - Figma 기준 */
+  }
+
+  .mobileTitle {
+    font-weight: 600; /* SemiBold - Figma 기준 */
+  }
+
+  .bottomRow {
+    display: none;
+  }
+
+  .carouselWrapper {
+    margin: 0 -1rem;
+    padding: 1rem;
+  }
+
+  .carouselContainer {
+    gap: 0.5rem; /* 8px - Figma 기준 */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .carouselItem {
+    scroll-snap-align: start;
+  }
+
+  .skeletonCard {
+    flex: 0 0 15rem; /* 240px - Figma 기준 */
+    height: auto;
+  }
 }

@@ -53,3 +53,50 @@
   font-weight: 600;
   border-bottom: 3px solid var(--tab-border-color);
 }
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tabWrap {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .tabItem {
+    width: 80px;
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+/* 모바일 (~767px) */
+@media (max-width: 767px) {
+  .tabWrap {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tabWrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabMenu {
+    justify-content: flex-start;
+    gap: 0;
+    min-width: max-content;
+  }
+
+  .tabItem {
+    width: 4rem; /* 64px - Figma 기준 */
+    height: auto;
+    padding: 0.5rem 0; /* 8px - Figma 기준 */
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .active {
+    font-weight: 500;
+  }
+}

@@ -106,3 +106,64 @@
 .bookmarkIconActive {
   color: var(--Common-black);
 }
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .eventCard {
+    width: 16rem;
+  }
+
+  .large,
+  .medium,
+  .small {
+    width: 16rem;
+  }
+
+  .eventCardImage {
+    height: 11rem;
+  }
+
+  .eventCardContentBodyItemTitle,
+  .eventCardContentBodyItemTitleMedium {
+    height: auto;
+    max-height: 3.5rem;
+  }
+}
+
+/* 모바일 (~767px) */
+@media (max-width: 767px) {
+  .eventCard {
+    width: 15rem; /* 240px - Figma 기준 */
+    padding-bottom: 1rem;
+  }
+
+  .large,
+  .medium,
+  .small {
+    width: 15rem;
+  }
+
+  .eventCardImage {
+    height: 10rem; /* 160px */
+  }
+
+  .eventCardContentContainer {
+    padding: 0 0.75rem;
+  }
+
+  .eventCardImageOverlay {
+    padding: 0.75rem;
+  }
+
+  .eventCardImageOverlayButton {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .eventCardContentBodyItemTitle,
+  .eventCardContentBodyItemTitleMedium {
+    -webkit-line-clamp: 2;
+    height: auto;
+    max-height: 3rem;
+  }
+}

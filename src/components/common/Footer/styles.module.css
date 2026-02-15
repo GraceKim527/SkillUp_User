@@ -1,8 +1,8 @@
 /* footer */
 .footer {
   width: 100%;
-  min-width: 80.875rem;
-  height: 186px;
+  min-height: 186px;
+  height: auto;
   background: var(--Primary-heavy);
   color: var(--Common-white);
 }
@@ -10,8 +10,7 @@
 .inner {
   max-width: 77.5rem;
   margin: 0 auto;
-
-  padding: 3.375rem 0;
+  padding: 3.375rem 1.25rem;
 }
 
 .logoWrap {
@@ -63,4 +62,84 @@
   font-weight: 500;
   line-height: 140%;
   letter-spacing: -4%;
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .inner {
+    padding: 2.5rem 2rem;
+  }
+
+  .policyGroup a {
+    padding: 0 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* 모바일 푸터 (조건부 렌더링으로 사용) */
+.footerMobile {
+  width: 100%;
+  background: var(--Primary-heavy);
+  color: var(--Common-white);
+}
+
+.innerMobile {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 3.375rem 1rem;
+}
+
+.policyGroupMobile {
+  width: 100%;
+}
+
+.policyGroupMobile a {
+  flex: 1;
+  color: var(--Neutral-95);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -0.56px;
+}
+
+.iconBtnMobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0.75px solid var(--Line-normal);
+  border-radius: 750px;
+}
+
+.iconBtnMobileFilled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: var(--Common-white);
+  border-radius: 750px;
+}
+
+.detailBtnMobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  background: var(--Common-black);
+  border-radius: 0.25rem;
+  gap: 0;
+}
+
+.iconSmall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconSmall svg {
+  width: 18px;
+  height: 18px;
 }

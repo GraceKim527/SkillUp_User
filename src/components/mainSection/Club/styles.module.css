@@ -1,7 +1,10 @@
 /* 컨테이너 */
 .challengeSection {
+  width: 100%;
   max-width: 77.5rem;
   margin: 5rem auto 8rem;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
 }
 
 .arrowBtn {
@@ -127,4 +130,132 @@
   border-radius: 0.5rem;
   overflow: hidden;
   flex-shrink: 0;
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .challengeSection {
+    max-width: 100%;
+    margin: 0;
+    padding: 3rem 2rem; /* 48px 32px */
+  }
+
+  .sectionHeader {
+    gap: 0.25rem; /* 4px */
+  }
+
+  .mobileTitle {
+    font-weight: 600; /* SemiBold - Figma 기준 */
+  }
+
+  .arrowBtn {
+    display: none;
+  }
+
+  .trackWrap {
+    width: auto;
+    left: auto;
+    right: auto;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    padding: 1rem 0;
+  }
+
+  .trackInner {
+    height: auto;
+    gap: 0.5rem; /* 8px */
+    padding: 0 2rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .card {
+    min-width: 16.25rem; /* 260px - Figma 기준 */
+    height: 11.25rem; /* 180px */
+    scroll-snap-align: start;
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: 0 0.125rem 0 rgba(0, 0, 0, 0.04);
+  }
+
+  .overlay {
+    padding: 2.5rem 1rem 1.25rem;
+  }
+
+  .cardSubText {
+    opacity: 0.8;
+  }
+
+  .skeletonCard {
+    min-width: 16.25rem;
+    height: 11.25rem;
+  }
+}
+
+/* 모바일 (~767px) */
+@media (max-width: 767px) {
+  .challengeSection {
+    max-width: 100%;
+    margin: 0;
+    padding: 3rem 1rem; /* 48px 16px - Figma 기준 */
+  }
+
+  .sectionHeader {
+    gap: 0.25rem; /* 4px - Figma 기준 */
+  }
+
+  .mobileTitle {
+    font-weight: 600; /* SemiBold - Figma 기준 */
+  }
+
+  .arrowBtn {
+    display: none;
+  }
+
+  .trackWrap {
+    width: auto;
+    left: auto;
+    right: auto;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 1rem 0;
+  }
+
+  .trackInner {
+    height: auto;
+    gap: 0.5rem; /* 8px - Figma 기준 */
+    padding: 0 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .card {
+    min-width: 16.25rem; /* 260px - Figma 기준 */
+    height: 11.25rem; /* 180px - Figma 기준 */
+    scroll-snap-align: start;
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: 0 0.125rem 0 rgba(0, 0, 0, 0.04);
+  }
+
+  .card:active {
+    transform: scale(0.98);
+  }
+
+  .overlay {
+    padding: 2.5rem 1rem 1.25rem; /* Figma 기준: pt 40px, pb 20px, px 16px */
+  }
+
+  .cardSubText {
+    opacity: 0.8;
+  }
+
+  .skeletonCard {
+    min-width: 16.25rem;
+    height: 11.25rem;
+  }
 }

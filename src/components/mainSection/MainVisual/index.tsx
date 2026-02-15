@@ -8,6 +8,7 @@ import Banner from "@/assets/images/main_banner.png";
 import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import Text from "@/components/common/Text";
+import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
 
 export default function MainVisual() {
   const [currentIndex, setCurrentIndex] = useState(1); // 무한 슬라이드: 초기값 1
@@ -19,6 +20,8 @@ export default function MainVisual() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const dragStartXRef = useRef(0);
   const { data, isLoading, error } = useBanners();
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   // displayOrder로 정렬
   const sortedBanners =
@@ -199,15 +202,40 @@ export default function MainVisual() {
               </div>
               <div className={styles.slideInner}>
                 <div className={styles.slideContent}>
-                  <Text typography="sub2_m_18" color="primary-strong" as="p">
-                    {banner.subTitle || ""}
-                  </Text>
-                  <Text typography="head1_m_42" color="white" as="h2">
-                    {banner.mainTitle}
-                  </Text>
-                  <Text typography="body1_r_16" color="neutral-70" as="p">
-                    {banner.description || ""}
-                  </Text>
+                  {isMobile || isTablet ? (
+                    <>
+                      <Text
+                        typography="label4_m_12"
+                        color="primary-strong"
+                        as="p"
+                        className={styles.mobileSubTitle}
+                      >
+                        {banner.subTitle || ""}
+                      </Text>
+                      <Flex direction="column" gap="1rem">
+                        <h2 className={styles.mobileTitle}>
+                          <span className={styles.mobileTitleLight}>
+                            {banner.mainTitle}
+                          </span>
+                        </h2>
+                        <p className={styles.mobileDesc}>
+                          {banner.description || ""}
+                        </p>
+                      </Flex>
+                    </>
+                  ) : (
+                    <>
+                      <Text typography="sub2_m_18" color="primary-strong" as="p">
+                        {banner.subTitle || ""}
+                      </Text>
+                      <Text typography="head1_m_42" color="white" as="h2">
+                        {banner.mainTitle}
+                      </Text>
+                      <Text typography="body1_r_16" color="neutral-70" as="p">
+                        {banner.description || ""}
+                      </Text>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

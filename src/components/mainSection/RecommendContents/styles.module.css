@@ -1,6 +1,9 @@
 .RecommendContent {
+  width: 100%;
   max-width: 77.5rem;
   margin: 6.25rem auto;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
 }
 
 .cardList {
@@ -64,4 +67,121 @@
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid var(--Neutral-60);
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .RecommendContent {
+    max-width: 100%;
+    margin: 0;
+    padding: 3rem 2rem;
+  }
+
+  .sectionHeader {
+    gap: 0.75rem;
+  }
+
+  .cardList {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -2rem;
+    padding: 0;
+  }
+
+  .cardList::before,
+  .cardList::after {
+    content: '';
+    min-width: 2rem;
+    flex-shrink: 0;
+  }
+
+  .cardList::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    flex-shrink: 0;
+    width: 16.25rem;
+    scroll-snap-align: start;
+  }
+
+  .heroCard {
+    grid-row: span 1;
+    width: 16.25rem;
+  }
+
+  .thumb,
+  .heroThumb {
+    height: 10rem;
+  }
+}
+
+/* 모바일 (~767px) */
+@media (max-width: 767px) {
+  .RecommendContent {
+    max-width: 100%;
+    margin: 0;
+    padding: 3rem 1rem; /* 48px 16px - Figma 기준 */
+  }
+
+  .sectionHeader {
+    gap: 0.75rem; /* 12px - Figma 기준 */
+  }
+
+  .cardList {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem; /* 8px - Figma 기준 */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -1rem;
+    padding: 0;
+  }
+
+  .cardList::before,
+  .cardList::after {
+    content: '';
+    min-width: 1rem;
+    flex-shrink: 0;
+  }
+
+  .cardList::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    flex-shrink: 0;
+    width: 16.25rem; /* 260px - Figma 기준 */
+    scroll-snap-align: start;
+  }
+
+  .heroCard {
+    grid-row: span 1;
+    width: 16.25rem;
+  }
+
+  .thumb,
+  .heroThumb {
+    height: 10rem; /* 160px - Figma 기준 */
+    border-radius: 0.5rem; /* 8px - Figma 기준 */
+  }
+
+  .cardTitle {
+    font-size: 1.25rem; /* 20px - Figma head6_sb_20 */
+    font-weight: 600;
+  }
+
+  .cardDesc {
+    font-size: 0.875rem; /* 14px - Figma body2_r_14 */
+    -webkit-line-clamp: 1;
+  }
+
+  .moreBtn {
+    font-size: 0.875rem;
+  }
 }

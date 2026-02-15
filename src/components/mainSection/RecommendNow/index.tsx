@@ -23,9 +23,13 @@ import {
 } from "@/constants/category";
 import { EVENT_SORT_OPTIONS } from "@/constants/event";
 import { useScrollCarousel } from "@/hooks/useScrollCarousel";
+import { useIsDesktop, useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
 
 export default function RecommendNow() {
   const router = useRouter();
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
+  const isDesktop = useIsDesktop();
   const [selectedCategory, setSelectedCategory] = useState<JobCategory>(
     JOB_CATEGORY.ALL,
   );
@@ -35,43 +39,80 @@ export default function RecommendNow() {
 
   // 스크롤 캐러셀 훅 사용
   const { carouselRef, prev, next } = useScrollCarousel({
-    gap: 12, // 0.75rem = 12px
+    gap: isMobile ? 8 : 12, // 모바일: 8px, 데스크톱: 12px
     cardSelector: `.${styles.carouselItem}`,
-    scrollCount: 3, // 한 번에 3개씩 이동
+    scrollCount: isMobile ? 1 : 3, // 모바일: 1개씩, 데스크톱: 3개씩
   });
 
   const handleMoreClick = () => {
     router.push(`/conference?sort=${EVENT_SORT_OPTIONS.POPULARITY}`);
   };
 
+  // 모바일/태블릿에서 헤더 구조 분리
+  const renderMobileHeader = () => (
+    <Flex direction="column" gap="0.75rem" className={styles.sectionHeader}>
+      <Flex direction="column" gap="0.25rem">
+        <Text typography="label4_m_12" color="primary-strong">
+          추천행사
+        </Text>
+        <div className={styles.titleRow}>
+          <Text typography="head3_m_24" color="black">
+            지금 주목받고 있어요
+          </Text>
+          <button
+            type="button"
+            className={styles.moreBtn}
+            onClick={handleMoreClick}
+          >
+            더보기
+            <ChevronRightIcon width={16} height={16} color="var(--Neutral-40)" />
+          </button>
+        </div>
+      </Flex>
+      <TabMenu
+        tabs={JOB_CATEGORY_TABS}
+        defaultIndex={0}
+        onChange={(selected: string) => {
+          const category = getJobCategoryByLabel(selected);
+          setSelectedCategory(category);
+        }}
+        theme="light"
+      />
+    </Flex>
+  );
+
+  const renderDesktopHeader = () => (
+    <Flex justify="space-between" align="flex-end">
+      <Flex direction="column" gap="0.5rem">
+        <Text typography="sub2_m_18" color="primary-strong">
+          추천행사
+        </Text>
+        <Flex gap="0.5rem">
+          <Text typography="head1_m_42" color="black">
+            지금
+          </Text>
+          <Text typography="head5_sb_42" color="black">
+            주목받고 있어요
+          </Text>
+        </Flex>
+      </Flex>
+      <TabMenu
+        tabs={JOB_CATEGORY_TABS}
+        defaultIndex={0}
+        onChange={(selected: string) => {
+          const category = getJobCategoryByLabel(selected);
+          setSelectedCategory(category);
+        }}
+        theme="light"
+      />
+    </Flex>
+  );
+
   return (
     <section className={styles.recommendNow}>
-      <Flex direction="column" gap="2.5rem">
-        <Flex justify="space-between" align="flex-end">
-          <Flex direction="column" gap="0.5rem">
-            <Text typography="sub2_m_18" color="primary-strong">
-              추천행사
-            </Text>
-            <Flex gap="0.5rem">
-              <Text typography="head1_m_42" color="black">
-                지금
-              </Text>
-              <Text typography="head5_sb_42" color="black">
-                주목받고 있어요
-              </Text>
-            </Flex>
-          </Flex>
-
-          <TabMenu
-            tabs={JOB_CATEGORY_TABS}
-            defaultIndex={0}
-            onChange={(selected: string) => {
-              const category = getJobCategoryByLabel(selected);
-              setSelectedCategory(category);
-            }}
-            theme="light"
-          />
-        </Flex>
+      <Flex direction="column" gap={isMobile ? "1rem" : "2.5rem"}>
+        {/* 섹션 헤더 */}
+        {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
 
         <div className={styles.carouselWrapper}>
           {isLoading ? (
@@ -170,13 +211,14 @@ export default function RecommendNow() {
           </Flex>
 
           <Flex justify="center">
-            <button
-              type="button"
-              className={styles.moreBtn}
-              onClick={handleMoreClick}
-            >
-              IT 인기 행사 더보기
-            </button>
+            {isDesktop && ( <button
+                type="button"
+                className={styles.moreBtn}
+                onClick={handleMoreClick}
+              >
+                IT 인기 행사 더보기
+              </button>
+            )}
           </Flex>
         </Flex>
       </Flex>

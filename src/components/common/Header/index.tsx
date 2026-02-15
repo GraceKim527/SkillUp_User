@@ -30,12 +30,15 @@ import { useRouter } from "next/navigation";
 import SearchModalContent from "@/components/main/SearchModalContent";
 import { useToast } from "@/hooks/useToast";
 import Skeleton from "@/components/common/Skeleton";
+import MobileHeader from "./MobileHeader";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 interface HeaderProps {
   variant: "main" | "sub";
 }
 
 export default function Header({ variant }: HeaderProps) {
+  const isMobile = useIsMobile();
   const [isModalOpen, setIsModalOpen] = useAtom(loginModalAtom);
   const toggleModal = () => setIsModalOpen((prev) => !prev);
   const { isAuthenticated, logout } = useAuth();
@@ -106,6 +109,11 @@ export default function Header({ variant }: HeaderProps) {
     setIsTermsModalOpen(false);
     setPendingSocialType(null);
   };
+
+  // 모바일일 때 MobileHeader 렌더링
+  if (isMobile) {
+    return <MobileHeader variant={variant} />;
+  }
 
   return (
     <header

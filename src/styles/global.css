@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
 
 :root {
+  /* Colors */
   --Common-black: #000;
   --Common-white: #fff;
   --GrayScale-900: #121212;
@@ -31,6 +32,33 @@
   --Opacity_b_40: rgba(0, 0, 0, 0.4);
   --Opacity_b_60: rgba(0, 0, 0, 0.6);
   --Opacity_w_10: rgba(255, 255, 255, 0.1);
+
+  /* Responsive - Desktop (default) */
+  --container-max-width: 77.5rem; /* 1240px */
+  --container-padding: 1.25rem; /* 20px */
+  --card-width: 18.8125rem; /* 301px */
+  --card-height: auto;
+  --section-gap: 6.25rem; /* 100px */
+  --header-height: 6.25rem; /* 100px */
+}
+
+/* Tablet (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --container-padding: 2rem; /* 32px */
+    --section-gap: 4rem; /* 64px */
+  }
+}
+
+/* Mobile (~767px) */
+@media (max-width: 767px) {
+  :root {
+    --container-max-width: 100%;
+    --container-padding: 1rem; /* 16px */
+    --card-width: 15rem; /* 240px */
+    --section-gap: 2.5rem; /* 40px */
+    --header-height: 3.375rem; /* 54px */
+  }
 }
 
 html,

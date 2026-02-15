@@ -34,11 +34,12 @@ export default function IconMenu() {
           onClick={() => setActiveIdx(idx)}
         >
           <Link href={item.path} className={styles.link}>
-            <Flex direction="column" justify="center" align="center" gap="0.25">
+            <Flex direction="column" justify="center" align="center" gap="0.25rem">
               <item.icon className={styles.icon} />
               <Text
                 typography="label1_r_18"
                 color={idx === activeIdx ? "primary-strong" : "neutral-30"}
+                align="center"
               >
                 {item.label}
               </Text>

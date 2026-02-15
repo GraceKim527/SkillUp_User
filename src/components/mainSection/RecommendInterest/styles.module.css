@@ -1,9 +1,11 @@
 .interestSection {
   background: linear-gradient(180deg, #212025 0%, #353339 100%);
-  padding: 5rem 6.25rem;
+  padding: 5rem 1.25rem;
+  box-sizing: border-box;
 }
 
 .inner {
+  width: 100%;
   max-width: 77.5rem;
   margin: 0 auto;
 }
@@ -63,4 +65,76 @@
   align-self: stretch;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .interestSection {
+    padding: 3rem 2rem;
+  }
+
+  .inner {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .keywordBox {
+    width: 100%;
+  }
+
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .imgBox {
+    width: 100%;
+    height: 10rem;
+  }
+}
+
+/* 모바일 (~767px) */
+@media (max-width: 767px) {
+  .interestSection {
+    padding: 2.5rem 1rem;
+  }
+
+  .inner {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .keywordBox {
+    width: 100%;
+  }
+
+  .cardGrid {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -1rem;
+    padding: 0 1rem;
+  }
+
+  .cardGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cardGrid > * {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+
+  .imgBox {
+    width: 15rem;
+    height: 8.5rem;
+  }
+
+  .keywordBtn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+  }
 }

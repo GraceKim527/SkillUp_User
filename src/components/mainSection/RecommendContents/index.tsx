@@ -16,9 +16,12 @@ import {
   JOB_CATEGORY_TABS,
 } from "@/constants/category";
 import { useRouter } from "next/navigation";
+import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
 
 export default function RecommendedContent() {
   const router = useRouter();
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
   const [selectedCategory, setSelectedCategory] = useState<JobCategory>(
     JOB_CATEGORY.ALL
   );
@@ -26,41 +29,71 @@ export default function RecommendedContent() {
   const { data, isLoading, error } = useRecommendedArticles(selectedCategory);
   const articles = data || [];
 
+  // 모바일/태블릿 헤더
+  const renderMobileHeader = () => (
+    <Flex direction="column" gap="0.75rem" className={styles.sectionHeader}>
+      <Flex direction="column" gap="0.125rem">
+        <Text typography="label4_m_12" color="primary-strong">
+          추천행사
+        </Text>
+        <Text typography="head3_m_24" color="black">
+          실무자를 위한 추천 컨텐츠
+        </Text>
+      </Flex>
+      <TabMenu
+        tabs={JOB_CATEGORY_TABS}
+        defaultIndex={JOB_CATEGORY_TABS.indexOf(
+          getJobCategoryLabel(selectedCategory)
+        )}
+        onChange={(selected: string) => {
+          const category = getJobCategoryByLabel(selected);
+          setSelectedCategory(category);
+        }}
+        theme="light"
+      />
+    </Flex>
+  );
+
+  // 데스크톱 헤더
+  const renderDesktopHeader = () => (
+    <Flex justify="space-between" align="flex-end" gap="2.5rem">
+      <Flex direction="column">
+        <Text typography="sub2_m_18" color="primary-strong">
+          추천 콘텐츠
+        </Text>
+        <Flex gap="0.5rem">
+          <Text typography="head1_m_42" color="black">
+            실무자를 위한
+          </Text>
+          <Text typography="head5_sb_42" color="black">
+            추천 컨텐츠
+          </Text>
+        </Flex>
+      </Flex>
+
+      <TabMenu
+        tabs={JOB_CATEGORY_TABS}
+        defaultIndex={JOB_CATEGORY_TABS.indexOf(
+          getJobCategoryLabel(selectedCategory)
+        )}
+        onChange={(selected: string) => {
+          const category = getJobCategoryByLabel(selected);
+          setSelectedCategory(category);
+        }}
+        theme="light"
+      />
+    </Flex>
+  );
+
   return (
     <Flex
       as="section"
       className={styles.RecommendContent}
       aria-labelledby="rec-title"
-      gap="2.5rem"
+      gap={isMobile || isTablet ? "1rem" : "2.5rem"}
       direction="column"
     >
-      <Flex justify="space-between" align="flex-end" gap="2.5rem">
-        <Flex direction="column">
-          <Text typography="sub2_m_18" color="primary-strong">
-            추천 콘텐츠
-          </Text>
-          <Flex gap="0.5rem">
-            <Text typography="head1_m_42" color="black">
-              실무자를 위한
-            </Text>
-            <Text typography="head5_sb_42" color="black">
-              추천 컨텐츠
-            </Text>
-          </Flex>
-        </Flex>
-
-        <TabMenu
-          tabs={JOB_CATEGORY_TABS}
-          defaultIndex={JOB_CATEGORY_TABS.indexOf(
-            getJobCategoryLabel(selectedCategory)
-          )}
-          onChange={(selected: string) => {
-            const category = getJobCategoryByLabel(selected);
-            setSelectedCategory(category);
-          }}
-          theme="light"
-        />
-      </Flex>
+      {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
 
       {isLoading ? (
         <div className={styles.cardList}>

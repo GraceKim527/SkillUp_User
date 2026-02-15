@@ -1,10 +1,12 @@
 .bootcampSection {
   background: var(--Common-black);
-  padding: 6.25rem 0;
+  padding: 6.25rem 1.25rem;
+  box-sizing: border-box;
 }
 
 .inner {
-  width: 77.5rem;
+  width: 100%;
+  max-width: 77.5rem;
   margin: 0 auto;
 }
 
@@ -22,4 +24,112 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+.carouselWrapper {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.carouselContainer {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.carouselItem {
+  flex-shrink: 0;
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .bootcampSection {
+    padding: 3rem 2rem; /* 48px 32px */
+  }
+
+  .inner {
+    width: 100%;
+  }
+
+  .sectionHeader {
+    gap: 0.75rem; /* 12px */
+  }
+
+  .carouselWrapper {
+    margin: 0 -2rem;
+    padding: 1rem 2rem;
+  }
+
+  .carouselContainer {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.5rem; /* 8px */
+    padding: 0 2rem;
+  }
+
+  .carouselContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carouselItem {
+    scroll-snap-align: start;
+  }
+
+  .empty {
+    height: 18rem;
+  }
+
+  .skeletonCard {
+    flex: 0 0 15rem;
+  }
+}
+
+/* 모바일 (~767px) */
+@media (max-width: 767px) {
+  .bootcampSection {
+    padding: 3rem 1rem; /* 48px 16px - Figma 기준 */
+  }
+
+  .inner {
+    width: 100%;
+  }
+
+  .sectionHeader {
+    gap: 0.75rem; /* 12px - Figma 기준 */
+  }
+
+  .mobileTitle {
+    font-weight: 600; /* SemiBold - Figma 기준 */
+  }
+
+  .carouselWrapper {
+    margin: 0 -1rem;
+    padding: 1rem;
+  }
+
+  .carouselContainer {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.5rem; /* 8px - Figma 기준 */
+    padding: 0 1rem;
+  }
+
+  .carouselContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carouselItem {
+    scroll-snap-align: start;
+  }
+
+  .empty {
+    height: 15rem;
+  }
+
+  .skeletonCard {
+    flex: 0 0 15rem; /* 240px */
+  }
 }
