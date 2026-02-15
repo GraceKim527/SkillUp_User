@@ -163,3 +163,9 @@
 .paging .current {
   font-weight: 600;
 }
+
+.skeletonBg {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}

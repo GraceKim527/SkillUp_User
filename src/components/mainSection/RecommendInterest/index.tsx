@@ -77,11 +77,24 @@ export default function RecommendInterest() {
           </Flex>
 
           <Flex wrap="wrap" gap="0.5rem" className={styles.keywordBox}>
-            {keywords.map((kw, i) => (
-              <span key={i} className={styles.keywordBtn}>
-                {kw}
-              </span>
-            ))}
+            {isLoading ? (
+              <>
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                  <Skeleton
+                    key={i}
+                    width="80px"
+                    height="34px"
+                    borderRadius="4px"
+                  />
+                ))}
+              </>
+            ) : (
+              keywords.map((kw, i) => (
+                <span key={i} className={styles.keywordBtn}>
+                  {kw}
+                </span>
+              ))
+            )}
           </Flex>
         </Flex>
 
@@ -89,10 +102,17 @@ export default function RecommendInterest() {
           {isLoading ? (
             <>
               {[1, 2, 3, 4].map((i) => (
-                <Flex key={i} direction="column" gap="0.5rem">
-                  <Skeleton height="360px" borderRadius="0.75rem" />
-                  <Skeleton height="1.5rem" width="90%" />
-                  <Skeleton height="1rem" width="70%" />
+                <Flex key={i} direction="column" gap="10px">
+                  <Skeleton
+                    height="200px"
+                    width="100%"
+                    borderRadius="4px"
+                    className={styles.skeletonImg}
+                  />
+                  <Flex direction="column" gap="8px">
+                    <Skeleton width="120px" height="28px" borderRadius="4px" />
+                    <Skeleton width="100%" height="24px" borderRadius="4px" />
+                  </Flex>
                 </Flex>
               ))}
             </>

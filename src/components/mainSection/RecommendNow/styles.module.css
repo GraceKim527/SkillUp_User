@@ -69,3 +69,14 @@
 .carouselItem {
   flex-shrink: 0;
 }
+
+.skeletonCard {
+  flex: 0 0 calc(25% - 0.5625rem);
+  height: 454px;
+  background: var(--common-white, #fff);
+  border-radius: 8px;
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}

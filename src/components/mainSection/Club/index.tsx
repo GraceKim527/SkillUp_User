@@ -80,18 +80,17 @@ export default function Club() {
         </Flex>
       </Flex>
       {isLoading ? (
-        <Flex gap="1.5rem" style={{ overflow: "hidden" }}>
-          {[1, 2, 3, 4].map((i) => (
-            <Flex
-              key={i}
-              direction="column"
-              gap="0.75rem"
-              style={{ flex: "0 0 calc(25% - 1.125rem)" }}
-            >
-              <Skeleton height="400px" borderRadius="0.75rem" />
-            </Flex>
-          ))}
-        </Flex>
+        <div className={styles.trackWrap}>
+          <Flex gap="1.5rem" className={styles.track}>
+            <div className={styles.trackInner}>
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className={styles.skeletonCard}>
+                  <Skeleton height="100%" width="100%" borderRadius="8px" />
+                </div>
+              ))}
+            </div>
+          </Flex>
+        </div>
       ) : error ? (
         <Flex justify="center" align="center" style={{ minHeight: "300px" }}>
           <Text typography="body1_r_16" color="neutral-70">

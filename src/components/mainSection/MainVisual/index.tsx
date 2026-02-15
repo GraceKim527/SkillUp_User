@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Flex from "@/components/common/Flex";
+import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
 import { useBanners } from "@/hooks/queries/useHome";
 import Banner from "@/assets/images/main_banner.png";
@@ -10,10 +11,11 @@ import Text from "@/components/common/Text";
 
 export default function MainVisual() {
   const [currentIndex, setCurrentIndex] = useState(1); // 무한 슬라이드: 초기값 1
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false); // 초기 마운트 시 transition 비활성화
   const [isAnimating, setIsAnimating] = useState(false); // 애니메이션 중 클릭 방지
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
+  const [isMounted, setIsMounted] = useState(false); // 마운트 상태 추적
   const sliderRef = useRef<HTMLDivElement>(null);
   const dragStartXRef = useRef(0);
   const { data, isLoading, error } = useBanners();
@@ -61,14 +63,26 @@ export default function MainVisual() {
       slider.removeEventListener("transitionend", handleTransitionEnd);
   }, [currentIndex, sortedBanners.length]);
 
-  // transition 상태 복원
+  // 초기 마운트 후 transition 활성화
   useEffect(() => {
-    if (!isTransitioning) {
+    if (!isLoading && sortedBanners.length > 0 && !isMounted) {
+      // 첫 렌더링 후 약간의 딜레이를 주고 transition 활성화
+      const timer = setTimeout(() => {
+        setIsMounted(true);
+        setIsTransitioning(true);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, sortedBanners.length, isMounted]);
+
+  // transition 상태 복원 (무한 슬라이드 점프 후)
+  useEffect(() => {
+    if (isMounted && !isTransitioning) {
       setTimeout(() => {
         setIsTransitioning(true);
       }, 50);
     }
-  }, [isTransitioning]);
+  }, [isTransitioning, isMounted]);
 
   // 실제 페이지 번호 계산 (복제본 제외)
   const getActualIndex = (index: number, length: number) => {
@@ -119,9 +133,34 @@ export default function MainVisual() {
     setCurrentIndex((prev) => (moved > 0 ? prev - 1 : prev + 1));
   };
 
-  // API 데이터가 없거나 로딩 중이거나 에러일 경우 표시하지 않음
+  // 로딩 중일 때 스켈레톤 UI 표시
+  if (isLoading) {
+    return (
+      <section id="mainVisual" className={styles.mainVisual}>
+        <div
+          className={styles.skeletonBg}
+          style={{ backgroundColor: "var(--fill-normal, #ddd)" }}
+        >
+          <div className={styles.slideInner}>
+            <div className={styles.slideContent}>
+              <Skeleton width="120px" height="20px" borderRadius="4px" />
+              <Flex direction="column" gap="4px">
+                <Skeleton width="468px" height="50px" borderRadius="4px" />
+                <Skeleton width="240px" height="50px" borderRadius="4px" />
+              </Flex>
+              <Flex direction="column" gap="6px">
+                <Skeleton width="305px" height="26px" borderRadius="4px" />
+                <Skeleton width="148px" height="26px" borderRadius="4px" />
+              </Flex>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // API 데이터가 없거나 에러일 경우 표시하지 않음
   if (
-    isLoading ||
     error ||
     !data ||
     !data.eventMainBannerReponseList ||

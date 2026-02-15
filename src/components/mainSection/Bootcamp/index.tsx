@@ -69,11 +69,33 @@ export default function Bootcamp() {
         {isLoading ? (
           <Flex gap="0.75rem">
             {[1, 2, 3, 4].map((i) => (
-              <Flex key={i} direction="column" gap="0.5rem" style={{ flex: 1 }}>
-                <Skeleton height="280px" borderRadius="0.75rem" />
-                <Skeleton height="1.5rem" width="85%" />
-                <Skeleton height="1rem" width="65%" />
-              </Flex>
+              <div key={i} className={styles.skeletonCard}>
+                <Skeleton
+                  height="212px"
+                  width="100%"
+                  borderRadius="8px 8px 0 0"
+                />
+                <Flex
+                  direction="column"
+                  gap="28px"
+                  style={{ padding: "16px", flex: 1 }}
+                >
+                  <Flex direction="column" gap="12px">
+                    <Flex direction="column" gap="4px">
+                      <Skeleton width="103px" height="24px" borderRadius="100px" />
+                      <Skeleton width="100%" height="36px" borderRadius="100px" />
+                    </Flex>
+                    <Flex direction="column" gap="6px">
+                      <Skeleton width="224px" height="18px" borderRadius="100px" />
+                      <Skeleton width="224px" height="18px" borderRadius="100px" />
+                    </Flex>
+                  </Flex>
+                  <Flex gap="8px" align="center">
+                    <Skeleton width="121px" height="28px" borderRadius="100px" />
+                    <Skeleton width="28px" height="28px" borderRadius="100px" />
+                  </Flex>
+                </Flex>
+              </div>
             ))}
           </Flex>
         ) : error ? (

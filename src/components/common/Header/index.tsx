@@ -29,6 +29,7 @@ import ChevronDownIcon from "@/assets/icons/ChevronDownIcon";
 import { useRouter } from "next/navigation";
 import SearchModalContent from "@/components/main/SearchModalContent";
 import { useToast } from "@/hooks/useToast";
+import Skeleton from "@/components/common/Skeleton";
 
 interface HeaderProps {
   variant: "main" | "sub";
@@ -141,32 +142,37 @@ export default function Header({ variant }: HeaderProps) {
 
         {/* 검색창, 로그인, 회원가입 메뉴바 */}
         <div className={styles.topMenu}>
-          <div className={styles.searchWrap}>
-            <input
-              type="text"
-              placeholder="검색어를 입력해주세요."
-              className={styles.searchBox}
-              id="searchInput"
-              readOnly
-              onClick={toggleSearchModal}
-            />
-            <button className={styles.searchBtn} onClick={toggleSearchModal}>
-              <Image src={SearchIcon} alt="search" width={20} height={20} />
-            </button>
-          </div>
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSfi28YC_XHpe94p9TkJvjmZz20lWvPAGiCNQgSvYq4YTlYerQ/viewform"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.inquiryBtn}
-          >
-            <Text typography="label3_m_14" color="fill-normal">
-              문의하기
-            </Text>
-          </a>
-
-          {isMounted && (
+          {!isMounted ? (
             <>
+              <Skeleton width="280px" height="40px" borderRadius="4px" />
+              <Skeleton width="120px" height="40px" borderRadius="4px" />
+              <Skeleton width="120px" height="40px" borderRadius="4px" />
+            </>
+          ) : (
+            <>
+              <div className={styles.searchWrap}>
+                <input
+                  type="text"
+                  placeholder="검색어를 입력해주세요."
+                  className={styles.searchBox}
+                  id="searchInput"
+                  readOnly
+                  onClick={toggleSearchModal}
+                />
+                <button className={styles.searchBtn} onClick={toggleSearchModal}>
+                  <Image src={SearchIcon} alt="search" width={20} height={20} />
+                </button>
+              </div>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfi28YC_XHpe94p9TkJvjmZz20lWvPAGiCNQgSvYq4YTlYerQ/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.inquiryBtn}
+              >
+                <Text typography="label3_m_14" color="fill-normal">
+                  문의하기
+                </Text>
+              </a>
               {!isAuthenticated ? (
                 <button
                   className={styles.loginBtn}

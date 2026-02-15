@@ -14,6 +14,7 @@ import Pagination from "@/components/common/Pagination";
 import Button from "@/components/common/Button";
 import Flex from "@/components/common/Flex";
 import Text from "@/components/common/Text";
+import Skeleton from "@/components/common/Skeleton";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import SearchFilterView from "@/components/events/filters/views/SearchFilterView";
 import { Event, EventSearchRequest } from "@/types/event";
@@ -27,6 +28,77 @@ import styles from "@/components/events/EventPageLayout/styles.module.css";
 import RecommendedEventsEmpty from "@/components/events/RecommendedEventsEmpty";
 import { getCategoryPath } from "@/utils/format";
 import { useRouter } from "next/navigation";
+
+// 검색 페이지 스켈레톤 UI 컴포넌트
+function SearchPageSkeleton() {
+  return (
+    <Flex direction="column" gap="1.25rem" style={{ width: "100%" }}>
+      {/* 헤더 스켈레톤 */}
+      <Flex direction="column" gap="1.5rem" style={{ width: "100%" }}>
+        <Flex justify="space-between" align="center" style={{ width: "100%" }}>
+          <Flex gap="1rem" align="center">
+            <Skeleton width="194px" height="36px" borderRadius="100px" />
+            <Skeleton width="121px" height="20px" borderRadius="100px" />
+          </Flex>
+          <Flex gap="0.5rem" align="center">
+            <Skeleton width="98px" height="38px" borderRadius="4px" />
+            <Skeleton width="127px" height="38px" borderRadius="4px" />
+          </Flex>
+        </Flex>
+      </Flex>
+
+      {/* 카드 그리드 스켈레톤 */}
+      <Flex direction="column" gap="3.75rem">
+        {[0, 1, 2].map((row) => (
+          <Flex key={row} gap="0.75rem">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className={styles.skeletonCard}>
+                <Skeleton width="100%" height="212px" borderRadius="0" />
+                <Flex
+                  direction="column"
+                  gap="1.75rem"
+                  style={{ padding: "1rem" }}
+                >
+                  <Flex direction="column" gap="0.75rem" style={{ width: "100%" }}>
+                    <Flex direction="column" gap="0.25rem" style={{ width: "100%" }}>
+                      <Skeleton width="103px" height="24px" borderRadius="100px" />
+                      <Skeleton width="100%" height="36px" borderRadius="100px" />
+                    </Flex>
+                    <Flex direction="column" gap="0.375rem" style={{ width: "100%" }}>
+                      <Skeleton width="224px" height="18px" borderRadius="100px" />
+                      <Skeleton width="224px" height="18px" borderRadius="100px" />
+                    </Flex>
+                  </Flex>
+                  <Flex gap="0.5rem" align="center">
+                    <Skeleton width="121px" height="28px" borderRadius="100px" />
+                    <Skeleton width="28px" height="28px" borderRadius="100px" />
+                  </Flex>
+                </Flex>
+              </div>
+            ))}
+          </Flex>
+        ))}
+      </Flex>
+
+      {/* 페이지네이션 스켈레톤 */}
+      <Flex justify="center" align="center" style={{ width: "100%", position: "relative" }}>
+        <Flex gap="3.75rem" align="center">
+          <Skeleton width="40px" height="40px" borderRadius="100px" />
+          <Flex gap="0.5rem" align="center">
+            <Skeleton width="40px" height="40px" borderRadius="4px" />
+            <Skeleton width="40px" height="40px" borderRadius="4px" />
+            <Skeleton width="40px" height="40px" borderRadius="4px" />
+          </Flex>
+          <Skeleton width="40px" height="40px" borderRadius="100px" />
+        </Flex>
+        <Flex gap="0.25rem" style={{ position: "absolute", right: 0 }}>
+          <Skeleton width="97px" height="40px" borderRadius="4px" />
+          <Skeleton width="66px" height="40px" borderRadius="4px" />
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+}
 
 interface SearchPageLayoutProps {
   searchQuery: string;
@@ -119,6 +191,20 @@ export default function SearchPageLayout({
       router.push(`${path}?reset=true`);
     }
   };
+
+  // 로딩 중일 때 스켈레톤 UI 표시
+  if (isLoading) {
+    return (
+      <Flex
+        direction="column"
+        align="flex-start"
+        gap={1.25}
+        className={styles.container}
+      >
+        <SearchPageSkeleton />
+      </Flex>
+    );
+  }
 
   return (
     <Flex

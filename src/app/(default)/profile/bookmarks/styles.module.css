@@ -15,3 +15,23 @@
 .cardListContainer {
   flex: 1;
 }
+
+/* 스켈레톤 UI 스타일 */
+.skeletonProfileCard {
+  width: 18.5625rem;
+  padding: 1.5rem 1.25rem;
+  border-radius: 0.5rem;
+  background: var(--Common-white, #fff);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+  height: fit-content;
+}
+
+.skeletonCard {
+  width: 18.8125rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  background: var(--Common-white, #fff);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}

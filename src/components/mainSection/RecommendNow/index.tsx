@@ -77,16 +77,35 @@ export default function RecommendNow() {
           {isLoading ? (
             <Flex gap="0.75rem">
               {[1, 2, 3, 4].map((i) => (
-                <Flex
-                  key={i}
-                  direction="column"
-                  gap="0.75rem"
-                  style={{ flex: "0 0 calc(25% - 0.5625rem)" }}
-                >
-                  <Skeleton height="320px" borderRadius="0.75rem" />
-                  <Skeleton height="1.5rem" width="80%" />
-                  <Skeleton height="1rem" width="60%" />
-                </Flex>
+                <div key={i} className={styles.skeletonCard}>
+                  <Skeleton
+                    height="240px"
+                    width="100%"
+                    borderRadius="8px 8px 0 0"
+                  />
+                  <Flex
+                    direction="column"
+                    gap="12px"
+                    style={{ padding: "16px", flex: 1 }}
+                  >
+                    <Flex direction="column" gap="4px">
+                      <Skeleton width="103px" height="24px" borderRadius="100px" />
+                      <Skeleton width="100%" height="36px" borderRadius="100px" />
+                    </Flex>
+                    <Flex direction="column" gap="6px">
+                      <Skeleton width="224px" height="18px" borderRadius="100px" />
+                      <Skeleton width="224px" height="18px" borderRadius="100px" />
+                    </Flex>
+                    <Flex
+                      justify="space-between"
+                      align="center"
+                      style={{ marginTop: "auto" }}
+                    >
+                      <Skeleton width="121px" height="28px" borderRadius="100px" />
+                      <Skeleton width="102px" height="36px" borderRadius="4px" />
+                    </Flex>
+                  </Flex>
+                </div>
               ))}
             </Flex>
           ) : error ? (

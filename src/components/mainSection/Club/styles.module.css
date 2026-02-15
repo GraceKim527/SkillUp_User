@@ -120,3 +120,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.skeletonCard {
+  min-width: 25rem;
+  height: 17.5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}

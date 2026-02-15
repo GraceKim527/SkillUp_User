@@ -65,13 +65,31 @@ export default function RecommendedContent() {
       {isLoading ? (
         <div className={styles.cardList}>
           {[1, 2, 3, 4, 5].map((i) => (
-            <Flex key={i} direction="column" gap="0.75rem">
+            <Flex
+              key={i}
+              direction="column"
+              gap="10px"
+              className={i === 1 ? styles.heroCard : ""}
+            >
               <Skeleton
-                height={i === 1 ? "520px" : "220px"}
-                borderRadius="0.75rem"
+                height={i === 1 ? "100%" : "217px"}
+                width="100%"
+                borderRadius="4px"
+                className={i === 1 ? styles.heroThumb : ""}
               />
-              <Skeleton height="1.5rem" width="80%" />
-              <Skeleton height="1rem" width="60%" />
+              <Flex direction="column" gap="8px">
+                <Flex justify="space-between" align="center">
+                  <Skeleton width="160px" height="28px" borderRadius="4px" />
+                  <Flex gap="4px">
+                    <Skeleton width="60px" height="24px" borderRadius="4px" />
+                    <Skeleton width="60px" height="24px" borderRadius="4px" />
+                  </Flex>
+                </Flex>
+                <Flex direction="column" gap="6px">
+                  <Skeleton width="100%" height="18px" borderRadius="100px" />
+                  <Skeleton width="224px" height="18px" borderRadius="100px" />
+                </Flex>
+              </Flex>
             </Flex>
           ))}
         </div>
