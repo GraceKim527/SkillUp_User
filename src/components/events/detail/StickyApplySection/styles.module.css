@@ -139,7 +139,13 @@
   }
 
   .buttonList {
+    flex-direction: row;
     gap: 0.5rem;
+  }
+
+  .buttonList > * {
+    flex: 1;
+    min-width: 0;
   }
 
   .footer {

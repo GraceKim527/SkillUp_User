@@ -201,7 +201,9 @@ export default function EventDetailLayout({
     <Flex
       direction="column"
       gap={rootGap}
-      className={className ? `${styles.container} ${className}` : styles.container}
+      className={
+        className ? `${styles.container} ${className}` : styles.container
+      }
     >
       <Flex
         gap={contentGap}
@@ -232,6 +234,24 @@ export default function EventDetailLayout({
             )}
           </div>
 
+          {/* 모바일/태블릿: 포스터 바로 아래에 신청 섹션 */}
+          {isCompactLayout && (
+            <StickyApplySection
+              eventId={eventId}
+              category={eventDetail.category}
+              title={eventDetail.title}
+              eventStart={formatDate(eventDetail.eventStart)}
+              eventEnd={formatDate(eventDetail.eventEnd)}
+              place={eventDetail.locationText}
+              price={eventDetail.price}
+              isFree={eventDetail.isFree}
+              phoneNumber={eventDetail.contact}
+              hashTags={eventDetail.hashTags}
+              bookmarked={eventDetail.bookmarked}
+              applyLink={eventDetail.applyLink ?? undefined}
+            />
+          )}
+
           <Text typography={titleTypography} color="black" as="h1">
             {eventDetail.title}
           </Text>
@@ -249,14 +269,9 @@ export default function EventDetailLayout({
           <Flex direction="column" gap={sectionGap}>
             {/* 행사 설명 */}
             <div ref={descriptionRef} className={styles.section}>
-              <Flex direction="column" gap="1.25rem">
-                <Text typography={sectionTitleTypography} color="black" as="h2">
-                  행사 설명
-                </Text>
-                <div className={styles.markdown}>
-                  {parse(eventDetail.description)}
-                </div>
-              </Flex>
+              <div className={styles.markdown}>
+                {parse(eventDetail.description)}
+              </div>
             </div>
 
             {/* 모집 기간 */}
@@ -341,8 +356,8 @@ export default function EventDetailLayout({
           </Flex>
         </Flex>
 
-        {/* 오른쪽 사이드바 */}
-        <StickyApplySection
+        {/* 데스크톱: 오른쪽 사이드바 */}
+        {!isCompactLayout && <StickyApplySection
           eventId={eventId}
           category={eventDetail.category}
           title={eventDetail.title}
@@ -355,7 +370,7 @@ export default function EventDetailLayout({
           hashTags={eventDetail.hashTags}
           bookmarked={eventDetail.bookmarked}
           applyLink={eventDetail.applyLink ?? undefined}
-        />
+        />}
       </Flex>
       {/* 추천 행사 */}
       <RecommendedEventsSection
