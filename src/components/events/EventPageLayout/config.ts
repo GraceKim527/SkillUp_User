@@ -22,13 +22,13 @@ export const PAGE_CONFIGS: Record<EventPageId, PageConfig> = {
   },
   bootcamp: {
     pageId: "bootcamp",
-    title: "부트캠프",
+    title: "부트캠프 · 동아리",
     FilterView: BootcampFilterView,
     emptyUrl: "/bootcamp/create",
   },
   hackathon: {
     pageId: "hackathon",
-    title: "동아리 · 해커톤 · 공모전",
+    title: "해커톤 · 공모전",
     FilterView: HackathonFilterView,
     emptyUrl: "/hackathon/create",
   },

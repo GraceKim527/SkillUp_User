@@ -14,8 +14,8 @@ export type EventCategory =
 // 행사 카테고리 라벨
 export const EVENT_CATEGORY_LABEL = {
   CONFERENCE_SEMINAR: "컨퍼런스 · 세미나",
-  BOOTCAMP_CLUB: "부트캠프",
-  COMPETITION_HACKATHON: "동아리 · 해커톤 · 공모전",
+  BOOTCAMP_CLUB: "부트캠프 · 동아리",
+  COMPETITION_HACKATHON: "해커톤 · 공모전",
   ARTICLE: "아티클",
 } as const;
 

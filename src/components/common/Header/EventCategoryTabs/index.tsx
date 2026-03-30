@@ -7,8 +7,8 @@ import styles from "./styles.module.css";
 // TODO : 추후 탭 메뉴 추가 시 수정 필요
 const tabs = [
   { label: "컨퍼런스 · 세미나", href: "/conference" },
-  { label: "부트캠프", href: "/bootcamp" },
-  { label: "동아리 · 해커톤 · 공모전", href: "/hackathon" },
+  { label: "부트캠프 · 동아리", href: "/bootcamp" },
+  { label: "해커톤 · 공모전", href: "/hackathon" },
   { label: "아티클", href: "/article" },
 ];
 
