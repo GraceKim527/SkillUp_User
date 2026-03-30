@@ -45,7 +45,7 @@ export const tokenAtom = atomWithStorage<string | null>(
   "accessToken",
   null,
   createSafeStorage<string | null>(),
-  { getOnInit: false }
+  { getOnInit: true }
 );
 
 // 유저 이름 Atom - localStorage에 자동 저장 (SSR 안전)

@@ -1,7 +1,7 @@
 // src/components/events/detail/StickyApplySection/index.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@/components/common/Button";
 import styles from "./styles.module.css";
 import CalendarIcon from "@/assets/svg/calendarIcon.svg";
@@ -48,6 +48,10 @@ export default function StickyApplySection({
 }: StickyApplySectionProps) {
   const [isBookmarked, setIsBookmarked] = useState(bookmarked);
   const { mutate: toggleBookmark, isPending } = useToggleEventBookmark();
+
+  useEffect(() => {
+    setIsBookmarked(bookmarked);
+  }, [bookmarked]);
 
   const handleBookmarkClick = () => {
     setIsBookmarked((prev) => !prev);

@@ -1,6 +1,6 @@
 // src/hooks/useEventCard.ts
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Event } from "@/types/event";
 import { useToggleEventBookmark } from "@/hooks/mutations/useToggleEventBookmark";
 import { getCategoryPath } from "@/utils/format";
@@ -9,6 +9,11 @@ import LoginImage from "@/assets/images/loginImg.png";
 export const useEventCard = (event: Event) => {
   const [isBookmarked, setIsBookmarked] = useState(event.bookmarked);
   const { mutate: toggleBookmark, isPending } = useToggleEventBookmark();
+
+  // 서버에서 새로운 데이터가 오면 북마크 상태 동기화
+  useEffect(() => {
+    setIsBookmarked(event.bookmarked);
+  }, [event.bookmarked]);
 
   const { path: categoryPath } = getCategoryPath(event.category);
   const eventUrl = `${categoryPath}/${event.id}`;

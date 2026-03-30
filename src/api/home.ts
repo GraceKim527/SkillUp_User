@@ -6,30 +6,35 @@ import { EventCategory } from "@/constants/event";
 import { JobCategory } from "@/constants/category";
 import { BannersResponse } from "@/types/home";
 import { RecommendedEventsResponse } from "@/types/event";
+import { getDefaultStore } from "jotai";
+import { tokenAtom } from "@/store/authAtoms";
 
 // 해시태그 기반 추천
-export const getRecommendedEvents = async (
-  isAuthenticated: boolean
-): Promise<RecommendedEventsResponse> => {
-  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+export const getRecommendedEvents = async (): Promise<RecommendedEventsResponse> => {
+  const store = getDefaultStore();
+  const token = store.get(tokenAtom);
+  const axiosInstance = token ? tokenInstance : instance;
   const response = await axiosInstance.get("/events/home/recommended");
   return response.data.data;
 };
 
 // 최근 본 행사 (비로그인/로그인 모두 가능)
-export const getRecentEvents = async (isAuthenticated: boolean) => {
-  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+export const getRecentEvents = async () => {
+  const store = getDefaultStore();
+  const token = store.get(tokenAtom);
+  const axiosInstance = token ? tokenInstance : instance;
   const response = await axiosInstance.get("/events/home/recent");
   return response.data.data;
 };
 
 // 추천/인기 행사 리스트
 export const getFeaturedEvents = async (
-  isAuthenticated: boolean,
   category?: JobCategory,
   size?: number
 ) => {
-  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+  const store = getDefaultStore();
+  const token = store.get(tokenAtom);
+  const axiosInstance = token ? tokenInstance : instance;
   const response = await axiosInstance.get("/events/home/featured", {
     params: {
       ...(category && { category }),
@@ -40,11 +45,10 @@ export const getFeaturedEvents = async (
 };
 
 // 곧 종료되는 행사 리스트
-export const getEndingSoonEvents = async (
-  isAuthenticated: boolean,
-  size?: number
-) => {
-  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+export const getEndingSoonEvents = async (size?: number) => {
+  const store = getDefaultStore();
+  const token = store.get(tokenAtom);
+  const axiosInstance = token ? tokenInstance : instance;
   const response = await axiosInstance.get("/events/home/closing-soon", {
     params: {
       ...(size !== undefined && { size }),
@@ -55,13 +59,14 @@ export const getEndingSoonEvents = async (
 
 // 카테고리별 홈 리스트
 export const getCategoryEvents = async (
-  isAuthenticated: boolean,
   category?: Exclude<EventCategory, "ARTICLE">,
   tab?: JobCategory,
   size?: number,
   page?: number
 ) => {
-  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+  const store = getDefaultStore();
+  const token = store.get(tokenAtom);
+  const axiosInstance = token ? tokenInstance : instance;
   const response = await axiosInstance.get("/events/home/category", {
     params: {
       ...(category && { category }),
@@ -74,10 +79,10 @@ export const getCategoryEvents = async (
 };
 
 // 배너 조회
-export const getBanners = async (
-  isAuthenticated: boolean
-): Promise<BannersResponse> => {
-  const axiosInstance = isAuthenticated ? tokenInstance : instance;
+export const getBanners = async (): Promise<BannersResponse> => {
+  const store = getDefaultStore();
+  const token = store.get(tokenAtom);
+  const axiosInstance = token ? tokenInstance : instance;
   const response = await axiosInstance.get("/events/home/banners");
   return response.data.data;
 };

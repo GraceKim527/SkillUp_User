@@ -9,15 +9,12 @@ import {
   EventSearchRequest,
 } from "@/types/event";
 import { queryKeys } from "../queryKeys";
-import { useAuth } from "../useAuth";
 
 export const useEventList = (
   params: EventSearchParams,
   initialData?: Event[],
   initialParams?: EventSearchParams
 ) => {
-  const { isAuthenticated } = useAuth();
-
   // 초기 params와 현재 params가 정확히 일치할 때만 initialData 사용
   const shouldUseInitialData =
     initialData &&
@@ -32,7 +29,7 @@ export const useEventList = (
 
   return useQuery<EventListResponse>({
     queryKey: queryKeys.events.list(params),
-    queryFn: () => getEventList(params, isAuthenticated),
+    queryFn: () => getEventList(params),
     initialData: transformedInitialData,
     staleTime: 0, // 항상 최신 데이터를 fetch하도록 설정
   });
@@ -40,11 +37,9 @@ export const useEventList = (
 
 // 행사 검색
 export const useSearchEvents = (searchParams: EventSearchRequest) => {
-  const { isAuthenticated } = useAuth();
-
   return useQuery<EventListResponse>({
     queryKey: [...queryKeys.events.all, "search", searchParams],
-    queryFn: () => searchEvents(searchParams, isAuthenticated),
+    queryFn: () => searchEvents(searchParams),
     staleTime: 0, // 항상 최신 데이터를 fetch하도록 설정
   });
 };

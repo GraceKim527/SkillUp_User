@@ -11,17 +11,17 @@ import {
 } from "@/api/home";
 import { EventCategory, EVENT_CATEGORY } from "@/constants/event";
 import { JobCategory } from "@/constants/category";
-import { useAuth } from "../useAuth";
 import { queryKeys } from "../queryKeys";
 import { RecommendedEventsResponse } from "@/types/event";
+import { useAuth } from "../useAuth";
 
 // 해시태그 기반 추천 행사
 export const useRecommendedEvents = () => {
   const { isAuthenticated } = useAuth();
 
   return useQuery<RecommendedEventsResponse>({
-    queryKey: queryKeys.home.recommended(isAuthenticated),
-    queryFn: () => getRecommendedEvents(isAuthenticated),
+    queryKey: queryKeys.home.recommended(),
+    queryFn: () => getRecommendedEvents(),
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
     enabled: isAuthenticated,
   });
@@ -29,11 +29,9 @@ export const useRecommendedEvents = () => {
 
 // 최근 본 행사
 export const useRecentEvents = (enabled = true) => {
-  const { isAuthenticated } = useAuth();
-
   return useQuery({
-    queryKey: queryKeys.home.recent(isAuthenticated),
-    queryFn: () => getRecentEvents(isAuthenticated),
+    queryKey: queryKeys.home.recent(),
+    queryFn: () => getRecentEvents(),
     staleTime: 1 * 60 * 1000, // 1분간 캐시 유지
     enabled,
   });
@@ -45,11 +43,9 @@ export const useFeaturedEvents = (
   size?: number,
   enabled = true
 ) => {
-  const { isAuthenticated } = useAuth();
-
   return useQuery({
-    queryKey: queryKeys.home.featured(isAuthenticated, category, size),
-    queryFn: () => getFeaturedEvents(isAuthenticated, category, size),
+    queryKey: queryKeys.home.featured(category, size),
+    queryFn: () => getFeaturedEvents(category, size),
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
     enabled,
   });
@@ -57,11 +53,9 @@ export const useFeaturedEvents = (
 
 // 곧 종료되는 행사 리스트
 export const useEndingSoonEvents = (size?: number) => {
-  const { isAuthenticated } = useAuth();
-
   return useQuery({
-    queryKey: queryKeys.home.endingSoon(isAuthenticated, size),
-    queryFn: () => getEndingSoonEvents(isAuthenticated, size),
+    queryKey: queryKeys.home.endingSoon(size),
+    queryFn: () => getEndingSoonEvents(size),
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
     enabled: true,
   });
@@ -75,13 +69,10 @@ export const useCategoryEvents = (
   page?: number,
   enabled = true
 ) => {
-  const { isAuthenticated } = useAuth();
-
   return useQuery({
-    queryKey: queryKeys.home.category({ isAuthenticated, category, tab, size, page }),
+    queryKey: queryKeys.home.category({ category, tab, size, page }),
     queryFn: () =>
       getCategoryEvents(
-        isAuthenticated,
         category as Exclude<EventCategory, typeof EVENT_CATEGORY.ARTICLE>,
         tab,
         size,
@@ -94,11 +85,9 @@ export const useCategoryEvents = (
 
 // 배너 조회
 export const useBanners = (enabled = true) => {
-  const { isAuthenticated } = useAuth();
-
   return useQuery({
-    queryKey: queryKeys.home.banners(isAuthenticated),
-    queryFn: () => getBanners(isAuthenticated),
+    queryKey: queryKeys.home.banners(),
+    queryFn: () => getBanners(),
     staleTime: 10 * 60 * 1000, // 10분간 캐시 유지
     enabled,
   });
