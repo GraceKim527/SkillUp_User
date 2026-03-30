@@ -1,7 +1,7 @@
 // src/components/main/SearchModalContent.tsx
 "use client";
 
-import { useState, useEffect, useRef, FormEvent, CSSProperties } from "react";
+import { useState, useEffect, useRef, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Flex from "@/components/common/Flex";
 import Text from "@/components/common/Text";
@@ -19,7 +19,6 @@ export default function SearchModalContent({
   onClose,
 }: SearchModalContentProps) {
   const [inputValue, setInputValue] = useState("");
-  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const { searches, addSearch, removeSearch, clearAll } = useRecentSearches();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,36 +28,6 @@ export default function SearchModalContent({
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.visualViewport) return;
-
-    const updateKeyboardOffset = () => {
-      const viewport = window.visualViewport;
-
-      if (!viewport) {
-        setKeyboardOffset(0);
-        return;
-      }
-
-      const nextOffset = Math.max(
-        0,
-        window.innerHeight - viewport.height - viewport.offsetTop,
-      );
-
-      setKeyboardOffset(nextOffset);
-    };
-
-    updateKeyboardOffset();
-
-    window.visualViewport.addEventListener("resize", updateKeyboardOffset);
-    window.visualViewport.addEventListener("scroll", updateKeyboardOffset);
-
-    return () => {
-      window.visualViewport?.removeEventListener("resize", updateKeyboardOffset);
-      window.visualViewport?.removeEventListener("scroll", updateKeyboardOffset);
-    };
   }, []);
 
   const handleSearch = (e: FormEvent) => {
@@ -87,11 +56,6 @@ export default function SearchModalContent({
       justify="space-between"
       align="center"
       className={styles.searchModalContent}
-      style={
-        {
-          "--search-modal-keyboard-offset": `${keyboardOffset}px`,
-        } as CSSProperties
-      }
     >
       <Flex direction="column" gap={0.75} block>
         <Flex justify="space-between">

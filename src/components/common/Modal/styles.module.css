@@ -43,6 +43,7 @@
 /* 모바일 (~767px) */
 @media (max-width: 767px) {
   .backdrop {
+    height: calc(100% - var(--keyboard-offset, 0px));
     align-items: flex-end;
   }
 

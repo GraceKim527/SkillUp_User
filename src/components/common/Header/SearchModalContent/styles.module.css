@@ -100,12 +100,10 @@
     width: 100vw;
     height: auto;
     min-height: 50vh;
-    max-height: calc(100dvh - var(--search-modal-keyboard-offset, 0px));
+    max-height: 100%;
     padding: 1.5rem 1.25rem 2rem;
     border-radius: 0.75rem 0.75rem 0 0;
-    margin-bottom: var(--search-modal-keyboard-offset, 0px);
     overflow-y: auto;
-    transition: margin-bottom 0.2s ease, max-height 0.2s ease;
   }
 
   .searchModalContentInput {

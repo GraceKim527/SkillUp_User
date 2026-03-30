@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, CSSProperties } from "react";
 import FocusLock from "react-focus-lock";
 import styles from "./styles.module.css";
 
@@ -16,6 +16,7 @@ interface ModalProps {
 export default function Modal({ isOpen, toggle, children, fullScreen }: ModalProps) {
   // 포커스 복원을 위해 모달 열기 전 포커스 요소 저장
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
 
   // 포커스 복원 로직
   useEffect(() => {
@@ -37,6 +38,31 @@ export default function Modal({ isOpen, toggle, children, fullScreen }: ModalPro
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, toggle]);
 
+  // 모바일 키보드 감지 - backdrop 높이 조정
+  useEffect(() => {
+    if (!isOpen || typeof window === "undefined" || !window.visualViewport) return;
+
+    const updateKeyboardOffset = () => {
+      const viewport = window.visualViewport;
+      if (!viewport) return;
+      const offset = Math.max(
+        0,
+        window.innerHeight - viewport.height - viewport.offsetTop
+      );
+      setKeyboardOffset(offset);
+    };
+
+    updateKeyboardOffset();
+    window.visualViewport.addEventListener("resize", updateKeyboardOffset);
+    window.visualViewport.addEventListener("scroll", updateKeyboardOffset);
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", updateKeyboardOffset);
+      window.visualViewport?.removeEventListener("scroll", updateKeyboardOffset);
+      setKeyboardOffset(0);
+    };
+  }, [isOpen]);
+
   // 모달 열릴 때 body 스크롤 방지
   useEffect(() => {
     if (isOpen) {
@@ -54,6 +80,7 @@ export default function Modal({ isOpen, toggle, children, fullScreen }: ModalPro
   return (
     <div
       className={`${styles.backdrop} ${fullScreen ? styles.backdropFullScreen : ""}`}
+      style={{ "--keyboard-offset": `${keyboardOffset}px` } as CSSProperties}
       onClick={toggle}
     >
       <FocusLock returnFocus={false}>
