@@ -25,11 +25,31 @@ const ROLES: {
   label: string;
   icon?: React.ComponentType<{ className?: string }>;
 }[] = [
-  { key: JOB_CATEGORY.ALL, label: getJobCategoryLabel(JOB_CATEGORY.ALL), icon: undefined },
-  { key: JOB_CATEGORY.PM, label: getJobCategoryLabel(JOB_CATEGORY.PM), icon: LightBulbOutlineIcon },
-  { key: JOB_CATEGORY.DESIGN, label: getJobCategoryLabel(JOB_CATEGORY.DESIGN), icon: OverlapShapeOutlineIcon },
-  { key: JOB_CATEGORY.DEVELOPMENT, label: getJobCategoryLabel(JOB_CATEGORY.DEVELOPMENT), icon: GearOutlineIcon },
-  { key: JOB_CATEGORY.AI, label: getJobCategoryLabel(JOB_CATEGORY.AI), icon: SparkleBlobOutlineIcon },
+  {
+    key: JOB_CATEGORY.ALL,
+    label: getJobCategoryLabel(JOB_CATEGORY.ALL),
+    icon: undefined,
+  },
+  {
+    key: JOB_CATEGORY.PM,
+    label: getJobCategoryLabel(JOB_CATEGORY.PM),
+    icon: LightBulbOutlineIcon,
+  },
+  {
+    key: JOB_CATEGORY.DESIGN,
+    label: getJobCategoryLabel(JOB_CATEGORY.DESIGN),
+    icon: OverlapShapeOutlineIcon,
+  },
+  {
+    key: JOB_CATEGORY.DEVELOPMENT,
+    label: getJobCategoryLabel(JOB_CATEGORY.DEVELOPMENT),
+    icon: GearOutlineIcon,
+  },
+  {
+    key: JOB_CATEGORY.AI,
+    label: getJobCategoryLabel(JOB_CATEGORY.AI),
+    icon: SparkleBlobOutlineIcon,
+  },
 ];
 
 export default function RoleSelector({

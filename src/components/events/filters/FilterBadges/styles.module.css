@@ -16,3 +16,15 @@
     letter-spacing: -0.04rem;
   }
 }
+
+/* 모바일 (~767px) */
+@media (max-width: 767px) {
+  .badge {
+    padding: 0.25rem 0.5rem 0.25rem 0.625rem;
+
+    span {
+      font-size: 0.8125rem;
+      letter-spacing: -0.0325rem;
+    }
+  }
+}
