@@ -171,12 +171,6 @@ export default function SearchPageLayout({
 
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
-  const paginatedEvents = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    return eventList.slice(startIndex, endIndex);
-  }, [eventList, currentPage]);
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -281,7 +275,7 @@ export default function SearchPageLayout({
           // 데이터가 있는 경우
           <Flex direction="column" gap={6.25} style={{ width: "100%" }}>
             <div className={styles.cardList}>
-              {paginatedEvents.map((item) => (
+              {eventList.map((item) => (
                 <EventCard key={item.id} size="medium" event={item} />
               ))}
             </div>
