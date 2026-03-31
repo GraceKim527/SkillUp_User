@@ -22,8 +22,20 @@ tokenInstance.interceptors.request.use(
     const store = getDefaultStore();
     const token = store.get(tokenAtom);
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    console.log("[tokenInstance] request:", config.url);
+    console.log("[tokenInstance] atom token:", token ? "있음" : "없음");
+
+    // atom에 토큰이 없으면 localStorage에서 직접 읽기 (atom 반영 타이밍 이슈 대비)
+    let finalToken = token;
+    if (!finalToken && typeof window !== "undefined") {
+      try {
+        finalToken = JSON.parse(localStorage.getItem("accessToken") || "null");
+        console.log("[tokenInstance] localStorage fallback token:", finalToken ? "있음" : "없음");
+      } catch {}
+    }
+
+    if (finalToken) {
+      config.headers.Authorization = `Bearer ${finalToken}`;
     }
 
     return config;
