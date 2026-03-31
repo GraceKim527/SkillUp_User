@@ -51,21 +51,30 @@ export default function ProfileModal({
       label: "북마크",
       icon: BookmarkIcon,
       iconProps: { width: 20, height: 20, fillColor: "none" },
-      onClick: () => router.push("/profile/bookmarks"),
+      onClick: () => {
+        toggle();
+        router.push("/profile/bookmarks");
+      },
     },
     {
       id: "profile",
       label: "프로필 수정",
       icon: PenIcon,
       iconProps: { fillColor: "none" },
-      onClick: () => router.push("/profile/edit"),
+      onClick: () => {
+        toggle();
+        router.push("/profile/edit");
+      },
     },
     {
       id: "support",
       label: "고객센터",
       icon: ChatIcon,
       iconProps: {},
-      onClick: () => router.push("/support"),
+      onClick: () => {
+        toggle();
+        router.push("/support");
+      },
     },
   ];
   // Escape 키로 닫기
