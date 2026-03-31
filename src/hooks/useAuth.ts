@@ -17,9 +17,12 @@ export const useAuth = () => {
   const [userProfileImage, setUserProfileImage] = useAtom(userProfileImageAtom);
   const isAuthenticated = useAtomValue(isAuthenticatedAtom);
 
-  // 로그인 - 토큰만 저장
+  // 로그인 - 토큰 저장 (atom + localStorage 동기 쓰기)
   const login = (accessToken: string) => {
     setToken(accessToken);
+    try {
+      localStorage.setItem("accessToken", JSON.stringify(accessToken));
+    } catch {}
   };
 
   // 로그아웃 - 모든 인증 정보 제거
