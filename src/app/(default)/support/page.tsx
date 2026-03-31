@@ -31,11 +31,7 @@ function SupportPageSkeleton() {
                   i < 6 ? "1px solid var(--Line-normal, #d8d8d8)" : "none",
               }}
             >
-              <Flex
-                gap="1rem"
-                align="center"
-                style={{ flex: 1 }}
-              >
+              <Flex gap="1rem" align="center" style={{ flex: 1 }}>
                 <Skeleton width="32px" height="32px" borderRadius="100px" />
                 <Skeleton width="480px" height="32px" borderRadius="100px" />
               </Flex>
@@ -75,7 +71,10 @@ export default function SupportPage() {
   }
 
   return (
-    <div className={styles.container} style={{ paddingTop: "6.25rem" }}>
+    <div
+      className={styles.container}
+      style={{ paddingTop: "6.25rem", paddingBottom: "6.5rem" }}
+    >
       <SupportPageLayout faqData={faqData || []} />
     </div>
   );

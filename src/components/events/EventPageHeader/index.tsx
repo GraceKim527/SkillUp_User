@@ -97,9 +97,15 @@ export default function EventPageHeader({
             theme="light"
           />
           <Flex align="center" justify="space-between" gap={0.5}>
-            <Text typography="label3_m_14" color="neutral-50" as="span">
-              {count}개 행사
-            </Text>
+            <Flex align="center" gap={0.25}>
+              <Text typography="sub3_m_16" color="neutral-50" as="span">
+                {count}개
+              </Text>
+              <Text typography="body1_r_16" color="neutral-50" as="span">
+                행사
+              </Text>
+            </Flex>
+
             <Flex align="center" gap={0.5}>
               {filterControls}
             </Flex>

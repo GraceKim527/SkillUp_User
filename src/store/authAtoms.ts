@@ -85,7 +85,17 @@ export const loginModalAtom = atom<boolean>(false);
 export const showOnboardingAtom = atom<boolean>(false);
 
 // 탈퇴 대기 유저 모달 상태 Atom (OAuth 콜백 후 홈에서 모달 표시용)
-export const showWithdrawPendingAtom = atom<boolean>(false);
+export const showWithdrawPendingAtom = atomWithStorage<boolean>(
+  "showWithdrawPending",
+  false,
+  createSafeStorage<boolean>(),
+  { getOnInit: true }
+);
 
 // 탈퇴 대기 유저 정보 Atom (재가입 API 호출에 필요한 socialLoginType + socialId)
-export const withdrawPendingUserInfoAtom = atom<WithdrawPendingUserInfo | null>(null);
+export const withdrawPendingUserInfoAtom = atomWithStorage<WithdrawPendingUserInfo | null>(
+  "withdrawPendingUserInfo",
+  null,
+  createSafeStorage<WithdrawPendingUserInfo | null>(),
+  { getOnInit: true }
+);
