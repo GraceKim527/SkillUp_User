@@ -48,7 +48,7 @@ export default function OnboardingModalController() {
           type: "success",
           duration: 2500,
         });
-        router.push("/");
+        router.refresh();
       },
       onError: () => {
         showToast({

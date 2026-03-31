@@ -51,11 +51,18 @@ export const useSocialLoginCallback = () => {
         withdrawPendingUserInfo,
       } = await sendAuthorizationCode(socialType, code, state);
 
-      // 토큰 저장
-      login(accessToken);
+      // 디버깅용 로그
+      console.log("[OAuthCallback] userLoginStatus:", userLoginStatus);
+      console.log("[OAuthCallback] accessToken:", accessToken);
+      console.log("[OAuthCallback] full response:", { accessToken, userLoginStatus, otherOauthUserInfo, withdrawPendingUserInfo });
+
+      // EXISTING_USER, NEW_USER만 토큰 저장 (WITHDRAW_PENDING_USER, OTHER_OAUTH_USER는 토큰 없음)
+      if (accessToken) {
+        login(accessToken);
+      }
 
       // NEW_USER는 백엔드가 401을 반환하므로 유저 정보 조회 및 캐시 무효화를 건너뜀
-      if (userLoginStatus !== "NEW_USER") {
+      if (userLoginStatus !== "NEW_USER" && accessToken) {
         // 유저 정보 가져오기 (토큰 저장 후 바로 호출)
         try {
           const userData = await getUserEmailAndName();
