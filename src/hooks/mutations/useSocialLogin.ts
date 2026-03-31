@@ -6,10 +6,10 @@ import {
   sendAuthorizationCode,
   SocialLoginType,
 } from "@/api/auth";
-import { getUserEmailAndName } from "@/api/user";
 import { useAuth } from "../useAuth";
 import { queryKeys } from "../queryKeys";
 import { OAuthCallbackResponse } from "@/types/user";
+import tokenInstance from "@/api/tokenInstance";
 
 // 소셜 로그인 URL 가져오기 및 리다이렉트
 export const useSocialLogin = () => {
@@ -63,9 +63,12 @@ export const useSocialLoginCallback = () => {
 
       // NEW_USER는 백엔드가 401을 반환하므로 유저 정보 조회 및 캐시 무효화를 건너뜀
       if (userLoginStatus !== "NEW_USER" && accessToken) {
-        // 유저 정보 가져오기 (토큰 저장 후 바로 호출)
+        // 유저 정보 가져오기 (토큰을 직접 헤더에 넣어 atom 반영 타이밍 이슈 방지)
         try {
-          const userData = await getUserEmailAndName();
+          const response = await tokenInstance.get("/user/my-page/home", {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+          const userData = response.data.data;
           if (userData?.name) {
             setUserName(userData.name);
           }
