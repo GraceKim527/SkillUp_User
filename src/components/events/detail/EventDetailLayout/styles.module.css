@@ -3,6 +3,7 @@
   max-width: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
+  /* padding-bottom: 6.5rem; */
 }
 
 .contentWrapper {
@@ -245,6 +246,7 @@
 @media (max-width: 767px) {
   .container {
     padding: 0 1rem;
+    padding-bottom: 4rem;
   }
 
   .contentContainer {
