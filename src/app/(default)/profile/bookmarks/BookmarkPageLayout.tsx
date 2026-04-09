@@ -40,6 +40,8 @@ export default function BookmarkPageLayout() {
     currentPage,
     selectedPageOption,
     eventList,
+    recruitingCount,
+    closedCount,
     totalPages,
     pageOptions,
     sortOptions,
@@ -232,11 +234,11 @@ export default function BookmarkPageLayout() {
               tabs={[
                 {
                   label: "진행 중",
-                  count: bookmarkData?.recruitingEvents.length || 0,
+                  count: recruitingCount,
                 },
                 {
                   label: "종료",
-                  count: bookmarkData?.closedEvents.length || 0,
+                  count: closedCount,
                 },
               ]}
               activeIndex={activeTabIndex}

@@ -77,9 +77,10 @@ export interface UserBookmarksEvent {
 export interface UserBookmarks {
   name: string;
   email: string;
-  recruitingEvents: UserBookmarksEvent[];
-  closedEvents: UserBookmarksEvent[];
   role: RoleName;
+  events: UserBookmarksEvent[];
+  closedCount: number;
+  recruitingCount: number;
   bookmarkCount: number;
   pageInfo: {
     currentPage: number;

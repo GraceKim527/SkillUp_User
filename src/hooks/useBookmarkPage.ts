@@ -20,19 +20,19 @@ export const useBookmarkPage = () => {
     value: "1",
   });
 
+  const status = activeTabIndex === 0 ? "recruiting" : "closed";
+
   const {
     data: bookmarkData,
     isLoading,
     error,
   } = useUserBookmarks(
     selectedSort.value as "deadline" | "latest",
+    status,
     currentPage
   );
 
-  const eventList =
-    activeTabIndex === 0
-      ? bookmarkData?.recruitingEvents || []
-      : bookmarkData?.closedEvents || [];
+  const eventList = bookmarkData?.events || [];
 
   const totalPages = bookmarkData?.pageInfo.totalPages || 1;
 
@@ -89,6 +89,8 @@ export const useBookmarkPage = () => {
     selectedPageOption,
     // 계산된 값
     eventList,
+    recruitingCount: bookmarkData?.recruitingCount ?? 0,
+    closedCount: bookmarkData?.closedCount ?? 0,
     totalPages,
     pageOptions,
     sortOptions,

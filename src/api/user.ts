@@ -89,11 +89,13 @@ export const getUserEmailAndName = async (): Promise<UserEmailAndName> => {
 // 유저 북마크 조회
 export const getUserBookmarks = async (
   sort: "deadline" | "latest",
+  status: "recruiting" | "closed",
   page: number, // 1-indexed (화면 표시 기준)
 ): Promise<UserBookmarks> => {
   const response = await tokenInstance.get("/user/my-page/bookmark", {
     params: {
       sort,
+      status,
       page: page - 1, // 0-indexed로 변환 (API 기준)
     },
   });

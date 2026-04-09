@@ -34,8 +34,8 @@ export const queryKeys = {
     all: ["user"] as const,
     profile: () => [...queryKeys.user.all, "profile"] as const,
     emailAndName: () => [...queryKeys.user.all, "email-name"] as const,
-    bookmarks: (sort: "deadline" | "latest", page: number) =>
-      [...queryKeys.user.all, "bookmarks", sort, page] as const,
+    bookmarks: (sort: "deadline" | "latest", status: "recruiting" | "closed", page: number) =>
+      [...queryKeys.user.all, "bookmarks", sort, status, page] as const,
     recentSearches: ["user", "recent-searches"] as const,
   },
 

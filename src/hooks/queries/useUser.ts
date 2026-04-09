@@ -92,13 +92,13 @@ export const useUserEmailAndName = () => {
 };
 
 // 유저 북마크 조회 Hook
-export const useUserBookmarks = (sort: "deadline" | "latest", page: number) => {
+export const useUserBookmarks = (sort: "deadline" | "latest", status: "recruiting" | "closed", page: number) => {
   const { isAuthenticated } = useAuth();
 
   return useQuery<UserBookmarks>({
-    queryKey: queryKeys.user.bookmarks(sort, page),
+    queryKey: queryKeys.user.bookmarks(sort, status, page),
     queryFn: async () => {
-      return await getUserBookmarks(sort, page);
+      return await getUserBookmarks(sort, status, page);
     },
     enabled: isAuthenticated,
     retry: false,
