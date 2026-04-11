@@ -76,6 +76,35 @@ const createPageList = (
   return pages;
 };
 
+const MODE_CONFIG: Record<
+  PaginationMode,
+  {
+    containerClassName: string;
+    outerGap: string;
+    buttonExtraClass: string;
+    showEllipsis: boolean;
+  }
+> = {
+  mobile: {
+    containerClassName: `${styles.pagination} ${styles.mobilePagination}`,
+    outerGap: "1.25rem",
+    buttonExtraClass: styles.mobileButton,
+    showEllipsis: false,
+  },
+  tablet: {
+    containerClassName: `${styles.pagination} ${styles.tabletPagination}`,
+    outerGap: "2rem",
+    buttonExtraClass: "",
+    showEllipsis: true,
+  },
+  desktop: {
+    containerClassName: styles.pagination,
+    outerGap: "3.75rem",
+    buttonExtraClass: "",
+    showEllipsis: true,
+  },
+};
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -102,6 +131,7 @@ const Pagination = ({
     : isTablet
       ? "tablet"
       : "desktop";
+  const config = MODE_CONFIG[mode];
 
   // totalPages에서 파생: 전체 페이지 옵션
   const pageOptions = useMemo(
@@ -157,162 +187,84 @@ const Pagination = ({
     if (currentPage < totalPages) onPageChange(currentPage + 1);
   };
 
-  // 모바일 레이아웃
-  if (isMobile) {
-    return (
-      <div className={`${styles.pagination} ${styles.mobilePagination}`}>
-        <Flex gap="1.25rem" align="center" justify="center">
-          <button
-            className={`${styles.paginationPageButton} ${styles.mobileButton}`}
-            onClick={handleLeftClick}
-            disabled={currentPage === 1}
-          >
-            <ChevronLeftIcon />
-          </button>
+  const arrowButtonClassName =
+    `${styles.paginationPageButton} ${config.buttonExtraClass}`.trim();
 
-          <Flex gap="0.5rem" align="center">
-            {pageList.map((item) => {
-              if (item === "ellipsis") return null;
-              return (
-                <button
-                  key={item}
-                  className={`${styles.paginationButton} ${styles.mobileButton} ${
-                    currentPage === item ? styles.active : ""
-                  }`}
-                  onClick={() => onPageChange(item)}
-                >
-                  {item}
-                </button>
-              );
-            })}
-          </Flex>
+  // 좌/우 화살표 + 숫자 리스트 (3개 모드 공통)
+  const pageListContent = (
+    <Flex gap={config.outerGap} align="center" justify="center">
+      <button
+        className={arrowButtonClassName}
+        onClick={handleLeftClick}
+        disabled={currentPage === 1}
+      >
+        <ChevronLeftIcon />
+      </button>
 
-          <button
-            className={`${styles.paginationPageButton} ${styles.mobileButton}`}
-            onClick={handleRightClick}
-            disabled={currentPage === totalPages}
-          >
-            <ChevronRightIcon color="#000" />
-          </button>
-        </Flex>
-      </div>
-    );
-  }
-
-  // 태블릿 레이아웃
-  if (isTablet) {
-    return (
-      <div className={`${styles.pagination} ${styles.tabletPagination}`}>
-        <Flex gap="2rem" align="center" justify="center">
-          <button
-            className={styles.paginationPageButton}
-            onClick={handleLeftClick}
-            disabled={currentPage === 1}
-          >
-            <ChevronLeftIcon />
-          </button>
-
-          <Flex gap="0.5rem" align="center">
-            {pageList.map((item, idx) => {
-              if (item === "ellipsis") {
-                return (
-                  <span key={`ellipsis-${idx}`} className={styles.ellipsis}>
-                    <Image src={EllipsisIcon} alt="..." />
-                  </span>
-                );
-              }
-              return (
-                <button
-                  key={item}
-                  className={`${styles.paginationButton} ${
-                    currentPage === item ? styles.active : ""
-                  }`}
-                  onClick={() => onPageChange(item)}
-                >
-                  {item}
-                </button>
-              );
-            })}
-          </Flex>
-
-          <button
-            className={styles.paginationPageButton}
-            onClick={handleRightClick}
-            disabled={currentPage === totalPages}
-          >
-            <ChevronRightIcon color="#000" />
-          </button>
-        </Flex>
-      </div>
-    );
-  }
-
-  // 데스크톱 레이아웃
-  return (
-    <div className={styles.pagination}>
-      <Flex gap="8px" className={styles.centerPagination}>
-        <Flex gap="3.75rem" align="center">
-          <button
-            className={styles.paginationPageButton}
-            onClick={handleLeftClick}
-            disabled={currentPage === 1}
-          >
-            <ChevronLeftIcon />
-          </button>
-
-          <Flex gap="0.5rem" align="center">
-            {pageList.map((item, idx) => {
-              if (item === "ellipsis") {
-                return (
-                  <span key={`ellipsis-${idx}`} className={styles.ellipsis}>
-                    <Image src={EllipsisIcon} alt="..." />
-                  </span>
-                );
-              }
-
-              return (
-                <button
-                  key={item}
-                  className={`${styles.paginationButton} ${
-                    currentPage === item ? styles.active : ""
-                  }`}
-                  onClick={() => onPageChange(item)}
-                >
-                  {item}
-                </button>
-              );
-            })}
-          </Flex>
-
-          <button
-            className={styles.paginationPageButton}
-            onClick={handleRightClick}
-            disabled={currentPage === totalPages}
-          >
-            <ChevronRightIcon color="#000" />
-          </button>
-        </Flex>
+      <Flex gap="0.5rem" align="center">
+        {pageList.map((item, idx) => {
+          if (item === "ellipsis") {
+            if (!config.showEllipsis) return null;
+            return (
+              <span key={`ellipsis-${idx}`} className={styles.ellipsis}>
+                <Image src={EllipsisIcon} alt="..." />
+              </span>
+            );
+          }
+          return (
+            <button
+              key={item}
+              className={`${styles.paginationButton} ${config.buttonExtraClass} ${
+                currentPage === item ? styles.active : ""
+              }`.trim()}
+              onClick={() => onPageChange(item)}
+            >
+              {item}
+            </button>
+          );
+        })}
       </Flex>
 
-      {goToPage && dropdownSelected && (
-        <Flex align="center" gap="0.75rem" className={styles.paginationRight}>
-          <Text typography="label2_m_16" color="neutral-30">
-            Go to Page
-          </Text>
-          <Flex gap="0.25rem" align="center">
-            <Dropdown
-              options={dropdownOptions}
-              selected={dropdownSelected}
-              onSelect={dropdownOnSelect}
-            />
-            <Button variant="secondary" size="large" onClick={handleGoClick}>
-              GO
-            </Button>
-          </Flex>
-        </Flex>
-      )}
-    </div>
+      <button
+        className={arrowButtonClassName}
+        onClick={handleRightClick}
+        disabled={currentPage === totalPages}
+      >
+        <ChevronRightIcon color="#000" />
+      </button>
+    </Flex>
   );
+
+  // 데스크톱은 페이지 리스트를 centerPagination Flex로 추가 래핑하고 Go to Page 섹션을 붙인다.
+  if (mode === "desktop") {
+    return (
+      <div className={config.containerClassName}>
+        <Flex gap="8px" className={styles.centerPagination}>
+          {pageListContent}
+        </Flex>
+
+        {goToPage && dropdownSelected && (
+          <Flex align="center" gap="0.75rem" className={styles.paginationRight}>
+            <Text typography="label2_m_16" color="neutral-30">
+              Go to Page
+            </Text>
+            <Flex gap="0.25rem" align="center">
+              <Dropdown
+                options={dropdownOptions}
+                selected={dropdownSelected}
+                onSelect={dropdownOnSelect}
+              />
+              <Button variant="secondary" size="large" onClick={handleGoClick}>
+                GO
+              </Button>
+            </Flex>
+          </Flex>
+        )}
+      </div>
+    );
+  }
+
+  return <div className={config.containerClassName}>{pageListContent}</div>;
 };
 
 export default Pagination;
