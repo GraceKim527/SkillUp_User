@@ -49,11 +49,6 @@ export const useBookmarkPage = () => {
     setSelectedPageOption({ label: "1", value: "1" });
   };
 
-  // 유틸리티 함수: 스크롤을 맨 위로 이동
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const handleTabChange = (index: number) => {
     setActiveTabIndex(index);
     resetToFirstPage();
@@ -67,14 +62,12 @@ export const useBookmarkPage = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     setSelectedPageOption({ label: `${page}`, value: `${page}` });
-    scrollToTop();
   };
 
   const handleDropdownSelect = (option: DropdownOption) => {
     setSelectedPageOption(option);
     const page = parseInt(option.value);
     setCurrentPage(page);
-    scrollToTop();
   };
 
   return {

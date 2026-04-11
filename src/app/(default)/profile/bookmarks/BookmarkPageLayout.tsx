@@ -6,7 +6,7 @@ import EventCard from "@/components/common/EventCard";
 import styles from "./styles.module.css";
 import ProfileCard from "@/components/myPage/bookmarks/ProfileCard";
 import Pagination from "@/components/common/Pagination";
-import Dropdown from "@/components/common/Dropdown";
+import Dropdown, { DropdownOption } from "@/components/common/Dropdown";
 import Tab from "@/components/common/Tab";
 import Flex from "@/components/common/Flex";
 import Skeleton from "@/components/common/Skeleton";
@@ -50,6 +50,21 @@ export default function BookmarkPageLayout() {
     handlePageChange,
     handleDropdownSelect,
   } = useBookmarkPage();
+
+  // 페이지 이동 시 스크롤을 맨 위로 이동
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handlePageChangeWithScroll = (page: number) => {
+    handlePageChange(page);
+    scrollToTop();
+  };
+
+  const handleDropdownSelectWithScroll = (option: DropdownOption) => {
+    handleDropdownSelect(option);
+    scrollToTop();
+  };
 
   if (isLoading) {
     return (
@@ -268,10 +283,10 @@ export default function BookmarkPageLayout() {
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={handlePageChange}
+            onPageChange={handlePageChangeWithScroll}
             options={pageOptions}
             selected={selectedPageOption}
-            onSelect={handleDropdownSelect}
+            onSelect={handleDropdownSelectWithScroll}
             goToPage={false}
           />
         )}
