@@ -1,15 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
 import Text from "@/components/common/Text";
 import ChevronDownIcon from "@/assets/icons/ChevronDownIcon";
-import { RoleName, ROLE_DISPLAY_OPTIONS, ROLE_NAME } from "@/constants/role";
-import { useUserInterests } from "@/hooks/queries/useUser";
+import { ROLE_DISPLAY_OPTIONS } from "@/constants/role";
 import { AGE_OPTIONS, GENDER_OPTIONS } from "@/constants/profileFormOptions";
-import { useUpdateUserProfile } from "@/hooks/mutations/useUpdateUserProfile";
-import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/useToast";
 import Modal from "@/components/common/Modal";
+import { useNewUserOnboardingForm } from "@/hooks/useNewUserOnboardingForm";
 import styles from "./styles.module.css";
 
 interface NewUserOnboardingModalProps {
@@ -21,114 +17,30 @@ export default function NewUserOnboardingModal({
   isOpen,
   onSaved,
 }: NewUserOnboardingModalProps) {
-  const { userName } = useAuth();
-  const { showToast } = useToast();
-  const { mutate: updateProfile, isPending: isSaving } = useUpdateUserProfile();
-
-  const [selectedRole, setSelectedRole] = useState<RoleName | null>(null);
-  const [activeTab, setActiveTab] = useState<RoleName>(ROLE_NAME.PLANNING);
-  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
-  const [selectedAge, setSelectedAge] = useState<string>("");
-  const [selectedGender, setSelectedGender] = useState<string>("");
-  const [isRoleMenuOpen, setIsRoleMenuOpen] = useState(false);
-  const [isAgeMenuOpen, setIsAgeMenuOpen] = useState(false);
-
-  const roleMenuRef = useRef<HTMLDivElement>(null);
-  const ageMenuRef = useRef<HTMLDivElement>(null);
-
-  const { data: apiInterests, isLoading: isLoadingInterests } =
-    useUserInterests(activeTab);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setSelectedRole(null);
-      setSelectedInterests([]);
-      setSelectedAge("");
-      setSelectedGender("");
-      setActiveTab(ROLE_NAME.PLANNING);
-      setIsRoleMenuOpen(false);
-      setIsAgeMenuOpen(false);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (!roleMenuRef.current?.contains(event.target as Node)) {
-        setIsRoleMenuOpen(false);
-      }
-      if (!ageMenuRef.current?.contains(event.target as Node)) {
-        setIsAgeMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
-  }, []);
-
-  const interestOptions = useMemo(() => {
-    if (apiInterests && apiInterests.length > 0) {
-      return apiInterests.map((item: { name: string }) => item.name);
-    }
-
-    return [];
-  }, [apiInterests]);
-
-  const handleSelectInterest = (interest: string) => {
-    setSelectedInterests((prev) =>
-      prev.includes(interest)
-        ? prev.filter((item) => item !== interest)
-        : [...prev, interest]
-    );
-  };
-
-  const handleSelectRole = (role: RoleName) => {
-    setSelectedRole(role);
-    setActiveTab(role);
-    setSelectedInterests([]);
-    setIsRoleMenuOpen(false);
-  };
-
-  const isSubmitDisabled =
-    !selectedRole ||
-    selectedInterests.length === 0 ||
-    interestOptions.length === 0 ||
-    !selectedAge ||
-    !selectedGender ||
-    isSaving;
-
-  const handleSave = () => {
-    if (isSubmitDisabled) return;
-
-    updateProfile(
-      {
-        name: userName || "사용자",
-        age: selectedAge,
-        gender: selectedGender,
-        role: selectedRole,
-        interests: selectedInterests,
-        marketingAgreement: false,
-      },
-      {
-        onSuccess: () => {
-          showToast({
-            title: "정보 저장 완료",
-            message: "맞춤 정보가 저장되었습니다.",
-            type: "success",
-            duration: 2500,
-          });
-          onSaved();
-        },
-        onError: () => {
-          showToast({
-            title: "저장 실패",
-            message: "입력값을 확인 후 다시 시도해주세요.",
-            type: "error",
-            duration: 3000,
-          });
-        },
-      }
-    );
-  };
+  const {
+    selectedRole,
+    activeTab,
+    selectedInterests,
+    selectedAge,
+    selectedGender,
+    isRoleMenuOpen,
+    isAgeMenuOpen,
+    roleMenuRef,
+    ageMenuRef,
+    interestOptions,
+    isLoadingInterests,
+    isSubmitDisabled,
+    isSaving,
+    setSelectedAge,
+    setSelectedGender,
+    setSelectedInterests,
+    setActiveTab,
+    setIsRoleMenuOpen,
+    setIsAgeMenuOpen,
+    handleSelectInterest,
+    handleSelectRole,
+    handleSave,
+  } = useNewUserOnboardingForm({ isOpen, onSaved });
 
   return (
     <Modal isOpen={isOpen} toggle={() => {}}>
