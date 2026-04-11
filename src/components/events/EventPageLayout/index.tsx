@@ -10,6 +10,7 @@ import EventPageHeader from "@/components/events/EventPageHeader";
 import Pagination from "@/components/common/Pagination";
 import Flex from "@/components/common/Flex";
 import Skeleton from "@/components/common/Skeleton";
+import EventCardSkeleton from "@/components/common/EventCardSkeleton";
 import RecommendedEventsSection from "@/components/events/RecommendedEventsSection";
 import { Event, EventSearchParams } from "@/types/event";
 import { usePageFilters } from "@/components/events/filters/hooks/usePageFilters";
@@ -60,25 +61,12 @@ function EventPageSkeleton() {
       {/* 카드 그리드 스켈레톤 */}
       <div className={styles.cardList}>
         {Array.from({ length: rowCount * cardCounts }).map((_, index) => (
-          <div key={index} className={styles.skeletonCard}>
-            <Skeleton height="212px" width="100%" borderRadius="8px 8px 0 0" />
-            <Flex direction="column" gap="28px" style={{ padding: "16px" }}>
-              <Flex direction="column" gap="12px">
-                <Flex direction="column" gap="4px">
-                  <Skeleton width="103px" height="24px" borderRadius="100px" />
-                  <Skeleton width="100%" height="36px" borderRadius="100px" />
-                </Flex>
-                <Flex direction="column" gap="6px">
-                  <Skeleton width="224px" height="18px" borderRadius="100px" />
-                  <Skeleton width="224px" height="18px" borderRadius="100px" />
-                </Flex>
-              </Flex>
-              <Flex gap="8px" align="center">
-                <Skeleton width="121px" height="28px" borderRadius="100px" />
-                <Skeleton width="28px" height="28px" borderRadius="100px" />
-              </Flex>
-            </Flex>
-          </div>
+          <EventCardSkeleton
+            key={index}
+            variant="compact"
+            imageHeight="212px"
+            className={styles.skeletonCard}
+          />
         ))}
       </div>
 
@@ -111,7 +99,7 @@ export default function EventPageLayout({
 }: EventPageLayoutProps) {
   // config에서 페이지 설정 가져오기
   const config = PAGE_CONFIGS[pageId];
-  const { title, FilterView, emptyUrl } = config;
+  const { title, emptyUrl } = config;
 
   // searchParams atom 생성
   const searchParamsAtom = useMemo(
@@ -204,7 +192,7 @@ export default function EventPageLayout({
         onSortChange={(value) => setSortOption(value as EventSortOption)}
         onApply={handleApply}
         onReset={handleReset}
-        FilterView={FilterView}
+        pageId={pageId}
       />
 
       <Flex direction="column" gap={6.25} style={{ width: "100%" }}>

@@ -3,7 +3,7 @@
 "use client";
 import { useRef } from "react";
 import Flex from "@/components/common/Flex";
-import Skeleton from "@/components/common/Skeleton";
+import EventCardSkeleton from "@/components/common/EventCardSkeleton";
 import styles from "./styles.module.css";
 import EventCard from "@/components/common/EventCard";
 import Text from "@/components/common/Text";
@@ -102,35 +102,12 @@ export default function RecentEvent() {
         {isLoading ? (
           <Flex gap="0.75rem">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className={styles.skeletonCard}>
-                <Skeleton
-                  height="240px"
-                  width="100%"
-                  borderRadius="8px 8px 0 0"
-                />
-                <Flex
-                  direction="column"
-                  gap="12px"
-                  style={{ padding: "16px", flex: 1 }}
-                >
-                  <Flex direction="column" gap="4px">
-                    <Skeleton width="103px" height="24px" borderRadius="100px" />
-                    <Skeleton width="100%" height="36px" borderRadius="100px" />
-                  </Flex>
-                  <Flex direction="column" gap="6px">
-                    <Skeleton width="224px" height="18px" borderRadius="100px" />
-                    <Skeleton width="224px" height="18px" borderRadius="100px" />
-                  </Flex>
-                  <Flex
-                    justify="space-between"
-                    align="center"
-                    style={{ marginTop: "auto" }}
-                  >
-                    <Skeleton width="121px" height="28px" borderRadius="100px" />
-                    <Skeleton width="102px" height="36px" borderRadius="4px" />
-                  </Flex>
-                </Flex>
-              </div>
+              <EventCardSkeleton
+                key={i}
+                variant="full"
+                imageHeight="240px"
+                className={styles.skeletonCard}
+              />
             ))}
           </Flex>
         ) : error ? (

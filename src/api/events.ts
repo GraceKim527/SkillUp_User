@@ -1,10 +1,8 @@
 // src/api/events.ts
 
 import { EventCategory } from "@/constants/event";
-import { getDefaultStore } from "jotai";
-import { tokenAtom } from "@/store/authAtoms";
 import tokenInstance from "./tokenInstance";
-import instance from "./instance";
+import { getAuthAwareInstance } from "./getAuthAwareInstance";
 import {
   Event,
   EventDetailDto,
@@ -52,19 +50,18 @@ export const getEventList = async (
     ...filteredOptionalParams,
   };
 
-  const store = getDefaultStore();
-  const token = store.get(tokenAtom);
-  const axiosInstance = token ? tokenInstance : instance;
-  const response = await axiosInstance.post("/events/category-page/search", params);
+  const response = await getAuthAwareInstance().post(
+    "/events/category-page/search",
+    params
+  );
   return response.data.data;
 };
 
 // 행사 상세 조회 API (공개, 로그인 시 북마크 등 개인화 데이터 포함)
-export const getEventDetail = async (eventId: number): Promise<EventDetailDto> => {
-  const store = getDefaultStore();
-  const token = store.get(tokenAtom);
-  const axiosInstance = token ? tokenInstance : instance;
-  const response = await axiosInstance.get(`/events/${eventId}`);
+export const getEventDetail = async (
+  eventId: number
+): Promise<EventDetailDto> => {
+  const response = await getAuthAwareInstance().get(`/events/${eventId}`);
   return response.data.data;
 };
 
@@ -84,14 +81,14 @@ export const deleteEvent = async (eventId: number) => {
 export const getRecommendedEvents = async (
   category: EventCategory
 ): Promise<Event[]> => {
-  const store = getDefaultStore();
-  const token = store.get(tokenAtom);
-  const axiosInstance = token ? tokenInstance : instance;
-  const response = await axiosInstance.get("/events/category-page/recommended", {
-    params: {
-      category,
-    },
-  });
+  const response = await getAuthAwareInstance().get(
+    "/events/category-page/recommended",
+    {
+      params: {
+        category,
+      },
+    }
+  );
   return response.data.data;
 };
 
@@ -99,10 +96,10 @@ export const getRecommendedEvents = async (
 export const searchEvents = async (
   searchParams: EventSearchRequest
 ): Promise<EventListResponse> => {
-  const store = getDefaultStore();
-  const token = store.get(tokenAtom);
-  const axiosInstance = token ? tokenInstance : instance;
-  const response = await axiosInstance.post("/events/search/home", searchParams);
+  const response = await getAuthAwareInstance().post(
+    "/events/search/home",
+    searchParams
+  );
   return response.data.data;
 };
 

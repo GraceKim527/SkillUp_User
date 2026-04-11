@@ -18,6 +18,8 @@ import {
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import Tab from "@/components/common/Tab";
 import Text from "@/components/common/Text";
+import EventFilterView from "@/components/events/filters/views/EventFilterView";
+import { EventPageId } from "@/components/events/EventPageLayout/config";
 
 interface EventPageHeaderProps {
   title: string;
@@ -32,7 +34,7 @@ interface EventPageHeaderProps {
   onSortChange: (value: string) => void;
   onApply: () => void;
   onReset: () => void;
-  FilterView: React.ComponentType;
+  pageId: EventPageId;
 }
 
 export default function EventPageHeader({
@@ -48,7 +50,7 @@ export default function EventPageHeader({
   onSortChange,
   onApply,
   onReset,
-  FilterView,
+  pageId,
 }: EventPageHeaderProps) {
   const isMobile = useIsMobile();
 
@@ -73,7 +75,7 @@ export default function EventPageHeader({
         onClearFreeFilter={onClearFreeFilter}
       />
       <FilterButton onApply={onApply} onReset={onReset}>
-        <FilterView />
+        <EventFilterView pageId={pageId} />
       </FilterButton>
       {sortDropdown}
     </>

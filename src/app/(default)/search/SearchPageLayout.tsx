@@ -13,6 +13,7 @@ import FilterBadges from "@/components/events/filters/FilterBadges";
 import Pagination from "@/components/common/Pagination";
 import Flex from "@/components/common/Flex";
 import Skeleton from "@/components/common/Skeleton";
+import EventCardSkeleton from "@/components/common/EventCardSkeleton";
 import SearchFilterView from "@/components/events/filters/views/SearchFilterView";
 import RecommendedEventsSection from "@/components/events/RecommendedEventsSection";
 import { EventSearchRequest } from "@/types/event";
@@ -55,29 +56,13 @@ function SearchPageSkeleton() {
       {/* 카드 그리드 스켈레톤 */}
       <div className={styles.cardList}>
         {Array.from({ length: rowCount * cardCounts }).map((_, index) => (
-          <div key={index} className={styles.skeletonCard}>
-            <Skeleton width="100%" height="212px" borderRadius="0" />
-            <Flex
-              direction="column"
-              gap="1.75rem"
-              style={{ padding: "1rem" }}
-            >
-              <Flex direction="column" gap="0.75rem" style={{ width: "100%" }}>
-                <Flex direction="column" gap="0.25rem" style={{ width: "100%" }}>
-                  <Skeleton width="103px" height="24px" borderRadius="100px" />
-                  <Skeleton width="100%" height="36px" borderRadius="100px" />
-                </Flex>
-                <Flex direction="column" gap="0.375rem" style={{ width: "100%" }}>
-                  <Skeleton width="224px" height="18px" borderRadius="100px" />
-                  <Skeleton width="224px" height="18px" borderRadius="100px" />
-                </Flex>
-              </Flex>
-              <Flex gap="0.5rem" align="center">
-                <Skeleton width="121px" height="28px" borderRadius="100px" />
-                <Skeleton width="28px" height="28px" borderRadius="100px" />
-              </Flex>
-            </Flex>
-          </div>
+          <EventCardSkeleton
+            key={index}
+            variant="compact"
+            imageHeight="212px"
+            imageBorderRadius="0"
+            className={styles.skeletonCard}
+          />
         ))}
       </div>
 

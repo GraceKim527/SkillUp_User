@@ -81,3 +81,12 @@ export function useIsTablet(): boolean {
 export function useIsDesktop(): boolean {
   return useMediaQuery(`(min-width: ${BREAKPOINTS.DESKTOP}px)`);
 }
+
+/**
+ * 모바일 또는 태블릿 뷰포트 여부를 반환하는 훅 (데스크톱이 아님)
+ * `isMobile || isTablet` 패턴을 대체한다.
+ * @returns 모바일 혹은 태블릿 뷰포트 여부 (1279px 이하)
+ */
+export function useIsCompactLayout(): boolean {
+  return useMediaQuery(`(max-width: ${BREAKPOINTS.DESKTOP - 1}px)`);
+}

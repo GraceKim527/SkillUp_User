@@ -2,8 +2,8 @@
 
 "use client";
 import EventCard from "@/components/common/EventCard";
+import EventCardSkeleton from "@/components/common/EventCardSkeleton";
 import Flex from "@/components/common/Flex";
-import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
 import Tab from "@/components/common/Tab";
 import Text from "@/components/common/Text";
@@ -115,53 +115,12 @@ export default function Bootcamp() {
         {isLoading ? (
           <Flex gap="0.75rem">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className={styles.skeletonCard}>
-                <Skeleton
-                  height="212px"
-                  width="100%"
-                  borderRadius="8px 8px 0 0"
-                />
-                <Flex
-                  direction="column"
-                  gap="28px"
-                  style={{ padding: "16px", flex: 1 }}
-                >
-                  <Flex direction="column" gap="12px">
-                    <Flex direction="column" gap="4px">
-                      <Skeleton
-                        width="103px"
-                        height="24px"
-                        borderRadius="100px"
-                      />
-                      <Skeleton
-                        width="100%"
-                        height="36px"
-                        borderRadius="100px"
-                      />
-                    </Flex>
-                    <Flex direction="column" gap="6px">
-                      <Skeleton
-                        width="224px"
-                        height="18px"
-                        borderRadius="100px"
-                      />
-                      <Skeleton
-                        width="224px"
-                        height="18px"
-                        borderRadius="100px"
-                      />
-                    </Flex>
-                  </Flex>
-                  <Flex gap="8px" align="center">
-                    <Skeleton
-                      width="121px"
-                      height="28px"
-                      borderRadius="100px"
-                    />
-                    <Skeleton width="28px" height="28px" borderRadius="100px" />
-                  </Flex>
-                </Flex>
-              </div>
+              <EventCardSkeleton
+                key={i}
+                variant="compact"
+                imageHeight="212px"
+                className={styles.skeletonCard}
+              />
             ))}
           </Flex>
         ) : error ? (
