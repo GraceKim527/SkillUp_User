@@ -1,6 +1,6 @@
 // src/types/user.ts
 
-import { EventCategory } from "@/constants/event";
+import { EventListItemDto } from "@/types/event";
 import { RoleName } from "@/constants/role";
 
 // OAuth 로그인 상태
@@ -58,27 +58,11 @@ export interface CustomerCenterInquiry {
   answerContent: string;
 }
 
-export interface UserBookmarksEvent {
-  id: number;
-  thumbnailUrl: string;
-  online: boolean;
-  locationText: string;
-  title: string;
-  scheduleText: string;
-  priceText: string;
-  d_dayLabel: string;
-  recommended: boolean;
-  ad: boolean;
-  bookmarked: boolean;
-  category: EventCategory;
-  recommendedRate: number;
-}
-
 export interface UserBookmarks {
   name: string;
   email: string;
   role: RoleName;
-  events: UserBookmarksEvent[];
+  events: EventListItemDto[];
   closedCount: number;
   recruitingCount: number;
   bookmarkCount: number;

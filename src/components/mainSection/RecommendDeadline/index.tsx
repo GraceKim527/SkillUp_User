@@ -88,7 +88,7 @@ export default function RecommendDeadline() {
                 데이터를 불러오는데 실패했습니다.
               </Text>
             </Flex>
-          ) : !data.homeEventResponseList ||
+          ) : !data?.homeEventResponseList ||
             data.homeEventResponseList.length === 0 ? (
             <Flex justify="center" align="center" className={styles.empty}>
               <Flex direction="column" gap={0.5} align="center">
@@ -103,7 +103,7 @@ export default function RecommendDeadline() {
             </Flex>
           ) : (
             <div className={styles.carouselContainer}>
-              {data.homeEventResponseList.map((item: Event) => (
+              {data.homeEventResponseList?.map((item: Event) => (
                 <div key={item.id} className={styles.carouselItem}>
                   <EventCard size="medium" event={item} />
                 </div>

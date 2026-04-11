@@ -141,7 +141,7 @@ export default function RecentEvent() {
           </Flex>
         ) : (
           <div ref={carouselRef} className={styles.carouselContainer}>
-            {data.map((item: Event) => (
+            {data?.map((item: Event) => (
               <div key={item.id} className={styles.carouselItem}>
                 <EventCard
                   size={isMobile || isTablet ? "medium" : "large"}

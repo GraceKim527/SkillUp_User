@@ -7,6 +7,7 @@ import tokenInstance from "./tokenInstance";
 import instance from "./instance";
 import {
   Event,
+  EventDetailDto,
   EventSearchParams,
   EventListResponse,
   EventSearchRequest,
@@ -59,7 +60,7 @@ export const getEventList = async (
 };
 
 // 행사 상세 조회 API (공개, 로그인 시 북마크 등 개인화 데이터 포함)
-export const getEventDetail = async (eventId: number) => {
+export const getEventDetail = async (eventId: number): Promise<EventDetailDto> => {
   const store = getDefaultStore();
   const token = store.get(tokenAtom);
   const axiosInstance = token ? tokenInstance : instance;
@@ -80,7 +81,9 @@ export const deleteEvent = async (eventId: number) => {
 };
 
 // "이런 행사는 어때요" 추천 행사 조회 API (공개)
-export const getRecommendedEvents = async (category: EventCategory) => {
+export const getRecommendedEvents = async (
+  category: EventCategory
+): Promise<Event[]> => {
   const store = getDefaultStore();
   const token = store.get(tokenAtom);
   const axiosInstance = token ? tokenInstance : instance;

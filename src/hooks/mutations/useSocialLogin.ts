@@ -51,11 +51,6 @@ export const useSocialLoginCallback = () => {
         withdrawPendingUserInfo,
       } = await sendAuthorizationCode(socialType, code, state);
 
-      // 디버깅용 로그
-      console.log("[OAuthCallback] userLoginStatus:", userLoginStatus);
-      console.log("[OAuthCallback] accessToken:", accessToken);
-      console.log("[OAuthCallback] full response:", { accessToken, userLoginStatus, otherOauthUserInfo, withdrawPendingUserInfo });
-
       // EXISTING_USER, NEW_USER만 토큰 저장 (WITHDRAW_PENDING_USER, OTHER_OAUTH_USER는 토큰 없음)
       if (accessToken) {
         login(accessToken);

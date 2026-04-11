@@ -5,7 +5,11 @@ import tokenInstance from "./tokenInstance";
 import { EventCategory } from "@/constants/event";
 import { JobCategory } from "@/constants/category";
 import { BannersResponse } from "@/types/home";
-import { RecommendedEventsResponse } from "@/types/event";
+import {
+  Event,
+  EventListResponse,
+  RecommendedEventsResponse,
+} from "@/types/event";
 import { getDefaultStore } from "jotai";
 import { tokenAtom } from "@/store/authAtoms";
 
@@ -19,7 +23,7 @@ export const getRecommendedEvents = async (): Promise<RecommendedEventsResponse>
 };
 
 // 최근 본 행사 (비로그인/로그인 모두 가능)
-export const getRecentEvents = async () => {
+export const getRecentEvents = async (): Promise<Event[]> => {
   const store = getDefaultStore();
   const token = store.get(tokenAtom);
   const axiosInstance = token ? tokenInstance : instance;
@@ -31,7 +35,7 @@ export const getRecentEvents = async () => {
 export const getFeaturedEvents = async (
   category?: JobCategory,
   size?: number
-) => {
+): Promise<EventListResponse> => {
   const store = getDefaultStore();
   const token = store.get(tokenAtom);
   const axiosInstance = token ? tokenInstance : instance;
@@ -45,7 +49,9 @@ export const getFeaturedEvents = async (
 };
 
 // 곧 종료되는 행사 리스트
-export const getEndingSoonEvents = async (size?: number) => {
+export const getEndingSoonEvents = async (
+  size?: number
+): Promise<EventListResponse> => {
   const store = getDefaultStore();
   const token = store.get(tokenAtom);
   const axiosInstance = token ? tokenInstance : instance;
@@ -63,7 +69,7 @@ export const getCategoryEvents = async (
   tab?: JobCategory,
   size?: number,
   page?: number
-) => {
+): Promise<EventListResponse> => {
   const store = getDefaultStore();
   const token = store.get(tokenAtom);
   const axiosInstance = token ? tokenInstance : instance;

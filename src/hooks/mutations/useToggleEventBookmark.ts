@@ -21,7 +21,7 @@ export const useToggleEventBookmark = () => {
       });
 
       // 해당 행사의 상세 정보 refetch
-      queryClient.invalidateQueries({ queryKey: queryKeys.event(eventId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.events.detail(eventId) });
       // 행사 목록도 refetch (북마크 상태가 목록에도 표시될 수 있으므로)
       queryClient.invalidateQueries({ queryKey: queryKeys.events.all });
       // 홈 화면의 추천/인기/마감 행사들도 refetch

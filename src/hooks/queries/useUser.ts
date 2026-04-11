@@ -40,7 +40,7 @@ export const useUser = () => {
 // 고객센터 FAQ 조회 Hook (공개 API)
 export const useCustomerCenterInquiry = () => {
   return useQuery({
-    queryKey: ["customerCenterInquiry"],
+    queryKey: queryKeys.user.customerCenterInquiry(),
     queryFn: async () => {
       return await getCustomerCenterInquiry();
     },
@@ -54,7 +54,7 @@ export const useUserInterests = (roleName: RoleName) => {
   const { isAuthenticated } = useAuth();
 
   return useQuery({
-    queryKey: ["userInterests", roleName],
+    queryKey: queryKeys.user.interests(roleName),
     queryFn: async () => {
       return await getUserInterests(roleName);
     },
@@ -110,7 +110,7 @@ export const useWithdrawalCategories = () => {
   const { isAuthenticated } = useAuth();
 
   return useQuery<WithdrawalCategory[]>({
-    queryKey: ["withdrawalCategories"],
+    queryKey: queryKeys.user.withdrawalCategories(),
     queryFn: async () => {
       return await getWithdrawalCategories();
     },
@@ -125,7 +125,7 @@ export const useRecentSearchesQuery = () => {
   const { isAuthenticated } = useAuth();
 
   return useQuery<RecentSearchesResponse>({
-    queryKey: queryKeys.user.recentSearches,
+    queryKey: queryKeys.user.recentSearches(),
     queryFn: async () => {
       return await getRecentSearches();
     },

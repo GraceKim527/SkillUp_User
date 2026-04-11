@@ -1,4 +1,4 @@
-// src/api/user/user.ts
+// src/api/user.ts
 
 import tokenInstance from "@/api/tokenInstance";
 import instance from "@/api/instance";

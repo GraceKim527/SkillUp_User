@@ -6,7 +6,7 @@ import { queryKeys } from "../queryKeys";
 
 export const useEventDetail = (eventId: number) => {
   return useQuery({
-    queryKey: queryKeys.event(eventId),
+    queryKey: queryKeys.events.detail(eventId),
     queryFn: () => getEventDetail(eventId),
     enabled: !!eventId, // eventId가 있을 때만 쿼리 실행
   });

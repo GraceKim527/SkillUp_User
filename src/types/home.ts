@@ -7,7 +7,7 @@ export interface Banner {
   mainTitle: string;
   subTitle: string;
   description: string;
-  bannerImageUrl: string;
+  bannerImageUrl: string | null;
   bannerLink: string;
 }
 

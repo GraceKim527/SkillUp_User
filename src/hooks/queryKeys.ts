@@ -1,6 +1,8 @@
 // src/hooks/queryKeys.ts
 // React Query Key 중앙 관리 (타입 안전성 + 자동완성)
 
+import { RoleName } from "@/constants/role";
+
 export const queryKeys = {
   // Events
   events: {
@@ -10,6 +12,8 @@ export const queryKeys = {
       [...queryKeys.events.lists(), filters] as const,
     details: () => [...queryKeys.events.all, "detail"] as const,
     detail: (id: number) => [...queryKeys.events.details(), id] as const,
+    recommended: (category: string) =>
+      [...queryKeys.events.all, "recommended", category] as const,
   },
 
   // Home
@@ -34,9 +38,19 @@ export const queryKeys = {
     all: ["user"] as const,
     profile: () => [...queryKeys.user.all, "profile"] as const,
     emailAndName: () => [...queryKeys.user.all, "email-name"] as const,
-    bookmarks: (sort: "deadline" | "latest", status: "recruiting" | "closed", page: number) =>
-      [...queryKeys.user.all, "bookmarks", sort, status, page] as const,
-    recentSearches: ["user", "recent-searches"] as const,
+    bookmarks: (
+      sort: "deadline" | "latest",
+      status: "recruiting" | "closed",
+      page: number
+    ) => [...queryKeys.user.all, "bookmarks", sort, status, page] as const,
+    recentSearches: () =>
+      [...queryKeys.user.all, "recent-searches"] as const,
+    interests: (roleName: RoleName) =>
+      [...queryKeys.user.all, "interests", roleName] as const,
+    withdrawalCategories: () =>
+      [...queryKeys.user.all, "withdrawal-categories"] as const,
+    customerCenterInquiry: () =>
+      [...queryKeys.user.all, "customer-center-inquiry"] as const,
   },
 
   // Article
@@ -46,7 +60,4 @@ export const queryKeys = {
     list: (filters: object) =>
       [...queryKeys.article.lists(), filters] as const,
   },
-
-  // Event (single - 기존 ["event", eventId] 패턴 유지)
-  event: (id: number) => ["event", id] as const,
 };

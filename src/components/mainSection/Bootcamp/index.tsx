@@ -173,7 +173,7 @@ export default function Bootcamp() {
         ) : (
           <div className={styles.carouselWrapper}>
             <div className={styles.carouselContainer}>
-              {data.homeEventResponseList.map((item: Event) => (
+              {data?.homeEventResponseList?.map((item: Event) => (
                 <div key={item.id} className={styles.carouselItem}>
                   <EventCard size="medium" event={item} />
                 </div>

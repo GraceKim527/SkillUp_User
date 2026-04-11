@@ -15,7 +15,7 @@ export const useSaveRecentSearch = () => {
   return useMutation({
     mutationFn: (keyword: string) => saveRecentSearch({ keyword }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.user.recentSearches });
+      queryClient.invalidateQueries({ queryKey: queryKeys.user.recentSearches() });
     },
   });
 };
@@ -27,7 +27,7 @@ export const useDeleteRecentSearch = () => {
   return useMutation({
     mutationFn: (recentId: number) => deleteRecentSearch(recentId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.user.recentSearches });
+      queryClient.invalidateQueries({ queryKey: queryKeys.user.recentSearches() });
     },
   });
 };
@@ -39,7 +39,7 @@ export const useDeleteAllRecentSearches = () => {
   return useMutation({
     mutationFn: deleteAllRecentSearches,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.user.recentSearches });
+      queryClient.invalidateQueries({ queryKey: queryKeys.user.recentSearches() });
     },
   });
 };
