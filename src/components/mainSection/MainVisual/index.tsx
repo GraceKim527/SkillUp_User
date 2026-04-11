@@ -1,5 +1,4 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
 import Flex from "@/components/common/Flex";
 import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
@@ -10,19 +9,108 @@ import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import Text from "@/components/common/Text";
 import { useIsMobile, useMediaQuery } from "@/hooks/useMediaQuery";
+import { useInfiniteSlider } from "@/hooks/useInfiniteSlider";
+import type { Banner as BannerType } from "@/types/home";
+
+type TextProps = React.ComponentProps<typeof Text>;
+type Typography = TextProps["typography"];
+type TextColor = TextProps["color"];
+
+const normalizeMultilineText = (text?: string | null) =>
+  text ? text.replace(/\\n/g, "\n") : "";
+
+// 뷰포트별 배너 텍스트 typography 설정
+type BannerTextVariant = "mobile" | "tablet" | "desktop";
+const BANNER_TEXT_TYPOGRAPHY: Record<
+  BannerTextVariant,
+  {
+    subTitle: Typography;
+    mainTitle: Typography;
+    description: Typography;
+    descriptionColor: TextColor;
+  }
+> = {
+  mobile: {
+    subTitle: "label4_m_12",
+    mainTitle: "head3_m_24",
+    description: "label3_m_14",
+    descriptionColor: "neutral-70",
+  },
+  tablet: {
+    subTitle: "label2_m_16",
+    mainTitle: "head3_m_24",
+    description: "sub3_m_16",
+    descriptionColor: "neutral-80",
+  },
+  desktop: {
+    subTitle: "sub2_m_18",
+    mainTitle: "head1_m_42",
+    description: "sub2_m_18",
+    descriptionColor: "neutral-80",
+  },
+};
+
+interface BannerTextContentProps {
+  banner: BannerType;
+  variant: BannerTextVariant;
+}
+
+function BannerTextContent({ banner, variant }: BannerTextContentProps) {
+  const typo = BANNER_TEXT_TYPOGRAPHY[variant];
+  const subTitleNode = (
+    <Text
+      typography={typo.subTitle}
+      color="primary-light"
+      as="p"
+      className={styles.multilineText}
+    >
+      {normalizeMultilineText(banner.subTitle)}
+    </Text>
+  );
+  const mainTitleNode = (
+    <Text
+      typography={typo.mainTitle}
+      color="white"
+      as="h2"
+      className={styles.multilineText}
+    >
+      {normalizeMultilineText(banner.mainTitle)}
+    </Text>
+  );
+  const descriptionNode = (
+    <Text
+      typography={typo.description}
+      color={typo.descriptionColor}
+      as="p"
+      className={styles.multilineText}
+    >
+      {normalizeMultilineText(banner.description)}
+    </Text>
+  );
+
+  // 모바일은 제목/설명이 내부 Flex(gap 1rem)로 묶여 있어 구조가 다름
+  if (variant === "mobile") {
+    return (
+      <Flex direction="column" gap="0.25rem">
+        {subTitleNode}
+        <Flex direction="column" gap="1rem">
+          {mainTitleNode}
+          {descriptionNode}
+        </Flex>
+      </Flex>
+    );
+  }
+
+  return (
+    <>
+      {subTitleNode}
+      {mainTitleNode}
+      {descriptionNode}
+    </>
+  );
+}
 
 export default function MainVisual() {
-  const normalizeMultilineText = (text?: string | null) =>
-    text ? text.replace(/\\n/g, "\n") : "";
-  const [currentIndex, setCurrentIndex] = useState(1); // 무한 슬라이드: 초기값 1
-  const [isTransitioning, setIsTransitioning] = useState(false); // 초기 마운트 시 transition 비활성화
-  const [isAnimating, setIsAnimating] = useState(false); // 애니메이션 중 클릭 방지
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
-  const [isMounted, setIsMounted] = useState(false); // 마운트 상태 추적
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const dragStartXRef = useRef(0);
-  const hasDraggedRef = useRef(false); // 드래그 여부 추적
   const { data, isLoading, error } = useBanners();
   const isMobile = useIsMobile();
   const isTablet = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
@@ -35,125 +123,30 @@ export default function MainVisual() {
         )
       : [];
 
-  // 무한 슬라이드를 위한 복제: [마지막, 원본들, 첫번째]
-  const extendedBanners =
-    sortedBanners.length > 0
-      ? [
-          sortedBanners[sortedBanners.length - 1],
-          ...sortedBanners,
-          sortedBanners[0],
-        ]
-      : [];
-
-  // API 배너 transition 끝날 때 처리
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider || sortedBanners.length === 0) return;
-
-    const handleTransitionEnd = () => {
-      setIsAnimating(false); // 애니메이션 완료, 클릭 가능
-
-      // 마지막 복제본에 도달했을 때 (첫번째 실제 배너로 점프)
-      if (currentIndex === sortedBanners.length + 1) {
-        setIsTransitioning(false);
-        setCurrentIndex(1);
+  const {
+    sliderRef,
+    extendedItems: extendedBanners,
+    currentIndex,
+    actualIndex,
+    isDragging,
+    dragOffset,
+    isAnimating,
+    isTransitioning,
+    handlePrev,
+    handleNext,
+    handleDragStart,
+    handleDragMove,
+    handleDragEnd,
+  } = useInfiniteSlider<BannerType>({
+    items: sortedBanners,
+    enabled: !isLoading,
+    onClickItem: (banner) => {
+      if (banner?.bannerLink) {
+        incrementBannerView(banner.id).catch(() => {});
+        window.open(banner.bannerLink, "_blank");
       }
-      // 첫번째 복제본에 도달했을 때 (마지막 실제 배너로 점프)
-      if (currentIndex === 0) {
-        setIsTransitioning(false);
-        setCurrentIndex(sortedBanners.length);
-      }
-    };
-
-    slider.addEventListener("transitionend", handleTransitionEnd);
-    return () =>
-      slider.removeEventListener("transitionend", handleTransitionEnd);
-  }, [currentIndex, sortedBanners.length]);
-
-  // 초기 마운트 후 transition 활성화
-  useEffect(() => {
-    if (!isLoading && sortedBanners.length > 0 && !isMounted) {
-      // 첫 렌더링 후 약간의 딜레이를 주고 transition 활성화
-      const timer = setTimeout(() => {
-        setIsMounted(true);
-        setIsTransitioning(true);
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-  }, [isLoading, sortedBanners.length, isMounted]);
-
-  // transition 상태 복원 (무한 슬라이드 점프 후)
-  useEffect(() => {
-    if (isMounted && !isTransitioning) {
-      setTimeout(() => {
-        setIsTransitioning(true);
-      }, 50);
-    }
-  }, [isTransitioning, isMounted]);
-
-  // 실제 페이지 번호 계산 (복제본 제외)
-  const getActualIndex = (index: number, length: number) => {
-    if (index === 0) return length;
-    if (index === length + 1) return 1;
-    return index;
-  };
-
-  // API 배너 핸들러
-  const handlePrev = () => {
-    if (!isTransitioning || isAnimating || isDragging) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => prev - 1);
-  };
-
-  const handleNext = () => {
-    if (!isTransitioning || isAnimating || isDragging) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => prev + 1);
-  };
-
-  const handleDragStart = (e: React.PointerEvent<HTMLDivElement>) => {
-    hasDraggedRef.current = false;
-    if (isAnimating || sortedBanners.length <= 1) return;
-    setIsDragging(true);
-    setIsTransitioning(false);
-    dragStartXRef.current = e.clientX;
-    e.currentTarget.setPointerCapture(e.pointerId);
-  };
-
-  const handleDragMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
-    const moved = e.clientX - dragStartXRef.current;
-    setDragOffset(moved);
-    if (Math.abs(moved) > 10) {
-      hasDraggedRef.current = true;
-    }
-  };
-
-  const handleDragEnd = () => {
-    const wasDragging = isDragging;
-    const moved = dragOffset;
-    const threshold = 80;
-
-    setIsDragging(false);
-    setIsTransitioning(true);
-    setDragOffset(0);
-
-    // 드래그 중이었고 threshold를 넘었으면 슬라이드 이동
-    if (wasDragging && Math.abs(moved) >= threshold) {
-      setIsAnimating(true);
-      setCurrentIndex((prev) => (moved > 0 ? prev - 1 : prev + 1));
-      return;
-    }
-
-    // 드래그가 아닌 클릭이면 현재 배너의 링크로 이동
-    if (!hasDraggedRef.current) {
-      const currentBanner = extendedBanners[currentIndex];
-      if (currentBanner?.bannerLink) {
-        incrementBannerView(currentBanner.id).catch(() => {});
-        window.open(currentBanner.bannerLink, "_blank");
-      }
-    }
-  };
+    },
+  });
 
   // 로딩 중일 때 스켈레톤 UI 표시
   if (isLoading) {
@@ -191,6 +184,12 @@ export default function MainVisual() {
     return null;
   }
 
+  const bannerTextVariant: BannerTextVariant = isMobile
+    ? "mobile"
+    : isTablet
+      ? "tablet"
+      : "desktop";
+
   return (
     <section id="mainVisual" className={styles.mainVisual}>
       <div className={styles.visualSlide}>
@@ -227,90 +226,10 @@ export default function MainVisual() {
               </div>
               <div className={styles.slideInner}>
                 <div className={styles.slideContent}>
-                  {isMobile ? (
-                    <Flex direction="column" gap="0.25rem">
-                      <Text
-                        typography="label4_m_12"
-                        color="primary-light"
-                        as="p"
-                        className={styles.multilineText}
-                      >
-                        {normalizeMultilineText(banner.subTitle)}
-                      </Text>
-                      <Flex direction="column" gap="1rem">
-                        <Text
-                          typography="head3_m_24"
-                          color="white"
-                          as="h2"
-                          className={styles.multilineText}
-                        >
-                          {normalizeMultilineText(banner.mainTitle)}
-                        </Text>
-                        <Text
-                          typography="label3_m_14"
-                          color="neutral-70"
-                          as="p"
-                          className={styles.multilineText}
-                        >
-                          {normalizeMultilineText(banner.description)}
-                        </Text>
-                      </Flex>
-                    </Flex>
-                  ) : isTablet ? (
-                    <>
-                      <Text
-                        typography="label2_m_16"
-                        color="primary-light"
-                        as="p"
-                        className={styles.multilineText}
-                      >
-                        {normalizeMultilineText(banner.subTitle)}
-                      </Text>
-                      <Text
-                        typography="head3_m_24"
-                        color="white"
-                        as="h2"
-                        className={styles.multilineText}
-                      >
-                        {normalizeMultilineText(banner.mainTitle)}
-                      </Text>
-                      <Text
-                        typography="sub3_m_16"
-                        color="neutral-80"
-                        as="p"
-                        className={styles.multilineText}
-                      >
-                        {normalizeMultilineText(banner.description)}
-                      </Text>
-                    </>
-                  ) : (
-                    <>
-                      <Text
-                        typography="sub2_m_18"
-                        color="primary-light"
-                        as="p"
-                        className={styles.multilineText}
-                      >
-                        {normalizeMultilineText(banner.subTitle)}
-                      </Text>
-                      <Text
-                        typography="head1_m_42"
-                        color="white"
-                        as="h2"
-                        className={styles.multilineText}
-                      >
-                        {normalizeMultilineText(banner.mainTitle)}
-                      </Text>
-                      <Text
-                        typography="sub2_m_18"
-                        color="neutral-80"
-                        as="p"
-                        className={styles.multilineText}
-                      >
-                        {normalizeMultilineText(banner.description)}
-                      </Text>
-                    </>
-                  )}
+                  <BannerTextContent
+                    banner={banner}
+                    variant={bannerTextVariant}
+                  />
                 </div>
               </div>
             </div>
@@ -327,7 +246,7 @@ export default function MainVisual() {
           </button>
           <Flex align="center" gap={0.1}>
             <Text typography="body2_r_14" color="white">
-              {getActualIndex(currentIndex, sortedBanners.length)}
+              {actualIndex}
             </Text>
             <Text typography="body2_r_14" color="white">
               /
