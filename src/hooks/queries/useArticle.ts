@@ -8,7 +8,7 @@ import { queryKeys } from "../queryKeys";
 // 홈화면 추천 아티클 목록 조회
 export const useRecommendedArticles = (tab?: JobCategory) => {
   return useQuery({
-    queryKey: [...queryKeys.home.all, "recommendedArticles", tab],
+    queryKey: queryKeys.home.recommendedArticles(tab),
     queryFn: () => getArticleList(tab),
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
   });

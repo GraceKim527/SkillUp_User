@@ -38,7 +38,7 @@ export const useEventList = (
 // 행사 검색
 export const useSearchEvents = (searchParams: EventSearchRequest) => {
   return useQuery<EventListResponse>({
-    queryKey: [...queryKeys.events.all, "search", searchParams],
+    queryKey: queryKeys.events.search(searchParams),
     queryFn: () => searchEvents(searchParams),
     staleTime: 0, // 항상 최신 데이터를 fetch하도록 설정
   });

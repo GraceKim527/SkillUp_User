@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import {
-  getRecommendedEvents,
+  getHashtagRecommendedEvents,
   getRecentEvents,
   getFeaturedEvents,
   getEndingSoonEvents,
@@ -21,7 +21,7 @@ export const useRecommendedEvents = () => {
 
   return useQuery<RecommendedEventsResponse>({
     queryKey: queryKeys.home.recommended(),
-    queryFn: () => getRecommendedEvents(),
+    queryFn: () => getHashtagRecommendedEvents(),
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
     enabled: isAuthenticated,
   });

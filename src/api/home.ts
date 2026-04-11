@@ -12,7 +12,7 @@ import {
 } from "@/types/event";
 
 // 해시태그 기반 추천
-export const getRecommendedEvents = async (): Promise<RecommendedEventsResponse> => {
+export const getHashtagRecommendedEvents = async (): Promise<RecommendedEventsResponse> => {
   const response = await getAuthAwareInstance().get("/events/home/recommended");
   return response.data.data;
 };

@@ -78,7 +78,7 @@ export const deleteEvent = async (eventId: number) => {
 };
 
 // "이런 행사는 어때요" 추천 행사 조회 API (공개)
-export const getRecommendedEvents = async (
+export const getCategoryRecommendedEvents = async (
   category: EventCategory
 ): Promise<Event[]> => {
   const response = await getAuthAwareInstance().get(

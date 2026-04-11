@@ -14,6 +14,8 @@ export const queryKeys = {
     detail: (id: number) => [...queryKeys.events.details(), id] as const,
     recommended: (category: string) =>
       [...queryKeys.events.all, "recommended", category] as const,
+    search: (searchParams: object) =>
+      [...queryKeys.events.all, "search", searchParams] as const,
   },
 
   // Home
@@ -31,6 +33,8 @@ export const queryKeys = {
       [...queryKeys.home.all, "category", filters] as const,
     banners: () =>
       [...queryKeys.home.all, "banners"] as const,
+    recommendedArticles: (tab?: string) =>
+      [...queryKeys.home.all, "recommendedArticles", tab] as const,
   },
 
   // User
