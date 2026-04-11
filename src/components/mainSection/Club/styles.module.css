@@ -3,7 +3,6 @@
   width: 100%;
   max-width: 77.5rem;
   margin: 5rem auto 8rem;
-  padding: 0 1.25rem;
   box-sizing: border-box;
 }
 
@@ -73,7 +72,9 @@
   scroll-snap-align: start;
   background: #d6d6d6;
   box-shadow: 0 0.125rem 0 rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   cursor: pointer;
 }
 

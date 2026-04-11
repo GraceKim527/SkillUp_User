@@ -2,7 +2,6 @@
   width: 100%;
   max-width: 77.5rem;
   margin: 6.25rem auto;
-  padding: 0 1.25rem;
   box-sizing: border-box;
 }
 
@@ -95,7 +94,7 @@
 
   .cardList::before,
   .cardList::after {
-    content: '';
+    content: "";
     width: 2rem;
     flex-shrink: 0;
   }
@@ -147,7 +146,7 @@
 
   .cardList::before,
   .cardList::after {
-    content: '';
+    content: "";
     width: 1rem;
     flex-shrink: 0;
   }
