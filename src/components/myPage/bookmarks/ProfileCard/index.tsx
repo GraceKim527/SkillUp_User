@@ -2,13 +2,15 @@
 
 import styles from "./styles.module.css";
 import Image from "next/image";
-import ProfileImage from "@/assets/images/logoDefaultImg.png";
+import LogoDefaultImg from "@/assets/images/logoDefaultImg.png";
 import Button from "@/components/common/Button";
 import Text from "@/components/common/Text";
 import BulletPointIcon from "@/assets/svg/bulletPointIcon.svg";
 import Flex from "@/components/common/Flex";
 import { useRouter } from "next/navigation";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useAtomValue } from "jotai";
+import { userProfileImageAtom } from "@/store/authAtoms";
+import { useIsCompactLayout } from "@/hooks/useMediaQuery";
 
 interface ProfileCardProps {
   name: string;
@@ -24,17 +26,23 @@ export default function ProfileCard({
   bookmarkCount,
 }: ProfileCardProps) {
   const router = useRouter();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isCompactLayout = useIsCompactLayout();
+  const userProfileImage = useAtomValue(userProfileImageAtom);
+  const profileImageSrc = userProfileImage || LogoDefaultImg;
 
   // 모바일/태블릿 레이아웃
-  if (isMobile || isTablet) {
+  if (isCompactLayout) {
     return (
       <Flex direction="column" gap="1rem" className={styles.cardMobile}>
         <Flex justify="space-between" align="center">
           <Flex align="center" gap="0.5rem">
             <div className={styles.headerImage}>
-              <Image src={ProfileImage} alt="Profile Image" />
+              <Image
+                src={profileImageSrc}
+                alt="Profile Image"
+                width={36}
+                height={36}
+              />
             </div>
             <Flex direction="column">
               <Text typography="sub3_m_16" color="black">
@@ -87,7 +95,12 @@ export default function ProfileCard({
       <Flex direction="column" gap={1}>
         <Flex align="center" gap={0.5} className={styles.header}>
           <div className={styles.headerImage}>
-            <Image src={ProfileImage} alt="Profile Image" />
+            <Image
+              src={profileImageSrc}
+              alt="Profile Image"
+              width={36}
+              height={36}
+            />
           </div>
           <Flex direction="column">
             <Text typography="sub3_m_16" color="black">
