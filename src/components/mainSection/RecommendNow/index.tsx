@@ -23,12 +23,16 @@ import {
 } from "@/constants/category";
 import { EVENT_SORT_OPTIONS } from "@/constants/event";
 import { useScrollCarousel } from "@/hooks/useScrollCarousel";
-import { useIsDesktop, useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import {
+  useIsDesktop,
+  useIsMobile,
+  useIsCompactLayout,
+} from "@/hooks/useMediaQuery";
 
 export default function RecommendNow() {
   const router = useRouter();
   const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isCompactLayout = useIsCompactLayout();
   const isDesktop = useIsDesktop();
   const [selectedCategory, setSelectedCategory] = useState<JobCategory>(
     JOB_CATEGORY.ALL,
@@ -117,7 +121,7 @@ export default function RecommendNow() {
     <section className={styles.recommendNow}>
       <Flex direction="column" gap={isMobile ? "1rem" : "2.5rem"}>
         {/* 섹션 헤더 */}
-        {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
+        {isCompactLayout ? renderMobileHeader() : renderDesktopHeader()}
 
         <div className={styles.carouselWrapper}>
           {isLoading ? (

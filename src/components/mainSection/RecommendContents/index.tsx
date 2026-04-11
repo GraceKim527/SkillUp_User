@@ -16,13 +16,12 @@ import {
   JOB_CATEGORY_TABS,
 } from "@/constants/category";
 import { useRouter } from "next/navigation";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useIsCompactLayout } from "@/hooks/useMediaQuery";
 import { useArticleClick } from "@/hooks/useArticleClick";
 
 export default function RecommendedContent() {
   const router = useRouter();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isCompactLayout = useIsCompactLayout();
   const { handleArticleClick } = useArticleClick();
   const [selectedCategory, setSelectedCategory] = useState<JobCategory>(
     JOB_CATEGORY.ALL
@@ -92,10 +91,10 @@ export default function RecommendedContent() {
       as="section"
       className={styles.RecommendContent}
       aria-labelledby="rec-title"
-      gap={isMobile || isTablet ? "1rem" : "2.5rem"}
+      gap={isCompactLayout ? "1rem" : "2.5rem"}
       direction="column"
     >
-      {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
+      {isCompactLayout ? renderMobileHeader() : renderDesktopHeader()}
 
       {isLoading ? (
         <div className={styles.cardList}>

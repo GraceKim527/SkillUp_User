@@ -11,12 +11,11 @@ import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import { useRecentEvents } from "@/hooks/queries/useHome";
 import { Event } from "@/types/event";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useIsCompactLayout } from "@/hooks/useMediaQuery";
 
 export default function RecentEvent() {
   const carouselRef = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isCompactLayout = useIsCompactLayout();
 
   // API 데이터 가져오기
   const { data, isLoading, error } = useRecentEvents();
@@ -93,10 +92,10 @@ export default function RecentEvent() {
       as="section"
       className={styles.recentEvent}
       aria-labelledby="recent-title"
-      gap={isMobile || isTablet ? "1.25rem" : "2.5rem"}
+      gap={isCompactLayout ? "1.25rem" : "2.5rem"}
       direction="column"
     >
-      {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
+      {isCompactLayout ? renderMobileHeader() : renderDesktopHeader()}
 
       <div className={styles.carouselWrapper}>
         {isLoading ? (
@@ -121,7 +120,7 @@ export default function RecentEvent() {
             {data?.map((item: Event) => (
               <div key={item.id} className={styles.carouselItem}>
                 <EventCard
-                  size={isMobile || isTablet ? "medium" : "large"}
+                  size={isCompactLayout ? "medium" : "large"}
                   event={item}
                 />
               </div>

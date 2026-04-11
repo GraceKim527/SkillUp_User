@@ -14,14 +14,13 @@ import { useRecommendedEvents } from "@/hooks/queries/useHome";
 import { Event } from "@/types/event";
 import { useAuth } from "@/hooks/useAuth";
 import LoginImage from "@/assets/images/loginImg.png";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useIsCompactLayout } from "@/hooks/useMediaQuery";
 import { getCategoryPath } from "@/utils/format";
 
 export default function RecommendInterest() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isCompactLayout = useIsCompactLayout();
   const [bookmarkedCards, setBookmarkedCards] = useState<Set<number>>(
     new Set(),
   );
@@ -140,13 +139,13 @@ export default function RecommendInterest() {
       <Flex
         justify="space-between"
         align="flex-start"
-        gap={isMobile || isTablet ? "1.25rem" : "3.75rem"}
-        direction={isMobile || isTablet ? "column" : "row"}
+        gap={isCompactLayout ? "1.25rem" : "3.75rem"}
+        direction={isCompactLayout ? "column" : "row"}
         className={styles.inner}
       >
-        {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
+        {isCompactLayout ? renderMobileHeader() : renderDesktopHeader()}
 
-        <div className={isMobile || isTablet ? styles.cardGridWrap : undefined}>
+        <div className={isCompactLayout ? styles.cardGridWrap : undefined}>
           <div className={styles.cardGrid}>
             {isLoading ? (
               <>
@@ -231,7 +230,7 @@ export default function RecommendInterest() {
                     >
                       <Text
                         typography={
-                          isMobile || isTablet ? "head4_sb_20" : "head4_sb_20"
+                          isCompactLayout ? "head4_sb_20" : "head4_sb_20"
                         }
                         color="white"
                         className={styles.metaText}
@@ -240,7 +239,7 @@ export default function RecommendInterest() {
                       </Text>
                       <Text
                         typography={
-                          isMobile || isTablet ? "body2_r_14" : "body1_r_16"
+                          isCompactLayout ? "body2_r_14" : "body1_r_16"
                         }
                         color="neutral-90"
                         className={styles.metaText}

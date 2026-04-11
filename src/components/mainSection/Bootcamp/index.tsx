@@ -18,11 +18,10 @@ import {
 } from "@/constants/category";
 import { useState } from "react";
 import { JobCategory } from "@/constants/category";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useIsCompactLayout } from "@/hooks/useMediaQuery";
 
 export default function Bootcamp() {
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isCompactLayout = useIsCompactLayout();
   const [selectedCategory, setSelectedCategory] = useState<JobCategory>(
     JOB_CATEGORY.ALL,
   );
@@ -107,10 +106,10 @@ export default function Bootcamp() {
     >
       <Flex
         direction="column"
-        gap={isMobile || isTablet ? "1.25rem" : "2.5rem"}
+        gap={isCompactLayout ? "1.25rem" : "2.5rem"}
         className={styles.inner}
       >
-        {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
+        {isCompactLayout ? renderMobileHeader() : renderDesktopHeader()}
 
         {isLoading ? (
           <Flex gap="0.75rem">

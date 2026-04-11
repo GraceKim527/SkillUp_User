@@ -26,16 +26,14 @@ import {
   JOB_OPTIONS,
 } from "@/constants/profileFormOptions";
 import CautionIcon from "@/assets/icons/CautionIcon";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useIsCompactLayout } from "@/hooks/useMediaQuery";
 
 export default function ProfileEditPageLayout({
   initialData,
 }: {
   initialData: UserProfile;
 }) {
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
-  const isMobileOrTablet = isMobile || isTablet;
+  const isMobileOrTablet = useIsCompactLayout();
 
   const {
     imageUrl,

@@ -8,12 +8,12 @@ import styles from "./styles.module.css";
 import { useEndingSoonEvents } from "@/hooks/queries/useHome";
 import { Event } from "@/types/event";
 import CautionIcon from "@/assets/icons/CautionIcon";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useIsMobile, useIsCompactLayout } from "@/hooks/useMediaQuery";
 
 export default function RecommendDeadline() {
   const { data, isLoading, error } = useEndingSoonEvents(4);
   const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
+  const isCompactLayout = useIsCompactLayout();
 
   // 모바일/태블릿 헤더
   const renderMobileHeader = () => (
@@ -42,11 +42,11 @@ export default function RecommendDeadline() {
     <section className={styles.deadlineSection}>
       <Flex
         direction="column"
-        gap={isMobile || isTablet ? "1.25rem" : "2.5rem"}
+        gap={isCompactLayout ? "1.25rem" : "2.5rem"}
         className={styles.inner}
       >
         {/* 섹션 헤더 */}
-        {isMobile || isTablet ? renderMobileHeader() : renderDesktopHeader()}
+        {isCompactLayout ? renderMobileHeader() : renderDesktopHeader()}
 
         {/* 카드 캐러셀 영역 */}
         <div className={styles.carouselWrapper}>

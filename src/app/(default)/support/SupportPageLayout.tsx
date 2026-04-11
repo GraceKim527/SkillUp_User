@@ -15,7 +15,7 @@ import { DropdownOption } from "@/components/common/Dropdown";
 import { CustomerCenterInquiry } from "@/types/user";
 import Modal from "@/components/common/Modal";
 import WithDrawalModalContent from "@/components/myPage/support/WithDrawalModalContent";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useIsCompactLayout } from "@/hooks/useMediaQuery";
 
 // 한 페이지에 몇 개씩 보여줄지
 const ITEMS_PER_PAGE = 10;
@@ -27,9 +27,7 @@ interface SupportPageLayoutProps {
 export default function SupportPageLayout({ faqData }: SupportPageLayoutProps) {
   const faqs = faqData && faqData.length > 0 ? faqData : [];
   const router = useRouter();
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
-  const isMobileOrTablet = isMobile || isTablet;
+  const isMobileOrTablet = useIsCompactLayout();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPageOption, setSelectedPageOption] = useState<DropdownOption>({
