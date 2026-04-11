@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ChevronLeftIcon from "@/assets/icons/ChevronLeftIcon";
 import ChevronRightIcon from "@/assets/icons/ChevronRightIcon";
 import EllipsisIcon from "@/assets/svg/ellipsisIcon.svg";
@@ -14,6 +14,68 @@ import Text from "../Text";
 import Flex from "../Flex";
 import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
 
+type PaginationMode = "mobile" | "tablet" | "desktop";
+
+type PageItem = number | "ellipsis";
+
+/**
+ * 화면 크기별 표시할 페이지 목록 생성
+ * - 모바일: 현재 페이지 1개만
+ * - 태블릿: 최대 3개 (이전/다음 1개씩)
+ * - 데스크톱: 최대 5개 (양쪽 끝 + ellipsis)
+ */
+const createPageList = (
+  mode: PaginationMode,
+  currentPage: number,
+  totalPages: number
+): PageItem[] => {
+  const pages: PageItem[] = [];
+
+  if (mode === "mobile") {
+    pages.push(currentPage);
+    return pages;
+  }
+
+  if (mode === "tablet") {
+    if (totalPages <= 3) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+      return pages;
+    }
+    if (currentPage === 1) {
+      pages.push(1, 2, 3);
+    } else if (currentPage === totalPages) {
+      pages.push(totalPages - 2, totalPages - 1, totalPages);
+    } else {
+      pages.push(currentPage - 1, currentPage, currentPage + 1);
+    }
+    return pages;
+  }
+
+  // 데스크톱
+  if (totalPages <= 4) {
+    for (let i = 1; i <= totalPages; i++) pages.push(i);
+    return pages;
+  }
+
+  if (currentPage <= 3) {
+    pages.push(1, 2, 3);
+    pages.push("ellipsis");
+    pages.push(totalPages);
+  } else if (currentPage >= totalPages - 2) {
+    pages.push(1);
+    pages.push("ellipsis");
+    for (let i = totalPages - 2; i <= totalPages; i++) pages.push(i);
+  } else {
+    pages.push("ellipsis");
+    for (let i = currentPage; i < currentPage + 4 && i <= totalPages; i++) {
+      pages.push(i);
+    }
+    pages.push("ellipsis");
+  }
+
+  return pages;
+};
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -22,8 +84,6 @@ interface PaginationProps {
   selected?: DropdownOption;
   onSelect?: (option: DropdownOption) => void;
   goToPage?: boolean;
-  /** @deprecated useIsMobile() 훅이 내부에서 자동으로 처리됩니다 */
-  isMobile?: boolean;
 }
 
 const Pagination = ({
@@ -37,22 +97,27 @@ const Pagination = ({
 }: PaginationProps) => {
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
+  const mode: PaginationMode = isMobile
+    ? "mobile"
+    : isTablet
+      ? "tablet"
+      : "desktop";
 
-  // 전체 페이지를 기반으로 드롭다운 옵션 생성
-  const [pageOptions, setPageOptions] = useState<DropdownOption[]>([]);
+  // totalPages에서 파생: 전체 페이지 옵션
+  const pageOptions = useMemo(
+    () =>
+      Array.from({ length: totalPages }, (_, i) => ({
+        label: `${i + 1}`,
+        value: `${i + 1}`,
+      })),
+    [totalPages]
+  );
+
+  // 내부 드롭다운 선택 상태 — 외부 onSelect가 없을 때 "GO" 버튼이 누르기 전까지의 pending 선택을 담는다.
   const [selectedPageOption, setSelectedPageOption] =
-    useState<DropdownOption | null>(null);
+    useState<DropdownOption | null>(() => pageOptions[0] || null);
 
-  useEffect(() => {
-    const options = Array.from({ length: totalPages }, (_, i) => ({
-      label: `${i + 1}`,
-      value: `${i + 1}`,
-    }));
-    setPageOptions(options);
-    setSelectedPageOption(options[0] || null);
-  }, [totalPages]);
-
-  // currentPage가 변경될 때 드롭다운 선택값도 업데이트
+  // currentPage 변경 시 드롭다운 선택값 동기화
   useEffect(() => {
     if (pageOptions.length > 0) {
       const currentOption = pageOptions.find(
@@ -82,62 +147,7 @@ const Pagination = ({
   const dropdownSelected = externalSelected || selectedPageOption;
   const dropdownOnSelect = externalOnSelect || handlePageSelect;
 
-  /**
-   * 화면 크기별 표시할 페이지 목록 생성
-   * - 모바일: 현재 페이지 1개만
-   * - 태블릿: 최대 3개 (이전/다음 1개씩)
-   * - 데스크톱: 최대 5개 (기존 로직)
-   */
-  const createPageList = () => {
-    const pages: (number | "ellipsis")[] = [];
-
-    if (isMobile) {
-      pages.push(currentPage);
-      return pages;
-    }
-
-    if (isTablet) {
-      // 태블릿: 최대 3페이지 표시 (앞뒤 1개 + 현재)
-      if (totalPages <= 3) {
-        for (let i = 1; i <= totalPages; i++) pages.push(i);
-        return pages;
-      }
-      if (currentPage === 1) {
-        pages.push(1, 2, 3);
-      } else if (currentPage === totalPages) {
-        pages.push(totalPages - 2, totalPages - 1, totalPages);
-      } else {
-        pages.push(currentPage - 1, currentPage, currentPage + 1);
-      }
-      return pages;
-    }
-
-    // 데스크톱: 기존 로직 유지
-    if (totalPages <= 4) {
-      for (let i = 1; i <= totalPages; i++) pages.push(i);
-      return pages;
-    }
-
-    if (currentPage <= 3) {
-      pages.push(1, 2, 3);
-      pages.push("ellipsis");
-      pages.push(totalPages);
-    } else if (currentPage >= totalPages - 2) {
-      pages.push(1);
-      pages.push("ellipsis");
-      for (let i = totalPages - 2; i <= totalPages; i++) pages.push(i);
-    } else {
-      pages.push("ellipsis");
-      for (let i = currentPage; i < currentPage + 4 && i <= totalPages; i++) {
-        pages.push(i);
-      }
-      pages.push("ellipsis");
-    }
-
-    return pages;
-  };
-
-  const pageList = createPageList();
+  const pageList = createPageList(mode, currentPage, totalPages);
 
   const handleLeftClick = () => {
     if (currentPage > 1) onPageChange(currentPage - 1);
@@ -161,7 +171,7 @@ const Pagination = ({
           </button>
 
           <Flex gap="0.5rem" align="center">
-            {pageList.map((item, idx) => {
+            {pageList.map((item) => {
               if (item === "ellipsis") return null;
               return (
                 <button

@@ -124,7 +124,6 @@ export default function SupportPageLayout({ faqData }: SupportPageLayoutProps) {
             selected={selectedPageOption}
             onSelect={handleDropdownSelect}
             goToPage={false}
-            isMobile={isMobileOrTablet}
           />
         </Flex>
       </Flex>
