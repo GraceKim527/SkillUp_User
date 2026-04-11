@@ -37,6 +37,7 @@ export interface EventDetailDto extends BaseEvent {
   price: number;
   isOnline: boolean;
   locationText: string;
+  locationTextDetail: string | null;
   locationLink: string | null;
   applyLink: string | null;
   status: EventStatus;

@@ -173,6 +173,14 @@ export default function EventDetailLayout({
   const rootGap = isCompactLayout ? "4rem" : "6.25rem";
   const mapHeight = isMobile ? "16rem" : isTablet ? "18rem" : "22.125rem";
 
+  const fullLocationText = eventDetail.locationText
+    ? `${eventDetail.locationText}${
+        eventDetail.locationTextDetail
+          ? ` ${eventDetail.locationTextDetail}`
+          : ""
+      }`
+    : "";
+
   // 탭 목록 구성 (모집 기간은 데이터 있을 때만 포함)
   const tabs = [
     { label: "행사 설명" },
@@ -242,7 +250,7 @@ export default function EventDetailLayout({
               title={eventDetail.title}
               eventStart={formatDate(eventDetail.eventStart)}
               eventEnd={formatDate(eventDetail.eventEnd)}
-              place={eventDetail.locationText}
+              place={fullLocationText}
               price={eventDetail.price}
               isFree={eventDetail.isFree}
               phoneNumber={eventDetail.contact}
@@ -340,7 +348,7 @@ export default function EventDetailLayout({
                       height={18}
                     />
                     <Text typography="body1_r_16" color="neutral-20">
-                      {eventDetail.locationText || "온라인"}
+                      {fullLocationText || "온라인"}
                     </Text>
                   </div>
                   {!eventDetail.isOnline && (
@@ -363,7 +371,7 @@ export default function EventDetailLayout({
           title={eventDetail.title}
           eventStart={formatDate(eventDetail.eventStart)}
           eventEnd={formatDate(eventDetail.eventEnd)}
-          place={eventDetail.locationText}
+          place={fullLocationText}
           price={eventDetail.price}
           isFree={eventDetail.isFree}
           phoneNumber={eventDetail.contact}
