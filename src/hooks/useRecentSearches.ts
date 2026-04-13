@@ -34,8 +34,8 @@ export const useRecentSearches = () => {
         if (saved) {
           setLocalSearches(JSON.parse(saved));
         }
-      } catch (error) {
-        console.error("Failed to load recent searches:", error);
+      } catch {
+        // silently ignore localStorage read failures
       }
     }
   }, [isAuthenticated]);
@@ -45,8 +45,8 @@ export const useRecentSearches = () => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(newSearches));
       setLocalSearches(newSearches);
-    } catch (error) {
-      console.error("Failed to save recent searches:", error);
+    } catch {
+      // silently ignore localStorage write failures
     }
   };
 

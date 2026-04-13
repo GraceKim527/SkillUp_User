@@ -72,7 +72,6 @@ export async function buildEventPageParams(
     const response = await getEventList(apiParams);
     initialEventList = response?.homeEventResponseList || [];
   } catch (error) {
-    console.error("행사 목록 조회 실패:", error);
     initialEventList = [];
   }
 

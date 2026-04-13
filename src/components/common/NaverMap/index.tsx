@@ -22,7 +22,6 @@ export default function NaverMap({
   useEffect(() => {
     // 네이버 지도 SDK가 로드되지 않았으면 대기
     if (!window.naver || !window.naver.maps) {
-      console.warn("Naver Maps SDK not loaded yet");
       return;
     }
 

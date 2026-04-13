@@ -22,9 +22,7 @@ export const useSocialLogin = () => {
       // 소셜 로그인 페이지로 리다이렉트
       window.location.href = url;
     },
-    onError: (error) => {
-      console.error("Failed to get social login URL:", error);
-    },
+    onError: () => {},
   });
 };
 
@@ -72,8 +70,8 @@ export const useSocialLoginCallback = () => {
           }
           // 쿼리 캐시에도 저장
           queryClient.setQueryData(queryKeys.user.emailAndName(), userData);
-        } catch (error) {
-          console.error("Failed to fetch user email and name:", error);
+        } catch {
+          // user info fetch failure is non-critical
         }
 
         // 유저 데이터 쿼리 무효화

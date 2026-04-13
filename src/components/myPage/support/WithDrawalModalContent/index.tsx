@@ -61,8 +61,7 @@ export default function WithDrawalModalContent({
           // 부모에게 성공 알림 (Alert 띄우기 위해)
           onSuccess?.();
         },
-        onError: (error) => {
-          console.error("탈퇴 실패:", error);
+        onError: () => {
           showToast({
             title: "탈퇴 실패",
             message: "탈퇴 처리 중 오류가 발생했습니다. 다시 시도해주세요.",

@@ -13,8 +13,7 @@ const createSafeStorage = <T,>() => ({
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.error(`Error reading localStorage key "${key}":`, error);
+    } catch {
       return initialValue;
     }
   },
@@ -24,8 +23,8 @@ const createSafeStorage = <T,>() => ({
     }
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.error(`Error setting localStorage key "${key}":`, error);
+    } catch {
+      // silently ignore localStorage write failures
     }
   },
   removeItem: (key: string): void => {
@@ -34,8 +33,8 @@ const createSafeStorage = <T,>() => ({
     }
     try {
       window.localStorage.removeItem(key);
-    } catch (error) {
-      console.error(`Error removing localStorage key "${key}":`, error);
+    } catch {
+      // silently ignore localStorage removal failures
     }
   },
 });

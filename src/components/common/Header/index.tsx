@@ -95,9 +95,7 @@ export default function Header({ variant }: HeaderProps) {
 
     // 소셜 로그인 시작 (useSocialLogin 훅이 자동으로 URL을 가져와서 리다이렉트)
     startSocialLogin(pendingSocialType.toLowerCase() as SocialType, {
-      onError: (error) => {
-        console.error("소셜 로그인 실패:", error);
-        // 에러 발생 시 모달 닫기
+      onError: () => {
         setIsTermsModalOpen(false);
         setPendingSocialType(null);
       },

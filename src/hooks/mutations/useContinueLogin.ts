@@ -27,8 +27,8 @@ export const useContinueLogin = () => {
         if (userData?.name) setUserName(userData.name);
         if (userData?.email) setUserEmail(userData.email);
         queryClient.setQueryData(queryKeys.user.emailAndName(), userData);
-      } catch (error) {
-        console.error("Failed to fetch user info after continue-login:", error);
+      } catch {
+        // user info fetch failure is non-critical
       }
 
       queryClient.invalidateQueries({ queryKey: queryKeys.user.profile() });

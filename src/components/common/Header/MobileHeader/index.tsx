@@ -87,8 +87,7 @@ export default function MobileHeader({ variant }: MobileHeaderProps) {
   const handleTermsConfirm = () => {
     if (!pendingSocialType) return;
     startSocialLogin(pendingSocialType.toLowerCase() as SocialType, {
-      onError: (error) => {
-        console.error("소셜 로그인 실패:", error);
+      onError: () => {
         setIsTermsModalOpen(false);
         setPendingSocialType(null);
       },

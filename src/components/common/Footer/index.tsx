@@ -59,6 +59,7 @@ export default function Footer() {
               <Link
                 href="https://www.instagram.com/skill_up._/"
                 target="_blank"
+                rel="noopener noreferrer"
                 className={styles.iconBtnMobileFilled}
                 aria-label="인스타그램"
               >
@@ -132,6 +133,7 @@ export default function Footer() {
             <Link
               href="https://www.instagram.com/skill_up._/"
               target="_blank"
+              rel="noopener noreferrer"
               className={styles.iconBtn}
               aria-label="인스타그램"
             >

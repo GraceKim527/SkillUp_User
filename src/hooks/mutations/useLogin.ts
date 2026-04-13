@@ -30,8 +30,8 @@ export const useLogin = () => {
         }
         // 쿼리 캐시에도 저장
         queryClient.setQueryData(queryKeys.user.emailAndName(), userData);
-      } catch (error) {
-        console.error("Failed to fetch user email and name:", error);
+      } catch {
+        // user info fetch failure is non-critical
       }
 
       // 유저 데이터 쿼리 무효화 -> useUser 훅이 자동으로 데이터 재조회

@@ -22,9 +22,7 @@ export const useArticleClick = () => {
       window.location.assign(article.originalUrl);
     }
 
-    mutateAsync(article.id).catch((error) => {
-      console.error("Failed to increase article view count:", error);
-    });
+    mutateAsync(article.id).catch(() => {});
   };
 
   return { handleArticleClick };
