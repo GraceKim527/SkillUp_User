@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Flex from "@/components/common/Flex";
 import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
@@ -139,16 +140,15 @@ export default function Club() {
                     className={styles.card}
                     onClick={() => router.push(`/hackathon/${event.id}`)}
                   >
-                    <div
-                      className={styles.thumb}
-                      style={{
-                        backgroundImage: `url(${
-                          event.thumbnailUrl || LoginImage.src.toString()
-                        })`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                      }}
-                    />
+                    <div className={styles.thumb}>
+                      <Image
+                        src={event.thumbnailUrl || LoginImage.src.toString()}
+                        alt={event.title}
+                        fill
+                        sizes="(max-width: 767px) 280px, 350px"
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
                     <Flex
                       align="flex-end"
                       gap="0.75rem"

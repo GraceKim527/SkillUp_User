@@ -224,7 +224,7 @@ export default function MainVisual() {
                   alt={banner.mainTitle}
                   fill
                   sizes="100vw"
-                  priority={index === 0}
+                  priority={index <= 1}
                   draggable={false}
                 />
               </div>

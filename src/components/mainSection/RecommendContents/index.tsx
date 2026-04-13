@@ -1,6 +1,7 @@
 // 추천 콘텐츠
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import Flex from "@/components/common/Flex";
 import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
@@ -156,12 +157,16 @@ export default function RecommendedContent() {
                 className={`${styles.thumb} ${
                   idx === 0 ? styles.heroThumb : ""
                 }`}
-                style={{
-                  backgroundImage: `url(${article.thumbnailUrl})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              />
+              >
+                <Image
+                  src={article.thumbnailUrl}
+                  alt={article.title}
+                  fill
+                  sizes={idx === 0 ? "(max-width: 767px) 100vw, 500px" : "(max-width: 767px) 100vw, 300px"}
+                  style={{ objectFit: "cover" }}
+                  unoptimized
+                />
+              </div>
 
               <Flex direction="column" gap="0.5rem">
                 <Flex align="flex-start" justify="space-between">
