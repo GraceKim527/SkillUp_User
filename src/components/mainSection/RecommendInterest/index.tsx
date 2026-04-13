@@ -3,6 +3,7 @@
 // 관심있어하실 행사
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Flex from "@/components/common/Flex";
 import Skeleton from "@/components/common/Skeleton";
@@ -201,9 +202,11 @@ export default function RecommendInterest() {
                     style={{ cursor: "pointer" }}
                   >
                     <div className={styles.imgBox}>
-                      <img
+                      <Image
                         src={event.thumbnailUrl ?? LoginImage.src.toString()}
                         alt={event.title}
+                        fill
+                        sizes="(max-width: 767px) 260px, 350px"
                       />
                       <IconButton
                         variant="opacity"

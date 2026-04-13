@@ -47,7 +47,7 @@ export default function EventCard({
       >
         <div className={styles.eventCardInner}>
           <div className={styles.eventCardImage}>
-            <img src={imageSrc} alt={title} />
+            <Image src={imageSrc} alt={title} fill sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, 350px" />
             <Flex justify="space-between" align="flex-start" className={styles.eventCardImageOverlay}>
               {d_dayLabel ? (
                 <span className={styles.compactDeadlineBadge}>{d_dayLabel}</span>
@@ -124,8 +124,7 @@ export default function EventCard({
     >
       <div className={styles.eventCardInner}>
         <div className={styles.eventCardImage}>
-          {/* 추후 바뀔 수도 있음 */}
-          <img src={imageSrc} alt={title} />
+          <Image src={imageSrc} alt={title} fill sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, 350px" />
 
           <Flex
             justify="space-between"

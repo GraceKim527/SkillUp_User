@@ -1,7 +1,7 @@
 // src/components/common/NaverMap/index.tsx
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.css";
 
 interface NaverMapProps {
@@ -11,6 +11,24 @@ interface NaverMapProps {
   height?: string;
 }
 
+let sdkLoadPromise: Promise<void> | null = null;
+
+function loadNaverMapsSdk(): Promise<void> {
+  if (window.naver?.maps) return Promise.resolve();
+  if (sdkLoadPromise) return sdkLoadPromise;
+
+  sdkLoadPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject();
+    document.head.appendChild(script);
+  });
+
+  return sdkLoadPromise;
+}
+
 export default function NaverMap({
   latitude,
   longitude,
@@ -18,14 +36,14 @@ export default function NaverMap({
   height = "300px",
 }: NaverMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
+  const [sdkReady, setSdkReady] = useState(false);
 
   useEffect(() => {
-    // 네이버 지도 SDK가 로드되지 않았으면 대기
-    if (!window.naver || !window.naver.maps) {
-      return;
-    }
+    loadNaverMapsSdk().then(() => setSdkReady(true));
+  }, []);
 
-    if (!mapRef.current) return;
+  useEffect(() => {
+    if (!sdkReady || !mapRef.current) return;
 
     // 전달받은 위도/경도 사용
     const position = new window.naver.maps.LatLng(latitude, longitude);
@@ -50,7 +68,7 @@ export default function NaverMap({
     return () => {
       map.destroy();
     };
-  }, [latitude, longitude]);
+  }, [sdkReady, latitude, longitude]);
 
   return (
     <div

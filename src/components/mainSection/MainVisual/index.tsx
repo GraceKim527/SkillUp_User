@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Flex from "@/components/common/Flex";
 import Skeleton from "@/components/common/Skeleton";
 import styles from "./styles.module.css";
@@ -218,9 +219,12 @@ export default function MainVisual() {
               style={{ cursor: banner.bannerLink ? "pointer" : "default" }}
             >
               <div className={styles.slideItemImage}>
-                <img
+                <Image
                   src={banner.bannerImageUrl ?? Banner.src.toString()}
                   alt={banner.mainTitle}
+                  fill
+                  sizes="100vw"
+                  priority={index === 0}
                   draggable={false}
                 />
               </div>

@@ -1,5 +1,6 @@
 // src/components/events/ArticleCard/index.tsx
 
+import Image from "next/image";
 import styles from "./styles.module.css";
 import Flex from "@/components/common/Flex";
 import type { Article } from "@/types/article";
@@ -23,7 +24,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       }}
     >
       <div className={styles.articleCardImage}>
-        <img src={article.thumbnailUrl} alt={article.title} />
+        <Image src={article.thumbnailUrl} alt={article.title} fill sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, 350px" unoptimized />
       </div>
       <Flex direction="column" gap={0.5}>
         <Flex direction="column" gap={0.25}>
