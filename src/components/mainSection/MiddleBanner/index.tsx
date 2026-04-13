@@ -80,7 +80,7 @@ export default function MiddleBanner() {
 
   return (
     <section className={styles.middleBanner} aria-label="메인 배너">
-      <Image src={Banner} alt="비주얼 배너" fill priority />
+      <Image src={Banner} alt="비주얼 배너" fill priority style={{ objectFit: "cover" }} />
       <div className={styles.overlay} />
       <div className={styles.purpleOverlay} />
       {isMobile ? renderMobileContent() : renderDesktopContent()}
