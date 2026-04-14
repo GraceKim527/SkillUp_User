@@ -31,7 +31,7 @@ export const EVENT_SORT_OPTIONS = {
 export type EventSortOption =
   (typeof EVENT_SORT_OPTIONS)[keyof typeof EVENT_SORT_OPTIONS];
 
-export const DEFAULT_SORT_OPTION: EventSortOption = EVENT_SORT_OPTIONS.LATEST;
+export const DEFAULT_SORT_OPTION: EventSortOption = EVENT_SORT_OPTIONS.POPULARITY;
 
 export const EVENT_STATUS = {
   DRAFT: "DRAFT",
