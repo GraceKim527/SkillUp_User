@@ -2,6 +2,7 @@
   width: 100%;
   max-width: 77.5rem;
   margin: 6.25rem auto;
+  padding: 0 1rem;
   box-sizing: border-box;
 }
 
@@ -68,6 +69,13 @@
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid var(--Neutral-60);
+}
+
+/* 데스크톱 (1280px~) */
+@media (min-width: 1280px) {
+  .RecommendContent {
+    padding: 0;
+  }
 }
 
 /* 태블릿 (768px ~ 1023px) */

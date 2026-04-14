@@ -2,6 +2,7 @@
   width: 100%;
   max-width: 77.5rem;
   margin: 5rem auto;
+  padding: 0 1rem;
   box-sizing: border-box;
 }
 
@@ -69,6 +70,13 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+/* 데스크톱 (1280px~) */
+@media (min-width: 1280px) {
+  .recentEvent {
+    padding: 0;
+  }
 }
 
 /* 태블릿 (768px ~ 1023px) */

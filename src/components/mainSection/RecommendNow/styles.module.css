@@ -1,6 +1,6 @@
 .recommendNow {
   background: #fff;
-  padding: 5rem 0;
+  padding: 5rem 1rem;
   width: 100%;
   max-width: 77.5rem;
   margin: 0 auto;
@@ -103,6 +103,13 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+/* 데스크톱 (1280px~) */
+@media (min-width: 1280px) {
+  .recommendNow {
+    padding: 5rem 0;
+  }
 }
 
 /* 태블릿 (768px ~ 1023px) */

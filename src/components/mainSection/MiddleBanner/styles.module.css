@@ -27,6 +27,7 @@
   width: 100%;
   max-width: 77.5rem;
   margin: 0 auto;
+  padding: 0 1rem;
   box-sizing: border-box;
 }
 
@@ -46,6 +47,13 @@
 
 .title span {
   font-weight: 700;
+}
+
+/* 데스크톱 (1280px~) */
+@media (min-width: 1280px) {
+  .inner {
+    padding: 0;
+  }
 }
 
 /* 태블릿 (768px ~ 1023px) */

@@ -3,6 +3,7 @@
   width: 100%;
   max-width: 77.5rem;
   margin: 5rem auto 8rem;
+  padding: 0 1rem;
   box-sizing: border-box;
 }
 
@@ -131,6 +132,13 @@
   border-radius: 0.5rem;
   overflow: hidden;
   flex-shrink: 0;
+}
+
+/* 데스크톱 (1280px~) */
+@media (min-width: 1280px) {
+  .challengeSection {
+    padding: 0;
+  }
 }
 
 /* 태블릿 (768px ~ 1023px) */
