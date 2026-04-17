@@ -25,12 +25,12 @@ export const getRecentEvents = async (): Promise<Event[]> => {
 
 // 추천/인기 행사 리스트
 export const getFeaturedEvents = async (
-  category?: JobCategory,
+  tab?: JobCategory,
   size?: number
 ): Promise<EventListResponse> => {
   const response = await getAuthAwareInstance().get("/events/home/featured", {
     params: {
-      ...(category && { category }),
+      ...(tab && { tab }),
       ...(size !== undefined && { size }),
     },
   });
