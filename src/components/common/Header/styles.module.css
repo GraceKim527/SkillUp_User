@@ -118,3 +118,23 @@
   background: var(--Common-black);
   color: var(--fill-normal);
 }
+
+/* 태블릿 (826px ~ 1279px) */
+@media (min-width: 826px) and (max-width: 1279px) {
+  .header .inner {
+    padding: 1.25rem 1rem 2.5rem;
+  }
+
+  .searchWrap {
+    width: auto;
+    border-bottom: none;
+  }
+
+  .searchBox {
+    display: none;
+  }
+
+  .searchBtn {
+    padding: 0.5rem;
+  }
+}

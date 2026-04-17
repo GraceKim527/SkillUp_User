@@ -31,14 +31,14 @@ import SearchModalContent from "@/components/common/Header/SearchModalContent";
 import { useToast } from "@/hooks/useToast";
 import Skeleton from "@/components/common/Skeleton";
 import MobileHeader from "./MobileHeader";
-import { useIsCompactLayout } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface HeaderProps {
   variant: "main" | "sub";
 }
 
 export default function Header({ variant }: HeaderProps) {
-  const isCompactLayout = useIsCompactLayout();
+  const isCompactHeader = useMediaQuery("(max-width: 825px)");
   const [isModalOpen, setIsModalOpen] = useAtom(loginModalAtom);
   const toggleModal = () => setIsModalOpen((prev) => !prev);
   const { isAuthenticated, logout } = useAuth();
@@ -109,7 +109,7 @@ export default function Header({ variant }: HeaderProps) {
   };
 
   // 모바일/태블릿일 때 MobileHeader 렌더링
-  if (isCompactLayout) {
+  if (isCompactHeader) {
     return <MobileHeader variant={variant} />;
   }
 
